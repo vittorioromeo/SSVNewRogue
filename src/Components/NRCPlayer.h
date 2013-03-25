@@ -33,6 +33,9 @@ namespace nr
 			bool isJumpReady();
 			Action getAction();
 	};
+	
+	// TODO: split this class in two - one for all humanoid characters and one for player controls
+	// TODO: consider alternatives to a sensor (NRCSensor component? Ignore resolution for certain Y values when crouched?)
 }
 
 #endif

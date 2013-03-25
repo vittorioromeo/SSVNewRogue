@@ -14,11 +14,11 @@ namespace nr
 		private:
 			ssvs::GameWindow& gameWindow;
 			ssvs::Camera camera{gameWindow, {{160, 120}, {320, 240}}};
+			// TODO: add HUD camera
 			NRAssets& assets;
 			ssvs::GameState gameState;
-			ssvsc::World world; // TODO: world must be destroyed after manager, find a way to make this not required!
+			ssvsc::World world; // BUG: world must be destroyed after manager, find a way to make this not required!
 			sses::Manager manager;
-			
 			NRFactory factory;
 			
 			int inputX{0}, inputY{0}, inputShoot{0}, inputJump{0}, inputWalk{0};

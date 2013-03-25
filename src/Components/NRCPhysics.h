@@ -30,8 +30,7 @@ namespace nr
 			bool isCrushedLeft();
 			bool isCrushedRight();
 			bool isCrushedTop();
-			bool isCrushedBottom();
-			
+			bool isCrushedBottom();			
 	};
 }
 

@@ -38,6 +38,8 @@ namespace nr
 			void setPingPong(bool mPingPong);
 			void setReverse(bool mReverse);
 	};
+	
+	// TODO: move this class to SSVStart!
 }
 
 #endif

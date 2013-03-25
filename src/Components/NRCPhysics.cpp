@@ -37,7 +37,7 @@ namespace nr
 		
 		body.setUserData(&getEntity());
 	}
-	NRCPhysics::~NRCPhysics() { body.destroy(); }
+	NRCPhysics::~NRCPhysics() { body.destroy(); } // BUG: this has to be called before world is destroyed, or else SEGFAULT - find a way to avoid that!
 
 	// Getters
 	Body& NRCPhysics::getBody()					{ return body; }

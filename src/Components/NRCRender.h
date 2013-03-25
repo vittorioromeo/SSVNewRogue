@@ -35,6 +35,8 @@ namespace nr
 			void setFlippedY(bool mFlippedY);
 			void setOffset(sf::Vector2f mOffset);
 	};
+	
+	// TODO: find a way to add sprites with individual offsets, and still have a global offset (RenderData struct?)
 }
 
 #endif

@@ -27,6 +27,7 @@ namespace nr
 	
 	void NRCRender::addSprite(Sprite mSprite) 
 	{ 
+		// TODO: un-hardcode this crap
 		IntRect rect({0,0,16,16});
 		mSprite.setOrigin({rect.width / 2.f, rect.height / 2.f});
 		sprites.push_back(mSprite); 

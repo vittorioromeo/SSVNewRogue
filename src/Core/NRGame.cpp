@@ -74,7 +74,7 @@ namespace nr
 		gameWindow.setTitle(toStr(gameWindow.getFPS()));
 		
 		for(auto& cPhysics : manager.getComponents<NRCPhysics>("physics")) if(cPhysics->isAffectedByGravity()) cPhysics->getBody().applyForce({0, 25});
-		world.update(mFrameTime);
+		world.update(mFrameTime); // TODO: update physics with static frametime (consider all options though)
 		manager.update(mFrameTime);
 		
 		inputX = inputY = inputShoot = inputJump = inputWalk = 0;

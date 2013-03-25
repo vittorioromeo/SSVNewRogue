@@ -26,8 +26,9 @@ namespace nr
 			NRCAnimationController(sses::Entity& mEntity, NRCPhysics& mCPhysics, NRCRender& mCRender, NRCPlayer& mCPlayer);
 			
 			void update(float mFrameTime) override;
-			void draw() override;
 	};
+	
+	// TODO: make this component NRCHumanoidAnimationController, refactor it and clean it up (or use LUA in the future?)
 }
 
 #endif

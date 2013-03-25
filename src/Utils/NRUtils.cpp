@@ -13,7 +13,7 @@ namespace nr
 {
 	Tileset getTilesetFromJSON(const Json::Value mRoot)
 	{
-		Json::Reader(); Json::Value(); // SUPPRESS UNDEFINED REFERENCE BUG (TODO)
+		Json::Reader(); Json::Value(); // BUG: these useless lines are needed to avoid linker errors (WTF)
 		Vector2i tileSize{getValue<int>(mRoot, "tileWidth"), getValue<int>(mRoot, "tileHeight")};
 		Tileset result{tileSize};
 		

@@ -57,9 +57,4 @@ namespace nr
 		testCurrentAnim->update(mFrameTime);
 		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect(testTileset.getTextureRect(testCurrentAnim->getCurrentLabel()));	
 	}
-	
-	void NRCAnimationController::draw()
-	{
-		
-	}
 }
