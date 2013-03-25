@@ -9,11 +9,7 @@ using namespace nr;
 
 int main()
 {
-	log("Getting assets");
-	NRAssets assets;
-	
-	log("Starting SSVNewRogue");
-	
+	NRAssets assets;	
 	GameWindow gameWindow{"SSVNewRogue", 320, 240, 3, false};
 	NRGame game{gameWindow, assets};
 	
