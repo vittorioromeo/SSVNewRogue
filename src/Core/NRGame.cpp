@@ -66,6 +66,9 @@ namespace nr
 		factory.createWall({1600 * 2 + 800, 1600 * 10 + 800});
 		factory.createWall({1600 * 3 + 800, 1600 * 10 + 800});
 		
+		factory.createWall({1600 * 5, 1600 * 12});
+		factory.createWall({1600 * 7, 1600 * 13 + 800 - 1299});
+		
 		factory.createPlayer({1600 * 5, 1600 *5});
 	}
 

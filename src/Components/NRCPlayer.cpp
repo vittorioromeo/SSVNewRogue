@@ -16,7 +16,7 @@ namespace nr
 	
 	NRCPlayer::NRCPlayer(Entity& mEntity, World& mWorld, NRGame& mGame, NRCPhysics& mCPhysics)
 		: Component(mEntity, "player"), game(mGame), cPhysics(mCPhysics), body(cPhysics.getBody()),
-		  crouchSensor(mWorld.create(body.getPosition(), Vector2i{600, 1500}, false))
+		  standingHeight{body.getHeight()}, crouchSensor(mWorld.create(body.getPosition(), Vector2i{500, standingHeight - 100}, false)) 
 	{
 		crouchSensor.addGroups({"sensor"});
 		crouchSensor.addGroupsToCheck({"solid"});
@@ -58,31 +58,32 @@ namespace nr
 	{	
 		bool inAir{body.getShape().getY() != body.getOldShape().getY()};		
 		
-		Vector2f oldVelocity{body.getVelocity()}, newVelocity{oldVelocity};
-
-		if(game.getInputY() == 0)
+		if(game.getInputY() == 0 && canUncrouch)
 		{
-			if(canUncrouch) crouching = false;
+			if(crouching) body.setPosition(body.getPosition() + Vector2i{0, -crouchingHeight / 2});
+			crouching = false;
 		}
 		else if(game.getInputY() == 1 && !inAir)
 		{
-			if(!crouching) body.setPosition(body.getPosition() + Vector2i{0, 400});
+			if(!crouching) body.setPosition(body.getPosition() + Vector2i{0, crouchingHeight / 2});
 			crouching = true;
 		}
 		
 		float speed{game.getInputWalk() ? walkSpeed : runSpeed};
+		Vector2f oldVelocity{body.getVelocity()}, newVelocity{oldVelocity};
+				
 		if(crouching) 
 		{
 			speed = crouchSpeed;
-			body.setHeight(800);	
+			body.setHeight(crouchingHeight);	
 		}
-		else body.setHeight(1600);	
+		else body.setHeight(standingHeight);	
 		
 		newVelocity.x = speed * game.getInputX();
 		if(newVelocity.x > 0) facingLeft = false;
 		else if(newVelocity.x < 0) facingLeft = true;
 		
-		if(!crouching && jumpReady && game.getInputJump() == 1) newVelocity.y = -jumpSpeed;
+		if(!inAir && !crouching && jumpReady && game.getInputJump() == 1) newVelocity.y = -jumpSpeed;
 		body.setVelocity(newVelocity);
 				
 		Vector2f velocity{body.getVelocity()};

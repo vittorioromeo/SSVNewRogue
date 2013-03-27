@@ -32,7 +32,8 @@ namespace nr
 	Entity& NRFactory::createPlayer(Vector2i mPosition)
 	{
 		auto& result = manager.createEntity("player");
-		auto& cPhysics = result.createComponent<NRCPhysics>(game, world, false, mPosition, Vector2i{800, 1600});
+		auto& cPhysics = result.createComponent<NRCPhysics>(game, world, false, mPosition, Vector2i{700, 1300});
+		// BUG: bug in SSVSCollision Retro resolver: sometimes when the wall is slightly lower than player's height, player may get stuck between it and the floor because of FPS fluctuances
 		auto& cPlayer = result.createComponent<NRCPlayer>(world, game, cPhysics);
 		auto& cRender = result.createComponent<NRCRender>(game, cPhysics.getBody());
 		result.createComponent<NRCAnimationController>(cPhysics, cRender, cPlayer);

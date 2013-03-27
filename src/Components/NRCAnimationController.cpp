@@ -54,6 +54,7 @@ namespace nr
 		}
 		
 		if(testCurrentAnim == nullptr) return; 
+		//testCurrentAnim->setReverse(cPlayer.isFacingLeft());
 		testCurrentAnim->update(mFrameTime);
 		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect(testTileset.getTextureRect(testCurrentAnim->getCurrentLabel()));	
 	}

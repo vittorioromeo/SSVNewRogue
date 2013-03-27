@@ -24,7 +24,7 @@ namespace nr
 			}
 			else currentIndex = lastIndex;
 		}
-		else if(currentIndex <= 0)
+		else if(currentIndex < 0)
 		{
 			if(loop)
 			{
