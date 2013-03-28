@@ -17,11 +17,11 @@ namespace nr
 		private:
 			NRGame& game;
 			NRCPhysics& cPhysics;
-			NRSensor cSensor;
-			ssvsc::Body& body;			
-			int standingHeight;			
+			NRSensor unCrouchSensor, autoCrouchTopSensor, autoCrouchBottomSensor;
+			ssvsc::Body& body;
+			int standingHeight;
 			Action action;
-			bool facingLeft{false}, jumpReady{false}, crouching{false}, canUncrouch{false};
+			bool facingLeft{false}, jumpReady{false}, crouching{false}, autoCrouching{false};
 			float crouchSpeed{40.f}, walkSpeed{50.f}, runSpeed{150.f}, jumpSpeed{420.f};
 			int crouchingHeight{900};
 
@@ -41,8 +41,6 @@ namespace nr
 			bool isInAir();
 			Action getAction();
 	};
-	
-	// TODO: consider alternatives to a sensor (NRCSensor component? Ignore resolution for certain Y values when crouched?)
 }
 
 #endif

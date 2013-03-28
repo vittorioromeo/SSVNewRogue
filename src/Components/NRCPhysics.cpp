@@ -24,10 +24,10 @@ namespace nr
 			onResolution(mResolutionInfo.resolution);
 
 			lastResolution = mResolutionInfo.resolution;
-			if(mResolutionInfo.resolution.x > 0) crushedLeft = 3;
-			else if(mResolutionInfo.resolution.x < 0) crushedRight = 3;
-			if(mResolutionInfo.resolution.y > 0) crushedTop = 3;
-			else if(mResolutionInfo.resolution.y < 0) crushedBottom = 3;
+			if(mResolutionInfo.resolution.x > 0) crushedLeft = crushedMax;
+			else if(mResolutionInfo.resolution.x < 0) crushedRight = crushedMax;
+			if(mResolutionInfo.resolution.y > 0) crushedTop = crushedMax;
+			else if(mResolutionInfo.resolution.y < 0) crushedBottom = crushedMax;
 		};
 		body.onPreUpdate += [&]
 		{
@@ -47,10 +47,10 @@ namespace nr
 	Body& NRCPhysics::getBody()					{ return body; }
 	Vector2i NRCPhysics::getLastResolution()	{ return lastResolution; }
 	bool NRCPhysics::isAffectedByGravity()		{ return affectedByGravity; }
-	bool NRCPhysics::isCrushedLeft()			{ return crushedLeft > 1; }
-	bool NRCPhysics::isCrushedRight()			{ return crushedRight > 1; }
-	bool NRCPhysics::isCrushedTop()				{ return crushedTop > 1; }
-	bool NRCPhysics::isCrushedBottom()			{ return crushedBottom > 1; }
+	bool NRCPhysics::isCrushedLeft()			{ return crushedLeft > crushedTolerance; }
+	bool NRCPhysics::isCrushedRight()			{ return crushedRight > crushedTolerance; }
+	bool NRCPhysics::isCrushedTop()				{ return crushedTop > crushedTolerance; }
+	bool NRCPhysics::isCrushedBottom()			{ return crushedBottom > crushedTolerance; }
 	int NRCPhysics::getCrushedLeft()			{ return crushedLeft; }
 	int NRCPhysics::getCrushedRight()			{ return crushedRight; }
 	int NRCPhysics::getCrushedTop()				{ return crushedTop; }

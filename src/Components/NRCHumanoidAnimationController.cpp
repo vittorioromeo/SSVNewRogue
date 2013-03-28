@@ -1,4 +1,4 @@
-#include "Components/NRCAnimationController.h"
+#include "Components/NRCHumanoidAnimationController.h"
 #include "Components/NRCRender.h"
 #include "Components/NRCHumanoid.h"
 #include "Utils/NRUtils.h"
@@ -15,7 +15,7 @@ namespace nr
 {
 	using Action = NRCHumanoid::Action;
 	
-	NRCHumanoidAnimationController::NRCHumanoidAnimationController(Entity& mEntity, NRCRender& mCRender, NRCHumanoid& mCHumanoid) : Component(mEntity, "animationController"), 
+	NRCHumanoidAnimationController::NRCHumanoidAnimationController(Entity& mEntity, NRCRender& mCRender, NRCHumanoid& mCHumanoid) : Component(mEntity, "humanoidAnimationController"), 
 		cRender(mCRender), cHumanoid(mCHumanoid), tileset(getTilesetFromJSON(getRootFromFile("Data/Tilesets/tilesetHuman.json")))
 	{ 
 		animStand.addStep({"stand", 100});
@@ -50,7 +50,6 @@ namespace nr
 		}
 		
 		if(currentAnim == nullptr) return; 
-		//testCurrentAnim->setReverse(cPlayer.isFacingLeft());
 		currentAnim->update(mFrameTime);
 		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect(tileset.getTextureRect(currentAnim->getCurrentLabel()));	
 	}

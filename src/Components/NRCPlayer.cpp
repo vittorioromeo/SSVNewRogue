@@ -36,7 +36,7 @@ namespace nr
 		if(time <= 0) 
 		{
 			time = 100 + getRnd(0, 100);
-			dir = getRnd(-1, 2); log(toStr(dir));
+			dir = getRnd(-1, 2);
 			tired = getRnd(0, 15) > 10;
 		}
 		

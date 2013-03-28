@@ -15,21 +15,44 @@ namespace nr
 	using Action = NRCHumanoid::Action;
 	
 	NRCHumanoid::NRCHumanoid(Entity& mEntity, NRGame& mGame, NRCPhysics& mCPhysics) : Component(mEntity, "humanoid"), 
-		game(mGame), cPhysics(mCPhysics), cSensor{cPhysics, Vector2i{700, 1300}}, body(cPhysics.getBody()),
-		  standingHeight{body.getHeight()}
+		game(mGame), cPhysics(mCPhysics), unCrouchSensor{cPhysics, Vector2i{700, 1300}},
+		autoCrouchTopSensor{cPhysics, Vector2i(100, 100)}, autoCrouchBottomSensor{cPhysics, Vector2i(100, 100)},
+		body(cPhysics.getBody()), standingHeight{body.getHeight()}
 	{
 		body.onPreUpdate += [&]{ jumpReady = false; };
-		body.onPostUpdate += [&]{ cSensor.setPosition({body.getShape().getX(), body.getShape().getBottom() - cSensor.getBody().getShape().getHalfHeight()}); };
+		body.onPostUpdate += [&]
+		{ 
+			auto& s = body.getShape();
+			auto& ucsShape = unCrouchSensor.getBody().getShape();
+			auto& actsShape = autoCrouchTopSensor.getBody().getShape();
+			auto& acbsShape = autoCrouchBottomSensor.getBody().getShape();
+			
+			unCrouchSensor.setPosition({s.getX(), s.getBottom() - ucsShape.getHalfHeight()}); 
+			
+			int autoCrouchTopSensorX{s.getLeft() - actsShape.getHalfWidth()};
+			int autoCrouchBottomSensorX{s.getLeft() - acbsShape.getHalfWidth()};
+			if(!facingLeft) 
+			{
+				autoCrouchTopSensorX = s.getRight() + actsShape.getHalfWidth();
+				autoCrouchBottomSensorX = s.getRight() + acbsShape.getHalfWidth();
+			}
+			
+			autoCrouchTopSensor.setPosition({autoCrouchTopSensorX, s.getBottom() - standingHeight + actsShape.getHalfHeight()});
+			autoCrouchBottomSensor.setPosition({autoCrouchBottomSensorX, s.getBottom() - crouchingHeight + acbsShape.getHalfHeight()});
+		};
 		cPhysics.onResolution += [&](Vector2i mMinIntersection) { if(mMinIntersection.y < 0) jumpReady = true; };
+
 	}
 
 	void NRCHumanoid::update(float)
 	{							
 		Vector2f velocity{body.getVelocity()};
-		if(cPhysics.isCrushedTop() && cPhysics.isCrushedBottom()) { canUncrouch = false; crouch(true); }
-		else canUncrouch = true;
-				
-		body.setHeight(crouching ? crouchingHeight : standingHeight);	
+		if((cPhysics.isCrushedTop() && cPhysics.isCrushedBottom()) || (!isInAir() && autoCrouchTopSensor.isActive() && !autoCrouchBottomSensor.isActive())) 
+		{ 
+			autoCrouching = true; 
+			crouch(true); 
+		}
+		else autoCrouching = false;
 		
 		if(velocity.x > 0) facingLeft = false;
 		else if(velocity.x < 0) facingLeft = true;
@@ -57,14 +80,16 @@ namespace nr
 		
 	void NRCHumanoid::unCrouch()
 	{
-		if(cSensor.isActive() || !canUncrouch) return;
+		if(unCrouchSensor.isActive() || autoCrouching) return;
 		if(crouching) body.setPosition(body.getPosition() - Vector2i{0, (standingHeight - crouchingHeight) / 2});
+		body.setHeight(standingHeight);
 		crouching = false; 
 	}
 	void NRCHumanoid::crouch(bool mForce)
 	{
 		if(!mForce && isInAir()) return;
 		if(!crouching) body.setPosition(body.getPosition() + Vector2i{0, (standingHeight - crouchingHeight) / 2});
+		body.setHeight(crouchingHeight);
 		crouching = true;
 	}
 	void NRCHumanoid::move(int mDirection, bool mWalk)

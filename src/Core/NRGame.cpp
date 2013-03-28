@@ -51,6 +51,12 @@ namespace nr
 			auto mousePosition = camera.getMousePosition() * 100.f;
 			factory.createWall(Vector2i(mousePosition.x, mousePosition.y));
 		}, t::SINGLE);
+		
+		gameState.addInput({{k::Num2}}, [&](float)
+		{
+			auto mousePosition = camera.getMousePosition() * 100.f;
+			factory.createWanderer(Vector2i(mousePosition.x, mousePosition.y));
+		}, t::SINGLE);
 	}
 	void NRGame::initLevel()
 	{
@@ -69,20 +75,11 @@ namespace nr
 		factory.createWall({1600 * 5, 1600 * 12});
 		factory.createWall({1600 * 7, 1600 * 13 + 800 - 1300 + 1});
 		factory.createWall({1600 * 7, 1600 * 13 + 800 - 1300 - 1300 - 1 - 1600});
+		factory.createWall({1600 * 9, 1600 * 12 + 1200});
 		
-		factory.createPlayer({1600 * 4, 1600 * 5});
+		factory.createPlayer({1600 * 4, 1600 * 5}); 
 		factory.createWanderer({1600 * 2, 1600 * 5});
 		factory.createWanderer({1600 * 3, 1600 * 5});
-		factory.createWanderer({1600 * 8, 1600 * 5});
-		factory.createWanderer({1600 * 5, 1600 * 5});
-		factory.createWanderer({1600 * 6, 1600 * 5});
-		factory.createWanderer({1600 * 7, 1600 * 5});
-		factory.createWanderer({1600 * 2, 1600 * 5});
-		factory.createWanderer({1600 * 3, 1600 * 5});
-		factory.createWanderer({1600 * 8, 1600 * 5});
-		factory.createWanderer({1600 * 5, 1600 * 5});
-		factory.createWanderer({1600 * 6, 1600 * 5});
-		factory.createWanderer({1600 * 7, 1600 * 5});
 	}
 
 	void NRGame::update(float mFrameTime)

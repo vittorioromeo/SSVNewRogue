@@ -10,6 +10,8 @@ namespace nr
 	class NRCPhysics : public sses::Component
 	{
 		private:
+			static constexpr int crushedMax{3}, crushedTolerance{1};
+			
 			NRGame& game;
 			ssvsc::World& world;
 			ssvsc::Body& body;	

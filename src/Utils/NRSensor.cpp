@@ -17,7 +17,7 @@ namespace nr
 	{
 		body.addGroups({"sensor"});
 		body.addGroupsToCheck({"solid"});
-		body.addGroupsNoResolve({"solid"});
+		body.setResolve(false); 		
 		
 		body.onPreUpdate += [&]{ active = false; body.setPosition(position); };
 		body.onDetection += [&](DetectionInfo mDetectionInfo)
