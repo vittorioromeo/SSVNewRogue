@@ -43,6 +43,7 @@ namespace nr
 	NRCPhysics::~NRCPhysics() { body.destroy(); } // BUG: this has to be called before world is destroyed, or else SEGFAULT - find a way to avoid that!
 
 	// Getters
+	World& NRCPhysics::getWorld()				{ return world; }
 	Body& NRCPhysics::getBody()					{ return body; }
 	Vector2i NRCPhysics::getLastResolution()	{ return lastResolution; }
 	bool NRCPhysics::isAffectedByGravity()		{ return affectedByGravity; }

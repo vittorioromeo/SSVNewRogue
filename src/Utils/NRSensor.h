@@ -8,11 +8,9 @@ namespace nr
 	class NRGame;
 	class NRCPhysics;
 	
-	class NRCSensor : public sses::Component
+	class NRSensor
 	{
 		private:
-			NRGame& game;
-			ssvsc::World& world;
 			NRCPhysics& parent;
 			sf::Vector2i position;
 			ssvsc::Body& body;
@@ -21,8 +19,8 @@ namespace nr
 		public:
 			ssvu::Delegate<void, sses::Entity&> onDetection;
 	
-			NRCSensor(sses::Entity& mEntity, NRGame& mGame, ssvsc::World& mWorld, NRCPhysics& mParent, sf::Vector2i mSize);
-			~NRCSensor();
+			NRSensor(NRCPhysics& mParent, sf::Vector2i mSize);
+			~NRSensor();
 			
 			// Setters
 			void setPosition(sf::Vector2i mOffset);

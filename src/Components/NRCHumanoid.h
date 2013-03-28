@@ -2,12 +2,12 @@
 #define SSVNR_COMPONENTS_HUMANOID
 
 #include "Core/NRDependencies.h"
+#include "Utils/NRSensor.h"
 
 namespace nr
 {
 	class NRGame;
 	class NRCPhysics;
-	class NRCSensor;
 	
 	class NRCHumanoid : public sses::Component
 	{
@@ -17,7 +17,7 @@ namespace nr
 		private:
 			NRGame& game;
 			NRCPhysics& cPhysics;
-			NRCSensor& cSensor;
+			NRSensor cSensor;
 			ssvsc::Body& body;			
 			int standingHeight;			
 			Action action;
@@ -26,7 +26,7 @@ namespace nr
 			int crouchingHeight{900};
 
 		public:
-			NRCHumanoid(sses::Entity& mEntity, NRGame& mGame, NRCPhysics& mCPhysics, NRCSensor& mCSensor);
+			NRCHumanoid(sses::Entity& mEntity, NRGame& mGame, NRCPhysics& mCPhysics);
 			
 			void update(float mFrameTime) override;
 			

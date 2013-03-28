@@ -7,28 +7,23 @@
 namespace nr
 {
 	class NRCRender;
-	class NRCPhysics;
 	class NRCHumanoid;
 	
-	class NRCAnimationController : public sses::Component
+	class NRCHumanoidAnimationController : public sses::Component
 	{
 		private:
-			NRCPhysics& cPhysics;
 			NRCRender& cRender;
 			NRCHumanoid& cHumanoid;
-			ssvsc::Body& body;
 			
-			ssvs::Tileset testTileset;
-			NRAnimation testStandAnim, testRunAnim, testWalkAnim, testJumpAnim, testFallAnim, testCrouchAnim, testCrouchWalkAnim;
-			NRAnimation* testCurrentAnim{nullptr};
+			ssvs::Tileset tileset;
+			NRAnimation animStand, animRun, animWalk, animJump, animFall, animCrouch, animCrouchWalk;
+			NRAnimation* currentAnim{nullptr};
 		
 		public:
-			NRCAnimationController(sses::Entity& mEntity, NRCPhysics& mCPhysics, NRCRender& mCRender, NRCHumanoid& mCHumanoid);
+			NRCHumanoidAnimationController(sses::Entity& mEntity, NRCRender& mCRender, NRCHumanoid& mCHumanoid);
 			
 			void update(float mFrameTime) override;
 	};
-	
-	// TODO: make this component NRCHumanoidAnimationController, refactor it and clean it up (or use LUA in the future?)
 }
 
 #endif

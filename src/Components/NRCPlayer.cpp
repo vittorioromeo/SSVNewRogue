@@ -25,4 +25,24 @@ namespace nr
 		
 		if(game.getInputJump() == 1) cHumanoid.jump();
 	}
+	
+	
+	
+	NRCWanderer::NRCWanderer(Entity& mEntity, NRGame& mGame, NRCHumanoid& mCHumanoid) : Component(mEntity, "wanderer"), game(mGame), cHumanoid(mCHumanoid) { }
+	
+	void NRCWanderer::update(float mFrameTime) 
+	{		
+		time -= mFrameTime * 2.2f;
+		if(time <= 0) 
+		{
+			time = 100 + getRnd(0, 100);
+			dir = getRnd(-1, 2); log(toStr(dir));
+			tired = getRnd(0, 15) > 10;
+		}
+		
+		cHumanoid.move(dir, false);
+		if(!tired) cHumanoid.unCrouch(); else cHumanoid.crouch();
+		
+		if((int)time % 90 == 0) cHumanoid.jump();
+	}
 }

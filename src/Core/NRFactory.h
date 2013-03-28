@@ -7,7 +7,6 @@
 #include "Components/NRCPlayer.h"
 #include "Components/NRCAnimationController.h"
 #include "Components/NRCHumanoid.h"
-#include "Components/NRCSensor.h"
 
 namespace nr
 {
@@ -26,7 +25,9 @@ namespace nr
 			NRFactory(NRAssets& mAssets, NRGame& mGame, sses::Manager& mManager, ssvsc::World& mWorld);
 			
 			sses::Entity& createWall(sf::Vector2i mPosition);
+			sses::Entity& createHumanoid(sf::Vector2i mPosition);
 			sses::Entity& createPlayer(sf::Vector2i mPosition);
+			sses::Entity& createWanderer(sf::Vector2i mPosition);
 	};
 }
 

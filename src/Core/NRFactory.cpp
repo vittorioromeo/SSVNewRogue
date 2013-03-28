@@ -29,26 +29,45 @@ namespace nr
 
 		return result;
 	}
-	Entity& NRFactory::createPlayer(Vector2i mPosition)
+	Entity& NRFactory::createHumanoid(Vector2i mPosition)
 	{
-		auto& result = manager.createEntity("player");
+		auto& result = manager.createEntity("humanoid");
 		auto& cPhysics = result.createComponent<NRCPhysics>(game, world, false, mPosition, Vector2i{700, 1300});
 		// BUG: bug in SSVSCollision Retro resolver: sometimes when the wall is slightly lower than player's height, player may get stuck between it and the floor because of FPS fluctuances
-		auto& cSensor = result.createComponent<NRCSensor>(game, world, cPhysics, Vector2i{700, 1300});
-		auto& cHumanoid = result.createComponent<NRCHumanoid>(game, cPhysics, cSensor);
-		result.createComponent<NRCPlayer>(game, cHumanoid);
+		auto& cHumanoid = result.createComponent<NRCHumanoid>(game, cPhysics);
 		auto& cRender = result.createComponent<NRCRender>(game, cPhysics.getBody());
-		result.createComponent<NRCAnimationController>(cPhysics, cRender, cHumanoid);
+		result.createComponent<NRCHumanoidAnimationController>(cRender, cHumanoid);
 	
 		Body& body(cPhysics.getBody());
 		body.addGroups({"solid"});
 		body.addGroupsToCheck({"solid"});
+
+		return result;
+	}
+	Entity& NRFactory::createPlayer(Vector2i mPosition)
+	{
+		auto& result = createHumanoid(mPosition);
+		result.createComponent<NRCPlayer>(game, *result.getComponents<NRCHumanoid>("humanoid")[0]);
 		
+		auto& cRender = *result.getComponents<NRCRender>("render")[0];
 		cRender.addSprite(Sprite{assets.getTexture("legs.png")});
 		cRender.addSprite(Sprite{assets.getTexture("body.png")});
 		cRender.addSprite(Sprite{assets.getTexture("arms.png")});
 		cRender.addSprite(Sprite{assets.getTexture("head.png")});
-
+		
+		return result;
+	}
+	Entity& NRFactory::createWanderer(Vector2i mPosition)
+	{
+		auto& result = createHumanoid(mPosition);
+		result.createComponent<NRCWanderer>(game, *result.getComponents<NRCHumanoid>("humanoid")[0]);
+		
+		auto& cRender = *result.getComponents<NRCRender>("render")[0];
+		cRender.addSprite(Sprite{assets.getTexture("legs.png")});
+		cRender.addSprite(Sprite{assets.getTexture("body2.png")});
+		cRender.addSprite(Sprite{assets.getTexture("arms.png")});
+		cRender.addSprite(Sprite{assets.getTexture("head.png")});
+		
 		return result;
 	}
 }

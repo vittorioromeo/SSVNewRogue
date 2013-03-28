@@ -25,6 +25,7 @@ namespace nr
 			~NRCPhysics();
 	
 			// Getters
+			ssvsc::World& getWorld();
 			ssvsc::Body& getBody();
 			sf::Vector2i getLastResolution();
 			bool isAffectedByGravity();

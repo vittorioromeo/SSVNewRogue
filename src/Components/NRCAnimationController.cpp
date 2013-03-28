@@ -1,5 +1,4 @@
 #include "Components/NRCAnimationController.h"
-#include "Components/NRCPhysics.h"
 #include "Components/NRCRender.h"
 #include "Components/NRCHumanoid.h"
 #include "Utils/NRUtils.h"
@@ -16,46 +15,43 @@ namespace nr
 {
 	using Action = NRCHumanoid::Action;
 	
-	NRCAnimationController::NRCAnimationController(Entity& mEntity, NRCPhysics& mCPhysics, NRCRender& mCRender, NRCHumanoid& mCHumanoid) : Component(mEntity, "animationController"), 
-		cPhysics(mCPhysics), cRender(mCRender), cHumanoid(mCHumanoid), body(cPhysics.getBody()), testTileset(getTilesetFromJSON(getRootFromFile("Data/Tilesets/tilesetHuman.json")))
+	NRCHumanoidAnimationController::NRCHumanoidAnimationController(Entity& mEntity, NRCRender& mCRender, NRCHumanoid& mCHumanoid) : Component(mEntity, "animationController"), 
+		cRender(mCRender), cHumanoid(mCHumanoid), tileset(getTilesetFromJSON(getRootFromFile("Data/Tilesets/tilesetHuman.json")))
 	{ 
-		testStandAnim.addStep({"stand", 100});
-		testJumpAnim.addStep({"run0", 100});
-		testFallAnim.addStep({"run8", 100});
-		testCrouchAnim.addStep({"crouch", 100});
-		testRunAnim.addSteps({"run0", "run1", "run2", "run3", "run4", "run5", "run6", "run7", "run8"}, 5);
-		testRunAnim.setSpeed(1.4f);
-		testWalkAnim.addSteps({"walk0", "walk1", "walk2", "walk3"}, 5);
-		testWalkAnim.setSpeed(0.4f);
-		testCrouchWalkAnim.addSteps({"cwalk0", "cwalk1", "cwalk2", "cwalk3"}, 5);
-		testCrouchWalkAnim.setSpeed(0.5f);
+		animStand.addStep({"stand", 100});
+		animJump.addStep({"run0", 100});
+		animFall.addStep({"run8", 100});
+		animCrouch.addStep({"crouch", 100});
+		animRun.addSteps({"run0", "run1", "run2", "run3", "run4", "run5", "run6", "run7", "run8"}, 3);
+		animWalk.addSteps({"walk0", "walk1", "walk2", "walk3"}, 10);
+		animCrouchWalk.addSteps({"cwalk0", "cwalk1", "cwalk2", "cwalk3"}, 10);
 	}
 	
-	void NRCAnimationController::update(float mFrameTime)
+	void NRCHumanoidAnimationController::update(float mFrameTime)
 	{		
 		cRender.setFlippedX(cHumanoid.isFacingLeft());
 		cRender.setOffset({0, 0});
 		
 		Action action(cHumanoid.getAction());
-		if(action == Action::STANDING) testCurrentAnim = &testStandAnim;
-		else if(action == Action::RUNNING) testCurrentAnim = &testRunAnim;
-		else if(action == Action::WALKING) testCurrentAnim = &testWalkAnim;
-		else if(action == Action::FALLING) testCurrentAnim = &testFallAnim;
-		else if(action == Action::JUMPING) testCurrentAnim = &testJumpAnim;
+		if(action == Action::STANDING) currentAnim = &animStand;
+		else if(action == Action::RUNNING) currentAnim = &animRun;
+		else if(action == Action::WALKING) currentAnim = &animWalk;
+		else if(action == Action::FALLING) currentAnim = &animFall;
+		else if(action == Action::JUMPING) currentAnim = &animJump;
 		else if(action == Action::CROUCHING) 
 		{
 			cRender.setOffset({0, -4.f});
-			testCurrentAnim = &testCrouchAnim;
+			currentAnim = &animCrouch;
 		}
 		else if(action == Action::CROUCHWALKING)
 		{
 			cRender.setOffset({0, -4.f});
-			testCurrentAnim = &testCrouchWalkAnim;
+			currentAnim = &animCrouchWalk;
 		}
 		
-		if(testCurrentAnim == nullptr) return; 
+		if(currentAnim == nullptr) return; 
 		//testCurrentAnim->setReverse(cPlayer.isFacingLeft());
-		testCurrentAnim->update(mFrameTime);
-		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect(testTileset.getTextureRect(testCurrentAnim->getCurrentLabel()));	
+		currentAnim->update(mFrameTime);
+		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect(tileset.getTextureRect(currentAnim->getCurrentLabel()));	
 	}
 }

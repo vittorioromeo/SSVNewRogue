@@ -1,6 +1,5 @@
 #include "Components/NRCPlayer.h"
 #include "Components/NRCPhysics.h"
-#include "Components/NRCSensor.h"
 #include "Core/NRGame.h"
 #include "Utils/NRUtils.h"
 
@@ -15,8 +14,8 @@ namespace nr
 {
 	using Action = NRCHumanoid::Action;
 	
-	NRCHumanoid::NRCHumanoid(Entity& mEntity, NRGame& mGame, NRCPhysics& mCPhysics, NRCSensor& mCSensor)
-		: Component(mEntity, "humanoid"), game(mGame), cPhysics(mCPhysics), cSensor(mCSensor), body(cPhysics.getBody()),
+	NRCHumanoid::NRCHumanoid(Entity& mEntity, NRGame& mGame, NRCPhysics& mCPhysics) : Component(mEntity, "humanoid"), 
+		game(mGame), cPhysics(mCPhysics), cSensor{cPhysics, Vector2i{700, 1300}}, body(cPhysics.getBody()),
 		  standingHeight{body.getHeight()}
 	{
 		body.onPreUpdate += [&]{ jumpReady = false; };

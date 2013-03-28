@@ -19,6 +19,21 @@ namespace nr
 			
 			void update(float) override;
 	};
+	
+	class NRCWanderer : public sses::Component
+	{
+		private:
+			NRGame& game;
+			NRCHumanoid& cHumanoid;
+			float time{200};
+			int dir{0};
+			bool tired{false};
+
+		public:
+			NRCWanderer(sses::Entity& mEntity, NRGame& mGame, NRCHumanoid& mCHumanoid);
+			
+			void update(float mFrameTime) override;
+	};
 }
 
 #endif
