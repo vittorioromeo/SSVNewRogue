@@ -6,6 +6,8 @@
 #include "Components/NRCRender.h"
 #include "Components/NRCPlayer.h"
 #include "Components/NRCAnimationController.h"
+#include "Components/NRCHumanoid.h"
+#include "Components/NRCSensor.h"
 
 namespace nr
 {

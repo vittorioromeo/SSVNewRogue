@@ -14,7 +14,7 @@ using namespace ssvsc::Utils;
 
 namespace nr
 {
-	NRGame::NRGame(GameWindow& mGameWindow, NRAssets& mAssets) : gameWindow(mGameWindow), assets(mAssets), world(createResolver<Retro>(), createSpatial<Grid>(600, 600, 2500, 300)),
+	NRGame::NRGame(GameWindow& mGameWindow, NRAssets& mAssets) : gameWindow(mGameWindow), assets(mAssets), world(createResolver<Retro>(), createSpatial<Grid>(600, 600, 1600, 300)),
 		factory{assets, *this, manager, world}
 	{
 		gameState.onUpdate += [&](float mFrameTime){ update(mFrameTime); };
@@ -67,9 +67,10 @@ namespace nr
 		factory.createWall({1600 * 3 + 800, 1600 * 10 + 800});
 		
 		factory.createWall({1600 * 5, 1600 * 12});
-		factory.createWall({1600 * 7, 1600 * 13 + 800 - 1299});
+		factory.createWall({1600 * 7, 1600 * 13 + 800 - 1300 + 1});
+		factory.createWall({1600 * 7, 1600 * 13 + 800 - 1300 - 1300 - 1 - 1600});
 		
-		factory.createPlayer({1600 * 5, 1600 *5});
+		factory.createPlayer({1600 * 4, 1600 *5});
 	}
 
 	void NRGame::update(float mFrameTime)

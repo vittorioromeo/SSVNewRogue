@@ -1,7 +1,7 @@
 #include "Components/NRCAnimationController.h"
 #include "Components/NRCPhysics.h"
 #include "Components/NRCRender.h"
-#include "Components/NRCPlayer.h"
+#include "Components/NRCHumanoid.h"
 #include "Utils/NRUtils.h"
 
 using namespace ssvs;
@@ -14,10 +14,10 @@ using namespace ssvuj;
 
 namespace nr
 {
-	using Action = NRCPlayer::Action;
+	using Action = NRCHumanoid::Action;
 	
-	NRCAnimationController::NRCAnimationController(Entity& mEntity, NRCPhysics& mCPhysics, NRCRender& mCRender, NRCPlayer& mCPlayer) : Component(mEntity, "animationController"), 
-		cPhysics(mCPhysics), cRender(mCRender), cPlayer(mCPlayer), body(cPhysics.getBody()), testTileset(getTilesetFromJSON(getRootFromFile("Data/Tilesets/tilesetHuman.json")))
+	NRCAnimationController::NRCAnimationController(Entity& mEntity, NRCPhysics& mCPhysics, NRCRender& mCRender, NRCHumanoid& mCHumanoid) : Component(mEntity, "animationController"), 
+		cPhysics(mCPhysics), cRender(mCRender), cHumanoid(mCHumanoid), body(cPhysics.getBody()), testTileset(getTilesetFromJSON(getRootFromFile("Data/Tilesets/tilesetHuman.json")))
 	{ 
 		testStandAnim.addStep({"stand", 100});
 		testJumpAnim.addStep({"run0", 100});
@@ -33,10 +33,10 @@ namespace nr
 	
 	void NRCAnimationController::update(float mFrameTime)
 	{		
-		cRender.setFlippedX(cPlayer.isFacingLeft());
+		cRender.setFlippedX(cHumanoid.isFacingLeft());
 		cRender.setOffset({0, 0});
 		
-		Action action(cPlayer.getAction());
+		Action action(cHumanoid.getAction());
 		if(action == Action::STANDING) testCurrentAnim = &testStandAnim;
 		else if(action == Action::RUNNING) testCurrentAnim = &testRunAnim;
 		else if(action == Action::WALKING) testCurrentAnim = &testWalkAnim;

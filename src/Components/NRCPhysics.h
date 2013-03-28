@@ -14,7 +14,8 @@ namespace nr
 			ssvsc::World& world;
 			ssvsc::Body& body;	
 			sf::Vector2i lastResolution;
-			bool affectedByGravity{true}, crushedLeft{false}, crushedRight{false}, crushedTop{false}, crushedBottom{false};
+			bool affectedByGravity{true};
+			int crushedLeft{0}, crushedRight{0}, crushedTop{0}, crushedBottom{0};
 	
 		public:
 			ssvu::Delegate<void, sses::Entity&> onDetection;
@@ -30,7 +31,11 @@ namespace nr
 			bool isCrushedLeft();
 			bool isCrushedRight();
 			bool isCrushedTop();
-			bool isCrushedBottom();			
+			bool isCrushedBottom();
+			int getCrushedLeft();
+			int getCrushedRight();
+			int getCrushedTop();
+			int getCrushedBottom();
 	};
 }
 

@@ -8,14 +8,14 @@ namespace nr
 {
 	class NRCRender;
 	class NRCPhysics;
-	class NRCPlayer;
+	class NRCHumanoid;
 	
 	class NRCAnimationController : public sses::Component
 	{
 		private:
 			NRCPhysics& cPhysics;
 			NRCRender& cRender;
-			NRCPlayer& cPlayer;
+			NRCHumanoid& cHumanoid;
 			ssvsc::Body& body;
 			
 			ssvs::Tileset testTileset;
@@ -23,7 +23,7 @@ namespace nr
 			NRAnimation* testCurrentAnim{nullptr};
 		
 		public:
-			NRCAnimationController(sses::Entity& mEntity, NRCPhysics& mCPhysics, NRCRender& mCRender, NRCPlayer& mCPlayer);
+			NRCAnimationController(sses::Entity& mEntity, NRCPhysics& mCPhysics, NRCRender& mCRender, NRCHumanoid& mCHumanoid);
 			
 			void update(float mFrameTime) override;
 	};
