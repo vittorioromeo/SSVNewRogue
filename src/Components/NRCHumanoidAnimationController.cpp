@@ -33,21 +33,13 @@ namespace nr
 		cRender.setOffset({0, 0});
 		
 		Action action(cHumanoid.getAction());
-		if(action == Action::STANDING) currentAnim = &animStand;
-		else if(action == Action::RUNNING) currentAnim = &animRun;
-		else if(action == Action::WALKING) currentAnim = &animWalk;
-		else if(action == Action::FALLING) currentAnim = &animFall;
-		else if(action == Action::JUMPING) currentAnim = &animJump;
-		else if(action == Action::CROUCHING) 
-		{
-			cRender.setOffset({0, -4.f});
-			currentAnim = &animCrouch;
-		}
-		else if(action == Action::CROUCHWALKING)
-		{
-			cRender.setOffset({0, -4.f});
-			currentAnim = &animCrouchWalk;
-		}
+		if(action == Action::STANDING)				currentAnim = &animStand;
+		else if(action == Action::RUNNING)			currentAnim = &animRun;
+		else if(action == Action::WALKING)			currentAnim = &animWalk;
+		else if(action == Action::FALLING)			currentAnim = &animFall;
+		else if(action == Action::JUMPING)			currentAnim = &animJump;
+		else if(action == Action::CROUCHING)		{ cRender.setOffset({0, -4.f}); currentAnim = &animCrouch; }
+		else if(action == Action::CROUCHWALKING)	{ cRender.setOffset({0, -4.f}); currentAnim = &animCrouchWalk; }
 		
 		if(currentAnim == nullptr) return; 
 		currentAnim->update(mFrameTime);

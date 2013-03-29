@@ -14,7 +14,6 @@ namespace nr
 		private:
 			ssvs::GameWindow& gameWindow;
 			ssvs::Camera camera{gameWindow, {{160, 120}, {320, 240}}};
-			// TODO: add HUD camera
 			NRAssets& assets;
 			ssvs::GameState gameState;
 			ssvsc::World world; // BUG: world must be destroyed after manager, find a way to make this not required!

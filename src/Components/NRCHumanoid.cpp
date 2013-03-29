@@ -22,30 +22,87 @@ namespace nr
 		body.onPreUpdate += [&]{ jumpReady = false; };
 		body.onPostUpdate += [&]
 		{ 
-			auto& s = body.getShape();
-			auto& ucsShape = unCrouchSensor.getBody().getShape();
-			auto& actsShape = autoCrouchTopSensor.getBody().getShape();
-			auto& acbsShape = autoCrouchBottomSensor.getBody().getShape();
+			auto& s(body.getShape());
+			auto& ucsShape(unCrouchSensor.getBody().getShape());
+			auto& actsShape(autoCrouchTopSensor.getBody().getShape());
+			auto& acbsShape(autoCrouchBottomSensor.getBody().getShape());
 			
 			unCrouchSensor.setPosition({s.getX(), s.getBottom() - ucsShape.getHalfHeight()}); 
 			
-			int autoCrouchTopSensorX{s.getLeft() - actsShape.getHalfWidth()};
-			int autoCrouchBottomSensorX{s.getLeft() - acbsShape.getHalfWidth()};
+			int atcsX{s.getLeft() - actsShape.getHalfWidth()};
+			int abcsX{s.getLeft() - acbsShape.getHalfWidth()};
+			int atcsY{s.getBottom() - standingHeight + actsShape.getHalfHeight()};
+			int abcsY{s.getBottom() - crouchingHeight + acbsShape.getHalfHeight()};
 			if(!facingLeft) 
 			{
-				autoCrouchTopSensorX = s.getRight() + actsShape.getHalfWidth();
-				autoCrouchBottomSensorX = s.getRight() + acbsShape.getHalfWidth();
+				atcsX = s.getRight() + actsShape.getHalfWidth();
+				abcsX = s.getRight() + acbsShape.getHalfWidth();
 			}
 			
-			autoCrouchTopSensor.setPosition({autoCrouchTopSensorX, s.getBottom() - standingHeight + actsShape.getHalfHeight()});
-			autoCrouchBottomSensor.setPosition({autoCrouchBottomSensorX, s.getBottom() - crouchingHeight + acbsShape.getHalfHeight()});
+			autoCrouchTopSensor.setPosition({atcsX, atcsY});
+			autoCrouchBottomSensor.setPosition({abcsX, abcsY});
 		};
 		cPhysics.onResolution += [&](Vector2i mMinIntersection) { if(mMinIntersection.y < 0) jumpReady = true; };
-
 	}
 
 	void NRCHumanoid::update(float)
-	{							
+	{				
+		/*Grid& grid = static_cast<Grid&>(body.getWorld().getSpatial());
+		GridQuery gq = grid.getQuery(body.getPosition());
+		
+		{
+			Body* b = gq.next<GridQuery::TowardsLeft>();
+			while(b != nullptr)
+			{
+				if(!(b == &body))
+					if(contains(b->getGroups(), "solid")) {  }
+				
+				b = gq.next<GridQuery::TowardsLeft>();
+			}
+		}
+		
+		gq.reset();
+		
+		{
+			Body* b = gq.next<GridQuery::TowardsRight>();
+			while(b != nullptr)
+			{
+				//if(gq.getCurrent().x > body.getPosition().x + 10000) break;	
+				
+				
+				if(!(b == &body))
+					if(contains(b->getGroups(), "solid")) {  }
+				
+				b = gq.next<GridQuery::TowardsRight>();
+			}
+		}
+		
+		gq.reset();
+		
+		{
+			Body* b = gq.next<GridQuery::TowardsTop>();
+			while(b != nullptr)
+			{
+				if(!(b == &body))
+					if(contains(b->getGroups(), "solid")) {  }
+				
+				b = gq.next<GridQuery::TowardsTop>();
+			}
+		}
+		
+		gq.reset();
+		
+		{
+			Body* b = gq.next<GridQuery::TowardsBottom>();
+			while(b != nullptr)
+			{
+				if(!(b == &body))
+					if(contains(b->getGroups(), "solid")) { }
+				
+				b = gq.next<GridQuery::TowardsBottom>();
+			}
+		}*/
+			
 		Vector2f velocity{body.getVelocity()};
 		if((cPhysics.isCrushedTop() && cPhysics.isCrushedBottom()) || (!isInAir() && autoCrouchTopSensor.isActive() && !autoCrouchBottomSensor.isActive())) 
 		{ 
@@ -65,11 +122,7 @@ namespace nr
 				else if(abs(velocity.x) >= runSpeed) action = Action::RUNNING;
 				else if(abs(velocity.x) >= walkSpeed) action = Action::WALKING;
 			}
-			else
-			{				
-				if(velocity.x == 0) action = Action::CROUCHING;
-				else action = Action::CROUCHWALKING;
-			}
+			else action = velocity.x == 0 ? Action::CROUCHING : Action::CROUCHWALKING;
 		}
 		else
 		{
@@ -81,15 +134,21 @@ namespace nr
 	void NRCHumanoid::unCrouch()
 	{
 		if(unCrouchSensor.isActive() || autoCrouching) return;
-		if(crouching) body.setPosition(body.getPosition() - Vector2i{0, (standingHeight - crouchingHeight) / 2});
-		body.setHeight(standingHeight);
+		if(crouching) 
+		{
+			body.setPosition(body.getPosition() - Vector2i{0, (standingHeight - crouchingHeight) / 2});
+			body.setHeight(standingHeight);
+		}
 		crouching = false; 
 	}
 	void NRCHumanoid::crouch(bool mForce)
 	{
 		if(!mForce && isInAir()) return;
-		if(!crouching) body.setPosition(body.getPosition() + Vector2i{0, (standingHeight - crouchingHeight) / 2});
-		body.setHeight(crouchingHeight);
+		if(!crouching) 
+		{
+			body.setPosition(body.getPosition() + Vector2i{0, (standingHeight - crouchingHeight) / 2});
+			body.setHeight(crouchingHeight);
+		}
 		crouching = true;
 	}
 	void NRCHumanoid::move(int mDirection, bool mWalk)

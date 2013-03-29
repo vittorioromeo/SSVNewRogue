@@ -10,6 +10,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/../SSVStart/cmak
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/../SSVEntitySystem/cmake/Modules/")
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/../SSVSCollision/cmake/Modules/")
 
+set(CMAKE_CXX_FLAGS_DEBUG "-g -p -pg" CACHE STRING "" FORCE)
+
 set(SPARSEHASH_INCLUDE_DIR "" CACHE STRING "google::sparsehash include directory")
 
 find_package(JsonCpp REQUIRED)

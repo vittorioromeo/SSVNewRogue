@@ -5,11 +5,7 @@
 
 namespace nr
 {
-	struct NRAnimationStep
-	{
-		std::string label;
-		float time;
-	};
+	struct NRAnimationStep { std::string label; float time; };
 	
 	class NRAnimation
 	{

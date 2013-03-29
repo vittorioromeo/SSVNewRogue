@@ -1,4 +1,4 @@
-#include "Core/NRDependencies.h"
+/*#include "Core/NRDependencies.h"
 #include "Core/NRAssets.h"
 #include "Core/NRGame.h"
 
@@ -13,13 +13,13 @@ int main()
 	GameWindow gameWindow{"SSVNewRogue", 320, 240, 3, false};
 	NRGame game{gameWindow, assets};
 	
-	//gameWindow.setFPSLimit(60);
+	gameWindow.setFPSLimit(120);
 	gameWindow.setGameState(game.getGameState());
 	gameWindow.run();
 	
 	return 0;
 }
-/*
+*/
 
 
 #include <vector>
@@ -232,4 +232,4 @@ struct TestGame
 };
 
 int main() { srand(time(0)); initAssets(); TestGame{}; return 0; }
-*/
+

@@ -60,13 +60,27 @@ namespace nr
 	}
 	void NRGame::initLevel()
 	{
+		int c{0};
+		
 		int tilesX{320 / 16}, tilesY{240 / 16};
+		//tilesX = static_cast<Grid&>(world.getSpatial()).getXMaxIndex() / 2;
+		//tilesY = static_cast<Grid&>(world.getSpatial()).getYMaxIndex() /2;
 		
 		for(int iY{0}; iY < tilesY; iY++)
 			for(int iX{0}; iX < tilesX; iX++)
 				if(iX == 0 || iY == 0 || iX == tilesX - 1 || iY == tilesY - 1)
 					factory.createWall({1600 * iX + 800, 1600 * iY + 800});
-
+				else
+				{
+					if(getRnd(0, 100) > 5) { }
+					else
+					{
+						if(getRnd(0, 100) > 50) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
+							else {factory.createWanderer({1600 * iX + 800, 1600 * iY + 800});++c;}
+					}
+				}
+				
+log(toStr(c));
 		factory.createWall({1600 * 7 + 800, 1600 * 7 + 800});
 		factory.createWall({1600 * 8 + 800, 1600 * 7 + 800});
 		factory.createWall({1600 * 2 + 800, 1600 * 10 + 800});
@@ -78,15 +92,15 @@ namespace nr
 		factory.createWall({1600 * 9, 1600 * 12 + 1200});
 		
 		factory.createPlayer({1600 * 4, 1600 * 5}); 
-		factory.createWanderer({1600 * 2, 1600 * 5});
-		factory.createWanderer({1600 * 3, 1600 * 5});
+		//factory.createWanderer({1600 * 2, 1600 * 5});
+		//factory.createWanderer({1600 * 3, 1600 * 5});
 	}
 
 	void NRGame::update(float mFrameTime)
 	{
 		gameWindow.setTitle(toStr(gameWindow.getFPS()));
 		
-		for(auto& cPhysics : manager.getComponents<NRCPhysics>("physics")) if(cPhysics->isAffectedByGravity()) cPhysics->getBody().applyForce({0, 25});
+		for(auto& cPhysics : manager.getComponents<NRCPhysics>("physics")) if(cPhysics->isAffectedByGravity() && cPhysics->getBody().getVelocity().y < 1000) cPhysics->getBody().applyForce({0, 25});
 		world.update(mFrameTime); // TODO: update physics with static frametime (consider all options though)
 		manager.update(mFrameTime);
 		
