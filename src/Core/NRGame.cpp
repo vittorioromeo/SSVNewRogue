@@ -57,7 +57,7 @@ namespace nr
 		{
 			auto mousePosition = camera.getMousePosition() * 100.f;
 			factory.createWanderer(Vector2i(mousePosition.x, mousePosition.y));
-		}, t::SINGLE);
+		});
 	}
 	void NRGame::initLevel()
 	{
@@ -100,6 +100,11 @@ log(toStr(c));
 	void NRGame::update(float mFrameTime)
 	{
 		gameWindow.setTitle(toStr(gameWindow.getFPS()));
+		lastFT = mFrameTime;
+		if(gameWindow.getFPS() < 60) log("Fuckballs, FPS < 60. - Frametime= " + toStr(mFrameTime), "SHIT");
+		if(gameWindow.getFPS() < 40) log("Damnballs, FPS < 40. - Frametime= " + toStr(mFrameTime), "DAMN");
+		if(gameWindow.getFPS() < 20) log("Shitballs, FPS < 20. - Frametime= " + toStr(mFrameTime), "FUCK");
+		if(gameWindow.getFPS() < 10) log("Cockballs, FPS < 10. - Frametime= " + toStr(mFrameTime), "CRAP");
 		
 		for(auto& cPhysics : manager.getComponents<NRCPhysics>("physics")) if(cPhysics->isAffectedByGravity() && cPhysics->getBody().getVelocity().y < 1000) cPhysics->getBody().applyForce({0, 25});
 		world.update(mFrameTime); // TODO: update physics with static frametime (consider all options though)
@@ -121,12 +126,12 @@ log(toStr(c));
 		for(auto& body : bodies) if(!body->isStatic()) ++dynamicBodiesCount;
 		
 		s << "FPS: " << toStr(gameWindow.getFPS()) << endl;
+		s << "FrameTime: " << toStr(lastFT) << endl;
 		s << "Bodies(all): " << toStr(bodies.size()) << endl;
 		s << "Bodies(static): " << toStr(bodies.size() - dynamicBodiesCount) << endl;
 		s << "Bodies(dynamic): " << toStr(dynamicBodiesCount) << endl;	
 		s << "Entities: " << toStr(entities.size()) << endl;
 		s << "Components: " << toStr(componentCount) << endl;
-					
 		
 		Text debugText(s.str(), assets.getAssetManager().getFont("bitxmap.ttf"));
 		debugText.setCharacterSize(200);

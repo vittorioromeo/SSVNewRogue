@@ -19,14 +19,14 @@ namespace nr
 		autoCrouchTopSensor{cPhysics, Vector2i(100, 100)}, autoCrouchBottomSensor{cPhysics, Vector2i(100, 100)},
 		body(cPhysics.getBody()), standingHeight{body.getHeight()}
 	{
+		auto& s(body.getShape());
+		auto& ucsShape(unCrouchSensor.getBody().getShape());
+		auto& actsShape(autoCrouchTopSensor.getBody().getShape());
+		auto& acbsShape(autoCrouchBottomSensor.getBody().getShape());
+		
 		body.onPreUpdate += [&]{ jumpReady = false; };
 		body.onPostUpdate += [&]
 		{ 
-			auto& s(body.getShape());
-			auto& ucsShape(unCrouchSensor.getBody().getShape());
-			auto& actsShape(autoCrouchTopSensor.getBody().getShape());
-			auto& acbsShape(autoCrouchBottomSensor.getBody().getShape());
-			
 			unCrouchSensor.setPosition({s.getX(), s.getBottom() - ucsShape.getHalfHeight()}); 
 			
 			int atcsX{s.getLeft() - actsShape.getHalfWidth()};

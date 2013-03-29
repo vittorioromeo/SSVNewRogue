@@ -21,6 +21,7 @@ namespace nr
 			NRFactory factory;
 			
 			int inputX{0}, inputY{0}, inputShoot{0}, inputJump{0}, inputWalk{0};
+			float lastFT{0};
 			
 			void initInput();
 			void initLevel();

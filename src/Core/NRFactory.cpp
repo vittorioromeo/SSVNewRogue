@@ -46,9 +46,9 @@ namespace nr
 	Entity& NRFactory::createPlayer(Vector2i mPosition)
 	{
 		auto& result = createHumanoid(mPosition);
-		result.createComponent<NRCPlayer>(game, *result.getComponents<NRCHumanoid>("humanoid")[0]);
+		result.createComponent<NRCPlayer>(game, result.getFirstComponent<NRCHumanoid>("humanoid"));
 		
-		auto& cRender = *result.getComponents<NRCRender>("render")[0];
+		auto& cRender = result.getFirstComponent<NRCRender>("render");
 		cRender.addSprite(Sprite{assets.getTexture("legs.png")});
 		cRender.addSprite(Sprite{assets.getTexture("body.png")});
 		cRender.addSprite(Sprite{assets.getTexture("arms.png")});
@@ -59,9 +59,9 @@ namespace nr
 	Entity& NRFactory::createWanderer(Vector2i mPosition)
 	{
 		auto& result = createHumanoid(mPosition);
-		result.createComponent<NRCWanderer>(game, *result.getComponents<NRCHumanoid>("humanoid")[0]);
+		result.createComponent<NRCWanderer>(game, result.getFirstComponent<NRCHumanoid>("humanoid"));
 		
-		auto& cRender = *result.getComponents<NRCRender>("render")[0];
+		auto& cRender = result.getFirstComponent<NRCRender>("render");
 		cRender.addSprite(Sprite{assets.getTexture("legs.png")});
 		cRender.addSprite(Sprite{assets.getTexture("body2.png")});
 		cRender.addSprite(Sprite{assets.getTexture("arms.png")});
