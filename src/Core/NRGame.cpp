@@ -1,3 +1,4 @@
+#include <sstream>
 #include "Core/NRDependencies.h"
 #include "Core/NRAssets.h"
 #include "Core/NRGame.h"
@@ -111,6 +112,37 @@ log(toStr(c));
 		camera.apply();
 		manager.draw();
 		camera.unapply();
+		
+		ostringstream s;
+		auto& entities(manager.getEntities());
+		auto& bodies(world.getBodies());
+		int componentCount{0}, dynamicBodiesCount{0}; 
+		for(auto& entity : entities) componentCount += entity->getComponents().size();
+		for(auto& body : bodies) if(!body->isStatic()) ++dynamicBodiesCount;
+		
+		s << "FPS: " << toStr(gameWindow.getFPS()) << endl;
+		s << "Bodies(all): " << toStr(bodies.size()) << endl;
+		s << "Bodies(static): " << toStr(bodies.size() - dynamicBodiesCount) << endl;
+		s << "Bodies(dynamic): " << toStr(dynamicBodiesCount) << endl;	
+		s << "Entities: " << toStr(entities.size()) << endl;
+		s << "Components: " << toStr(componentCount) << endl;
+					
+		
+		Text debugText(s.str(), assets.getAssetManager().getFont("bitxmap.ttf"));
+		debugText.setCharacterSize(200);
+		debugText.scale(0.03f, 0.03f);
+		
+		vector<Vector2f> offsets{{-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
+		for(auto& offset : offsets)
+		{
+			debugText.setColor(Color::Black);
+			debugText.setPosition({offset.x * 0.3f, offset.y * 0.3f});
+			render(debugText);
+		}
+		
+		debugText.setColor(Color::White);
+		debugText.setPosition({0, 0});
+		render(debugText);
 	}
 
 	void NRGame::render(const Drawable& mDrawable) { gameWindow.draw(mDrawable); }

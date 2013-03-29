@@ -1,4 +1,4 @@
-/*#include "Core/NRDependencies.h"
+#include "Core/NRDependencies.h"
 #include "Core/NRAssets.h"
 #include "Core/NRGame.h"
 
@@ -9,6 +9,8 @@ using namespace nr;
 
 int main()
 {
+	srand(unsigned(time(NULL)));
+	
 	NRAssets assets;	
 	GameWindow gameWindow{"SSVNewRogue", 320, 240, 3, false};
 	NRGame game{gameWindow, assets};
@@ -19,7 +21,7 @@ int main()
 	
 	return 0;
 }
-*/
+/*
 
 
 #include <vector>
@@ -232,4 +234,4 @@ struct TestGame
 };
 
 int main() { srand(time(0)); initAssets(); TestGame{}; return 0; }
-
+*/
