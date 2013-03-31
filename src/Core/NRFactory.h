@@ -24,6 +24,7 @@ namespace nr
 		public:
 			NRFactory(NRAssets& mAssets, NRGame& mGame, sses::Manager& mManager, ssvsc::World& mWorld);
 			
+			sses::Entity& createTrail(sf::Vector2i mA, sf::Vector2i mB, sf::Color mColor);
 			sses::Entity& createWall(sf::Vector2i mPosition);
 			sses::Entity& createHumanoid(sf::Vector2i mPosition);
 			sses::Entity& createPlayer(sf::Vector2i mPosition);

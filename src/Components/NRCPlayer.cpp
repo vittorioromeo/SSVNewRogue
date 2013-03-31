@@ -4,6 +4,7 @@
 #include "Utils/NRUtils.h"
 
 using namespace ssvs;
+using namespace ssvs::Utils;
 using namespace sses;
 using namespace std;
 using namespace sf;
@@ -12,7 +13,32 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCPlayer::NRCPlayer(Entity& mEntity,NRGame& mGame, NRCHumanoid& mCHumanoid) : Component(mEntity, "player"), game(mGame), cHumanoid(mCHumanoid) { }
+	template<typename TDirection> Entity* seek(Grid& mGrid, Body& mSeeker, const string& , Vector2i& mOut, Vector2i mMP = Vector2i(0,0))
+	{
+		GridQuery gq{mGrid.getQuery(mSeeker.getPosition())};
+		
+		float dir = getRadiansToPoint(Vector2f(mSeeker.getPosition()), Vector2f(mMP));
+		Vector2f dirv = getVectorFromRadians(dir, 1.f);
+				
+		Body* b;
+		while((b = gq.next(dirv, "solid")) != nullptr)
+		{
+			mOut = Vector2i(gq.getOut());
+			if(b == &mSeeker) continue; 
+			
+			Entity* entity = static_cast<Entity*>(b->getUserData());
+			if(entity == nullptr) continue;
+			
+			//if(!contains(b->getGroups(), mGroup)) return nullptr;
+			
+			return entity;
+		}
+		
+		mOut = Vector2i(gq.getOut());
+		return nullptr;
+	}
+	
+	NRCPlayer::NRCPlayer(Entity& mEntity, NRGame& mGame, NRCHumanoid& mCHumanoid) : Component(mEntity, "player"), game(mGame), cHumanoid(mCHumanoid) { }
 	
 	void NRCPlayer::update(float) 
 	{		
@@ -24,6 +50,30 @@ namespace nr
 		else if(game.getInputX() == 1) cHumanoid.move(1, game.getInputWalk());
 		
 		if(game.getInputJump() == 1) cHumanoid.jump();
+		
+		if(game.getInputShoot() == 0) return;
+		
+		
+		
+		
+		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
+		Grid& grid = static_cast<Grid&>(body.getWorld().getSpatial());
+		
+		Vector2i out;
+		Entity* enemy;
+		if(cHumanoid.isFacingLeft()) enemy = seek<QueryTraits::Orthogonal::Left>(grid, body, "humanoid", out, game.getMousePosition());
+		else enemy = seek<QueryTraits::Orthogonal::Right>(grid, body, "humanoid", out, game.getMousePosition());
+			
+		game.getFactory().createTrail(body.getPosition(), out, Color::Green);
+		
+		if(enemy != nullptr)
+		{
+			NRCPhysics& body = enemy->getFirstComponent<NRCPhysics>("physics");
+			//log("pew pew!");
+			//enemy->destroy(); 
+			body.getBody().setStatic(false);
+			body.setAffectedByGravity(true);
+		}
 	}
 	
 	
@@ -44,5 +94,38 @@ namespace nr
 		if(!tired) cHumanoid.unCrouch(); else cHumanoid.crouch();
 		
 		if((int)time % 90 == 0) cHumanoid.jump();
+		
+		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
+		Grid& grid = static_cast<Grid&>(body.getWorld().getSpatial());
+		
+		Vector2i out{0, 0};
+		Entity* enemy;
+		if(cHumanoid.isFacingLeft()) enemy = seek<QueryTraits::Orthogonal::Left>(grid, body, "humanoid", out, game.getMousePosition());
+		else enemy = seek<QueryTraits::Orthogonal::Right>(grid, body, "humanoid", out, game.getMousePosition());
+			
+		game.getFactory().createTrail(body.getPosition(), out, Color::Red);
+		
+		if(enemy != nullptr)
+		{
+			//log("pew pew!");
+			//enemy->destroy(); 
+		}
+	}
+	
+	NRCTrail::NRCTrail(Entity& mEntity, NRGame& mGame, Vector2i mA, Vector2i mB, Color mColor) : Component(mEntity, "trail"), game(mGame), a{mA}, b{mB}, 
+		color{mColor}, vertices{PrimitiveType::Lines, 2} { }
+	
+	void NRCTrail::update(float mFrameTime) 
+	{ 
+		life -= mFrameTime;
+		if(life <= 0) getEntity().destroy();
+		color.a = life * (255 / 100);
+	}
+	void NRCTrail::draw() 
+	{ 
+		vertices.clear();
+		vertices.append({toPixels(a + Vector2i{getRnd(-20, 20), getRnd(-20, 20)}), color});
+		vertices.append({toPixels(b + Vector2i{getRnd(-20, 20), getRnd(-20, 20)}), color});
+		game.render(vertices);
 	}
 }

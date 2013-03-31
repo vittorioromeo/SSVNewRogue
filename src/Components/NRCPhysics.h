@@ -26,6 +26,9 @@ namespace nr
 			NRCPhysics(sses::Entity& mEntity, NRGame& mGame, ssvsc::World& mWorld, bool mIsStatic, sf::Vector2i mPosition, sf::Vector2i mSize, bool mAffectedByGravity = true);
 			~NRCPhysics();
 	
+			// Setters
+			void setAffectedByGravity(bool mAffectedByGravity);
+			
 			// Getters
 			ssvsc::World& getWorld();
 			ssvsc::Body& getBody();

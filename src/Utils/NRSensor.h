@@ -29,6 +29,8 @@ namespace nr
 			ssvsc::Body& getBody();
 			bool isActive();
 	};
+	
+	// TODO: maybe sensor can be a non-body class, that calculates index and checks the grid for collisions? 
 }
 
 #endif

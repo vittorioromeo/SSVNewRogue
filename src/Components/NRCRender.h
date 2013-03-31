@@ -13,7 +13,7 @@ namespace nr
 			NRGame& game;
 			ssvsc::Body& body;
 			std::vector<sf::Sprite> sprites;
-			bool flippedX{false}, flippedY{false};
+			bool flippedX{false}, flippedY{false}, scaleWithBody{false};
 			sf::Vector2f offset;
 
 		public:
@@ -33,6 +33,7 @@ namespace nr
 			void setRotation(float mDegrees);
 			void setFlippedX(bool mFlippedX);
 			void setFlippedY(bool mFlippedY);
+			void setScaleWithBody(bool mScaleWithBody);
 			void setOffset(sf::Vector2f mOffset);
 	};
 	

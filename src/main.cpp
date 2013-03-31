@@ -3,19 +3,24 @@
 #include "Core/NRGame.h"
 
 using namespace std;
+using namespace sf;
 using namespace ssvu;
 using namespace ssvs;
 using namespace nr;
 
+
 int main()
-{
+{	
 	srand(unsigned(time(NULL)));
 	
-	NRAssets assets;	
-	GameWindow gameWindow{"SSVNewRogue", 320, 240, 3, false};
+	//unsigned int width{VideoMode::getDesktopMode().width}, height{VideoMode::getDesktopMode().height};
+	//width = 1440; height = 900;
+	
+	NRAssets assets;
+	GameWindow gameWindow{"SSVNewRogue", createStaticTimer(gameWindow, 0.5f), 320, 240, 3, false};
 	NRGame game{gameWindow, assets};
 	
-	gameWindow.setFPSLimit(120);
+//	gameWindow.setFPSLimit(120);
 	gameWindow.setGameState(game.getGameState());
 	gameWindow.run();
 	

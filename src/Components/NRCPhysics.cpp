@@ -13,6 +13,8 @@ namespace nr
 	NRCPhysics::NRCPhysics(Entity& mEntity, NRGame& mGame, World& mWorld, bool mIsStatic, Vector2i mPosition, Vector2i mSize, bool mAffectedByGravity)
 		: Component(mEntity, "physics"), game(mGame), world(mWorld), body(world.create(mPosition, mSize, mIsStatic)), affectedByGravity{mAffectedByGravity}
 	{
+		body.setUserData(&getEntity());
+		
 		body.onDetection += [&](DetectionInfo mDetectionInfo)
 		{
 			if(mDetectionInfo.userData == nullptr) return;
@@ -37,10 +39,11 @@ namespace nr
 			if(crushedTop > 0) --crushedTop;
 			if(crushedBottom > 0) --crushedBottom;
 		};
-		
-		body.setUserData(&getEntity());
 	}
 	NRCPhysics::~NRCPhysics() { body.destroy(); } // BUG: this has to be called before world is destroyed, or else SEGFAULT - find a way to avoid that!
+	
+	// Setters
+	void NRCPhysics::setAffectedByGravity(bool mAffectedByGravity) { affectedByGravity = mAffectedByGravity; } 
 
 	// Getters
 	World& NRCPhysics::getWorld()				{ return world; }

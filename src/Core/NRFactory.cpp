@@ -16,6 +16,12 @@ namespace nr
 	NRFactory::NRFactory(NRAssets& mAssets, NRGame& mGame, Manager& mManager, World& mWorld) : assets(mAssets), game(mGame),
 		manager(mManager), world(mWorld) { }
 	
+	Entity& NRFactory::createTrail(Vector2i mA, Vector2i mB, Color mColor)
+	{
+		auto& result = manager.createEntity("trail");
+		result.createComponent<NRCTrail>(game, mA, mB, mColor);
+		return result;
+	}
 	Entity& NRFactory::createWall(Vector2i mPosition)
 	{
 		auto& result = manager.createEntity("wall");
@@ -24,8 +30,10 @@ namespace nr
 
 		Body& body(cPhysics.getBody());
 		body.addGroups({"solid"});
+		body.addGroupsToCheck({"solid"});
 		
 		cRender.addSprite(Sprite{assets.getTexture("wall.png")});
+		cRender.setScaleWithBody(true);
 
 		return result;
 	}
@@ -38,7 +46,7 @@ namespace nr
 		result.createComponent<NRCHumanoidAnimationController>(cRender, cHumanoid);
 	
 		Body& body(cPhysics.getBody());
-		body.addGroups({"solid"});
+		body.addGroups({"solid", "humanoid"});
 		body.addGroupsToCheck({"solid"});
 
 		return result;
@@ -54,6 +62,8 @@ namespace nr
 		cRender.addSprite(Sprite{assets.getTexture("arms.png")});
 		cRender.addSprite(Sprite{assets.getTexture("head.png")});
 		
+		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect({0, 0, 16, 16});	
+		
 		return result;
 	}
 	Entity& NRFactory::createWanderer(Vector2i mPosition)
@@ -66,6 +76,8 @@ namespace nr
 		cRender.addSprite(Sprite{assets.getTexture("body2.png")});
 		cRender.addSprite(Sprite{assets.getTexture("arms.png")});
 		cRender.addSprite(Sprite{assets.getTexture("head.png")});
+		
+		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect({0, 0, 16, 16});	
 		
 		return result;
 	}

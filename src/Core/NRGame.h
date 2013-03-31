@@ -13,7 +13,7 @@ namespace nr
 	{
 		private:
 			ssvs::GameWindow& gameWindow;
-			ssvs::Camera camera{gameWindow, {{160, 120}, {320, 240}}};
+			ssvs::Camera camera{gameWindow, {{320 / 2, 240 / 2}, {320, 240}}};
 			NRAssets& assets;
 			ssvs::GameState gameState;
 			ssvsc::World world; // BUG: world must be destroyed after manager, find a way to make this not required!
@@ -39,6 +39,8 @@ namespace nr
 			ssvs::GameState& getGameState();
 			sses::Manager& getManager();
 			ssvsc::World& getWorld();
+			NRFactory& getFactory();
+			sf::Vector2i getMousePosition();
 			int getInputX();
 			int getInputY();
 			int getInputShoot();

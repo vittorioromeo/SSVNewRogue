@@ -46,65 +46,9 @@ namespace nr
 	}
 
 	void NRCHumanoid::update(float)
-	{				
-		/*Grid& grid = static_cast<Grid&>(body.getWorld().getSpatial());
-		GridQuery gq = grid.getQuery(body.getPosition());
-		
-		{
-			Body* b = gq.next<GridQuery::TowardsLeft>();
-			while(b != nullptr)
-			{
-				if(!(b == &body))
-					if(contains(b->getGroups(), "solid")) {  }
-				
-				b = gq.next<GridQuery::TowardsLeft>();
-			}
-		}
-		
-		gq.reset();
-		
-		{
-			Body* b = gq.next<GridQuery::TowardsRight>();
-			while(b != nullptr)
-			{
-				//if(gq.getCurrent().x > body.getPosition().x + 10000) break;	
-				
-				
-				if(!(b == &body))
-					if(contains(b->getGroups(), "solid")) {  }
-				
-				b = gq.next<GridQuery::TowardsRight>();
-			}
-		}
-		
-		gq.reset();
-		
-		{
-			Body* b = gq.next<GridQuery::TowardsTop>();
-			while(b != nullptr)
-			{
-				if(!(b == &body))
-					if(contains(b->getGroups(), "solid")) {  }
-				
-				b = gq.next<GridQuery::TowardsTop>();
-			}
-		}
-		
-		gq.reset();
-		
-		{
-			Body* b = gq.next<GridQuery::TowardsBottom>();
-			while(b != nullptr)
-			{
-				if(!(b == &body))
-					if(contains(b->getGroups(), "solid")) { }
-				
-				b = gq.next<GridQuery::TowardsBottom>();
-			}
-		}*/
-			
+	{			
 		Vector2f velocity{body.getVelocity()};
-		if((cPhysics.isCrushedTop() && cPhysics.isCrushedBottom()) || (!isInAir() && autoCrouchTopSensor.isActive() && !autoCrouchBottomSensor.isActive())) 
+		if(!isInAir() && autoCrouchTopSensor.isActive() && !autoCrouchBottomSensor.isActive())
 		{ 
 			autoCrouching = true; 
 			crouch(true); 
@@ -117,7 +61,7 @@ namespace nr
 		if(!isInAir()) 
 		{
 			if(!crouching)
-			{				
+			{
 				if(velocity.x == 0) action = Action::STANDING;
 				else if(abs(velocity.x) >= runSpeed) action = Action::RUNNING;
 				else if(abs(velocity.x) >= walkSpeed) action = Action::WALKING;
