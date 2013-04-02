@@ -10,20 +10,19 @@ using namespace nr;
 
 
 int main()
-{	
+{
 	srand(unsigned(time(NULL)));
-	
+
 	//unsigned int width{VideoMode::getDesktopMode().width}, height{VideoMode::getDesktopMode().height};
 	//width = 1440; height = 900;
-	
+
 	NRAssets assets;
 	GameWindow gameWindow{"SSVNewRogue", createStaticTimer(gameWindow, 0.5f), 320, 240, 3, false};
 	NRGame game{gameWindow, assets};
-	
-//	gameWindow.setFPSLimit(120);
+
 	gameWindow.setGameState(game.getGameState());
 	gameWindow.run();
-	
+
 	return 0;
 }
 /*
@@ -88,7 +87,7 @@ struct CTest : Component
 
 	void setColor(Color mColor) { for(auto& v : myVertices) v.color = mColor; }
 	void move(const Vector2f& mOffset)
-	{		
+	{
 		Vector2f v = body.getVelocity();
 		if(mOffset.x != 0) v.x = mOffset.x;
 		if(mOffset.y != 0) v.y = mOffset.y;
@@ -114,7 +113,7 @@ struct TestGame
 	GameWindow window{"", 1280, 720, 1};
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
-	
+
 	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 2500, 300)};
 	Manager manager;
 	vector<Vertex*> vertices;
@@ -145,7 +144,7 @@ struct TestGame
 			for(int iY{0}; iY <100; iY++) for(int iX{0}; iX < 100; iX++) create({iX * 1500, iY * 1500}, false);
 			log(endBenchmark(), "creation b");
 		}
-		
+
 		{
 			{
 				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vector2i{10000, 170000}, vertices, world);
@@ -204,7 +203,7 @@ struct TestGame
 		game.addInput({{k::Z}}, 	[=](float mFrameTime){ camera.zoom(pow(1.1f, mFrameTime)); });
 		game.addInput({{k::X}}, 	[=](float mFrameTime){ camera.zoom(pow(0.9f, mFrameTime)); });
 
-		// Window creation		
+		// Window creation
 		window.setStaticFrameTime(false);
 		window.setStaticFrameTimeValue(1);
 		window.setVsync(false);

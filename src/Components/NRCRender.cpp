@@ -14,22 +14,22 @@ namespace nr
 	NRCRender::NRCRender(Entity& mEntity, NRGame& mGame, Body& mBody) : Component(mEntity, "render"), game(mGame), body(mBody) { }
 
 	void NRCRender::update(float)
-	{	
+	{
 		Vector2f position{toPixels(body.getPosition())}, size{toPixels(body.getSize())};
-		for(auto& sprite : sprites) 
-		{	
+		for(auto& sprite : sprites)
+		{
 			auto& rect(sprite.getTextureRect());
 			sprite.setOrigin({rect.width / 2.f, rect.height / 2.f});
-			
+
 			sprite.setPosition(position + offset);
 			sprite.setScale(flippedX ? -1 : 1, flippedY ? -1 : 1);
 			if(scaleWithBody) sprite.setScale(size.x / 16.f, size.y / 16.f);
 		}
 	}
 	void NRCRender::draw() { for(auto& sprite : sprites) game.render(sprite); }
-	
+
 	void NRCRender::addSprite(Sprite mSprite) { sprites.push_back(mSprite); }
-	
+
 	// Getters
 	bool NRCRender::isFlippedX() const			{ return flippedX; }
 	bool NRCRender::isFlippedY() const			{ return flippedY; }

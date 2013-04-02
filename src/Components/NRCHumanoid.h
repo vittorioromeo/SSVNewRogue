@@ -8,12 +8,12 @@ namespace nr
 {
 	class NRGame;
 	class NRCPhysics;
-	
+
 	class NRCHumanoid : public sses::Component
 	{
 		public:
 			enum class Action{ WALKING, RUNNING, CROUCHING, CROUCHWALKING, STANDING, JUMPING, FALLING };
-			
+
 		private:
 			NRGame& game;
 			NRCPhysics& cPhysics;
@@ -27,14 +27,14 @@ namespace nr
 
 		public:
 			NRCHumanoid(sses::Entity& mEntity, NRGame& mGame, NRCPhysics& mCPhysics);
-			
+
 			void update(float mFrameTime) override;
-			
+
 			void unCrouch();
 			void crouch(bool mForce = false);
 			void move(int mDirection, bool mWalk);
 			void jump();
-			
+
 			// Getters
 			bool isFacingLeft();
 			bool isJumpReady();

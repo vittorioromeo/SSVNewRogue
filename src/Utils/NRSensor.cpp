@@ -11,14 +11,14 @@ using namespace ssvsc;
 using namespace ssvu;
 
 namespace nr
-{	
-	NRSensor::NRSensor(NRCPhysics& mParent, Vector2i mSize) : parent(mParent), 
+{
+	NRSensor::NRSensor(NRCPhysics& mParent, Vector2i mSize) : parent(mParent),
 		position(parent.getBody().getPosition()), body(mParent.getWorld().create(position, mSize, false))
 	{
 		body.addGroups({"sensor"});
 		body.addGroupsToCheck({"solid"});
-		body.setResolve(false); 		
-		
+		body.setResolve(false);
+
 		body.onPreUpdate += [&]{ active = false; body.setPosition(position); };
 		body.onDetection += [&](DetectionInfo mDetectionInfo)
 		{
@@ -28,10 +28,10 @@ namespace nr
 		};
 	}
 	NRSensor::~NRSensor() { body.destroy(); }
-	
+
 	// Setters
 	void NRSensor::setPosition(Vector2i mPosition) { position = mPosition; }
-	
+
 	// Getters
 	Body& NRSensor::getBody() { return body; }
 	bool NRSensor::isActive() { return active; }

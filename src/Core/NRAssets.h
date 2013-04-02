@@ -5,17 +5,17 @@
 
 namespace nr
 {
-	class NRAssets 
-	{ 
+	class NRAssets
+	{
 		private:
 			ssvs::AssetManager assetManager;
-			
+
 		public:
 			NRAssets();
-			
+
 			// Getters
 			ssvs::AssetManager& getAssetManager();
-			sf::Texture& getTexture(std::string mId);
+			sf::Texture& getTexture(const std::string& mId);
 	};
 }
 

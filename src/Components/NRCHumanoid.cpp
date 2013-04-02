@@ -13,8 +13,8 @@ using namespace ssvu;
 namespace nr
 {
 	using Action = NRCHumanoid::Action;
-	
-	NRCHumanoid::NRCHumanoid(Entity& mEntity, NRGame& mGame, NRCPhysics& mCPhysics) : Component(mEntity, "humanoid"), 
+
+	NRCHumanoid::NRCHumanoid(Entity& mEntity, NRGame& mGame, NRCPhysics& mCPhysics) : Component(mEntity, "humanoid"),
 		game(mGame), cPhysics(mCPhysics), unCrouchSensor{cPhysics, Vector2i{700, 1300}},
 		autoCrouchTopSensor{cPhysics, Vector2i(100, 100)}, autoCrouchBottomSensor{cPhysics, Vector2i(100, 100)},
 		body(cPhysics.getBody()), standingHeight{body.getHeight()}
@@ -23,22 +23,22 @@ namespace nr
 		auto& ucsShape(unCrouchSensor.getBody().getShape());
 		auto& actsShape(autoCrouchTopSensor.getBody().getShape());
 		auto& acbsShape(autoCrouchBottomSensor.getBody().getShape());
-		
+
 		body.onPreUpdate += [&]{ jumpReady = false; };
 		body.onPostUpdate += [&]
-		{ 
-			unCrouchSensor.setPosition({s.getX(), s.getBottom() - ucsShape.getHalfHeight()}); 
-			
+		{
+			unCrouchSensor.setPosition({s.getX(), s.getBottom() - ucsShape.getHalfHeight()});
+
 			int atcsX{s.getLeft() - actsShape.getHalfWidth()};
 			int abcsX{s.getLeft() - acbsShape.getHalfWidth()};
 			int atcsY{s.getBottom() - standingHeight + actsShape.getHalfHeight()};
 			int abcsY{s.getBottom() - crouchingHeight + acbsShape.getHalfHeight()};
-			if(!facingLeft) 
+			if(!facingLeft)
 			{
 				atcsX = s.getRight() + actsShape.getHalfWidth();
 				abcsX = s.getRight() + acbsShape.getHalfWidth();
 			}
-			
+
 			autoCrouchTopSensor.setPosition({atcsX, atcsY});
 			autoCrouchBottomSensor.setPosition({abcsX, abcsY});
 		};
@@ -46,19 +46,19 @@ namespace nr
 	}
 
 	void NRCHumanoid::update(float)
-	{			
+	{
 		Vector2f velocity{body.getVelocity()};
 		if(!isInAir() && autoCrouchTopSensor.isActive() && !autoCrouchBottomSensor.isActive())
-		{ 
-			autoCrouching = true; 
-			crouch(true); 
+		{
+			autoCrouching = true;
+			crouch(true);
 		}
 		else autoCrouching = false;
-		
+
 		if(velocity.x > 0) facingLeft = false;
 		else if(velocity.x < 0) facingLeft = true;
-		
-		if(!isInAir()) 
+
+		if(!isInAir())
 		{
 			if(!crouching)
 			{
@@ -72,23 +72,23 @@ namespace nr
 		{
 			if(velocity.y > 0) action = Action::FALLING;
 			else if(velocity.y < 0) action = Action::JUMPING;
-		}	
+		}
 	}
-		
+
 	void NRCHumanoid::unCrouch()
 	{
 		if(unCrouchSensor.isActive() || autoCrouching) return;
-		if(crouching) 
+		if(crouching)
 		{
 			body.setPosition(body.getPosition() - Vector2i{0, (standingHeight - crouchingHeight) / 2});
 			body.setHeight(standingHeight);
 		}
-		crouching = false; 
+		crouching = false;
 	}
 	void NRCHumanoid::crouch(bool mForce)
 	{
 		if(!mForce && isInAir()) return;
-		if(!crouching) 
+		if(!crouching)
 		{
 			body.setPosition(body.getPosition() + Vector2i{0, (standingHeight - crouchingHeight) / 2});
 			body.setHeight(crouchingHeight);
@@ -106,10 +106,10 @@ namespace nr
 		if(crouching || isInAir() || !jumpReady) return;
 		body.setVelocityY(-jumpSpeed);
 	}
-		
+
 	// Getters
 	bool NRCHumanoid::isFacingLeft()	{ return facingLeft; }
 	bool NRCHumanoid::isJumpReady()		{ return jumpReady; }
-	bool NRCHumanoid::isInAir()			{ return body.getShape().getY() != body.getOldShape().getY();}
+	bool NRCHumanoid::isInAir()			{ return body.getShape().getY() != body.getOldShape().getY(); }
 	Action NRCHumanoid::getAction()		{ return action; }
 }

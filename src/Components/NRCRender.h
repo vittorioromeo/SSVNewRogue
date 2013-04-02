@@ -6,7 +6,7 @@
 namespace nr
 {
 	class NRGame;
-	
+
 	class NRCRender : public sses::Component
 	{
 		private:
@@ -21,14 +21,14 @@ namespace nr
 
 			void update(float) override;
 			void draw() override;
-			
+
 			void addSprite(sf::Sprite mSprite);
 
 			// Getters
 			bool isFlippedX() const;
 			bool isFlippedY() const;
 			std::vector<sf::Sprite>& getSprites();
-			
+
 			// Setters
 			void setRotation(float mDegrees);
 			void setFlippedX(bool mFlippedX);
@@ -36,7 +36,7 @@ namespace nr
 			void setScaleWithBody(bool mScaleWithBody);
 			void setOffset(sf::Vector2f mOffset);
 	};
-	
+
 	// TODO: find a way to add sprites with individual offsets, and still have a global offset (RenderData struct?)
 }
 
