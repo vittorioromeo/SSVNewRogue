@@ -18,21 +18,29 @@ namespace nr
 			NRFactory factory;
 			ssvs::GameState gameState;
 			ssvsc::World world; // BUG: world must be destroyed after manager, find a way to make this not required!
+			ssvsc::Grid& grid;
 			sses::Manager manager;
 
 			int inputX{0}, inputY{0}, inputShoot{0}, inputJump{0}, inputWalk{0};
-			float lastFT{0};
+			sf::Text debugText;
+			std::vector<std::vector<int>> debugGrid;
+			sf::VertexArray debugGridVertices{sf::PrimitiveType::Quads};
 
 			void initInput();
 			void initLevel();
+			void initDebugGrid();
 
 		public:
 			NRGame(ssvs::GameWindow& mGameWindow, NRAssets& mAssets);
 
 			void update(float mFrameTime);
+			void updateDebugText(float mFrameTime);
+			void drawDebugGrid();
 			void draw();
 
 			void render(const sf::Drawable& mDrawable);
+			void setDebugGrid(int mX, int mY);
+			void clearDebugGrid();
 
 			// Getters
 			ssvs::GameWindow& getGameWindow();
@@ -46,6 +54,7 @@ namespace nr
 			int getInputShoot();
 			int getInputJump();
 			int getInputWalk();
+			void drawDebugText();
 	};
 }
 

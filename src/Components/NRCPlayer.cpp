@@ -13,17 +13,43 @@ using namespace ssvu;
 
 namespace nr
 {
-	template<typename TDirection> Entity* seek(Grid& mGrid, Body& mSeeker, const string& , Vector2i& mOut, Vector2i mMP = Vector2i(0,0))
+	template<typename TDirection> Entity* seekEntity(Grid& mGrid, Body& mSeeker, Vector2i mTarget, Vector2i& mLastPos)
 	{
-		GridQuery gq{mGrid.getQuery(mSeeker.getPosition())};
-
+		Entity* result{nullptr};
+		const auto& startPosition(mSeeker.getPosition());
+		Vector2f direction(startPosition - mTarget);
+		auto gridQuery(mGrid.getQuery<GridQueryTypes::RayCast>(startPosition, direction));
+		
+		Body* body;
+		while((body = gridQuery.next()) != nullptr)
+		{
+			if(body == &mSeeker) continue;
+			
+			Entity* entity{static_cast<Entity*>(body->getUserData())};
+			if(entity == nullptr) continue;
+			
+			result = entity;
+			break;
+		}
+		
+		mLastPos = Vector2i(gridQuery.getLastPos());
+		return result;
+	}
+	
+	template<typename TDirection> Entity* seek(NRGame& mGame, Grid& mGrid, Body& mSeeker, const string& , Vector2i& mOut, Vector2i mMP = Vector2i(0,0))
+	{
 		float dir = getRadiansToPoint(Vector2f(mSeeker.getPosition()), Vector2f(mMP));
 		Vector2f dirv = getVectorFromRadians(dir, 1.f);
+		
+		auto gq(mGrid.getQuery<GridQueryTypes::RayCast, sf::Vector2f>(mSeeker.getPosition(), dirv));
+
+		
 
 		Body* b;
-		while((b = gq.next(dirv, "solid")) != nullptr)
+		while((b = gq.next()) != nullptr)
 		{
-			mOut = Vector2i(gq.getOut());
+			for(auto& ii : gq.getVisitedIndexes()) mGame.setDebugGrid(ii.x, ii.y);
+			mOut = Vector2i(gq.getLastPos());
 			if(b == &mSeeker) continue;
 
 			Entity* entity = static_cast<Entity*>(b->getUserData());
@@ -33,8 +59,10 @@ namespace nr
 
 			return entity;
 		}
-
-		mOut = Vector2i(gq.getOut());
+		
+		for(auto& ii : gq.getVisitedIndexes()) mGame.setDebugGrid(ii.x, ii.y);
+		mOut = Vector2i(gq.getLastPos());
+		
 		return nullptr;
 
 		// TODO: make this a serious method
@@ -59,10 +87,12 @@ namespace nr
 		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 
+		//grid.getQuery<QueryTraits::Orthogonal::Right>(body.getPosition());
+		
 		Vector2i out;
 		Entity* enemy;
-		if(cHumanoid.isFacingLeft()) enemy = seek<QueryTraits::Orthogonal::Left>(grid, body, "humanoid", out, game.getMousePosition());
-		else enemy = seek<QueryTraits::Orthogonal::Right>(grid, body, "humanoid", out, game.getMousePosition());
+		if(cHumanoid.isFacingLeft()) enemy = seek<GridQueryTypes::Orthogonal::Left>(game, grid, body, "humanoid", out, game.getMousePosition());
+		else enemy = seek<GridQueryTypes::Orthogonal::Right>(game, grid, body, "humanoid", out, game.getMousePosition());
 
 		game.getFactory().createTrail(body.getPosition(), out, Color::Green);
 
@@ -96,23 +126,23 @@ namespace nr
 		if((int)time % 90 == 0) cHumanoid.jump();
 
 		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
-		Grid& grid(body.getWorld().getSpatial<Grid>());
+		//Grid& grid(body.getWorld().getSpatial<Grid>());
 
-		Vector2i out{0, 0};
-		Entity* enemy;
-		if(cHumanoid.isFacingLeft()) enemy = seek<QueryTraits::Orthogonal::Left>(grid, body, "humanoid", out, game.getMousePosition());
-		else enemy = seek<QueryTraits::Orthogonal::Right>(grid, body, "humanoid", out, game.getMousePosition());
+		//Vector2i out{0, 0};
+		//Entity* enemy;
+		//if(cHumanoid.isFacingLeft()) enemy = seek<QueryTraits::Orthogonal::Left>(game, grid, body, "humanoid", out, game.getMousePosition());
+		//else enemy = seek<QueryTraits::Orthogonal::Right>(game, grid, body, "humanoid", out, game.getMousePosition());
 
-		game.getFactory().createTrail(body.getPosition(), out, Color::Red);
+		//game.getFactory().createTrail(body.getPosition(), out, Color::Red);
 
-		if(enemy != nullptr)
-		{
+	//	if(enemy != nullptr)
+		//{
 			//NRCPhysics& body = enemy->getFirstComponent<NRCPhysics>("physics");
 			//log("pew pew!");
 			//enemy->destroy();
 			//body.getBody().setStatic(true);
 			//body.setAffectedByGravity(false);
-		}
+		//}
 	}
 
 	NRCTrail::NRCTrail(Entity& mEntity, NRGame& mGame, Vector2i mA, Vector2i mB, Color mColor) : Component(mEntity, "trail"), game(mGame), a{mA}, b{mB},

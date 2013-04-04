@@ -17,7 +17,8 @@ using namespace ssvsc::Utils;
 namespace nr
 {
 	NRGame::NRGame(GameWindow& mGameWindow, NRAssets& mAssets) : gameWindow(mGameWindow), assets(mAssets), factory{assets, *this, manager, world},
-		world(createResolver<Retro>(), createSpatial<Grid>(600, 600, 1600, 300))
+		world(createResolver<Retro>(), createSpatial<Grid>(600, 600, 1600, 300)), grid(world.getSpatial<Grid>()), 
+		debugText{"", assets.getAssetManager().getFont("bitxmap.ttf")}	
 	{
 		gameState.onUpdate += [&](float mFrameTime){ update(mFrameTime); };
 		gameState.onPostUpdate += [&]{ inputX = inputY = inputShoot = inputJump = inputWalk = 0; };
@@ -25,6 +26,7 @@ namespace nr
 
 		initInput();
 		initLevel();
+		initDebugGrid();
 	}
 
 	void NRGame::initInput()
@@ -50,30 +52,17 @@ namespace nr
 		gameState.addInput({{k::X}},		[&](float){ inputJump = 1; });
 		gameState.addInput({{k::LShift}},	[&](float){ inputWalk = 1; });
 
-		// BUG: fix input problems (try crouching and moving, it uncrouches!)
-
-		gameState.addInput({{k::Num1}}, [&](float)
-		{
-			factory.createWall({getMousePosition().x, getMousePosition().y});
-		}, t::SINGLE);
-
-		gameState.addInput({{k::Num2}}, [&](float)
-		{
-			factory.createWanderer({getMousePosition().x, getMousePosition().y});
-		}, t::SINGLE);
-
-		gameState.addInput({{k::Num3}}, [&](float)
-		{
-			factory.createPlayer({getMousePosition().x, getMousePosition().y});
-		}, t::SINGLE);
-
+		gameState.addInput({{k::Num1}}, [&](float){ factory.createWall(getMousePosition()); }, t::SINGLE);
+		gameState.addInput({{k::Num2}}, [&](float){ factory.createWanderer(getMousePosition()); }, t::SINGLE);
+		gameState.addInput({{k::Num3}}, [&](float){ factory.createPlayer(getMousePosition()); }, t::SINGLE);
 		gameState.addInput({{k::Num4}}, [&](float)
 		{
-			auto& grid(world.getSpatial<Grid>());
 			auto index = grid.getIndex(getMousePosition());
 			auto count = grid.getCell(index.x, index.y).getBodies().size();
 			log(toStr(index.x) + " " + toStr(index.y) + "  :: " + toStr(count));
+			debugGrid[index.x + grid.getOffset()][index.y + grid.getOffset()] = 1;
 		}, t::SINGLE);
+		gameState.addInput({{k::Num5}}, [&](float){ clearDebugGrid(); }, t::SINGLE);
 	}
 	void NRGame::initLevel()
 	{
@@ -109,20 +98,24 @@ namespace nr
 		//factory.createWanderer({1600 * 2, 1600 * 5});
 		//factory.createWanderer({1600 * 3, 1600 * 5});
 	}
+	
+	void NRGame::initDebugGrid()
+	{		
+		for(int iX{0}; iX < grid.getColumns(); iX++)
+		{
+			debugGrid.push_back(vector<int>(grid.getRows()));
+			for(int iY{0}; iY < grid.getRows(); iY++) debugGrid[iX][iY] = 0;
+		}
+	}
 
 	void NRGame::update(float mFrameTime)
 	{
-		lastFT = mFrameTime;
-
 		world.update(mFrameTime);
 		manager.update(mFrameTime);
+		updateDebugText(mFrameTime);
 	}
-	void NRGame::draw()
+	void NRGame::updateDebugText(float mFrameTime)
 	{
-		camera.apply();
-		manager.draw();
-		camera.unapply();
-
 		ostringstream s;
 		auto& entities(manager.getEntities());
 		auto& bodies(world.getBodies());
@@ -131,18 +124,51 @@ namespace nr
 		for(auto& body : bodies) if(!body->isStatic()) ++dynamicBodiesCount;
 
 		s << "FPS: "				<< toStr(gameWindow.getFPS()) << endl;
-		s << "FrameTime: "			<< toStr(lastFT) << endl;
+		s << "FrameTime: "			<< toStr(mFrameTime) << endl;
 		s << "Bodies(all): "		<< toStr(bodies.size()) << endl;
 		s << "Bodies(static): "		<< toStr(bodies.size() - dynamicBodiesCount) << endl;
 		s << "Bodies(dynamic): "	<< toStr(dynamicBodiesCount) << endl;
 		s << "Entities: "			<< toStr(entities.size()) << endl;
 		s << "Components: "			<< toStr(componentCount) << endl;
-
-		Text debugText(s.str(), assets.getAssetManager().getFont("bitxmap.ttf"));
+		
+		debugText.setString(s.str());
 		debugText.setCharacterSize(200);
-		debugText.scale(0.033f, 0.033f);
-
-		vector<Vector2f> offsets{{-1.f, -1.f}, {-1.f, 1.f}, {1.f, -1.f}, {1.f, 1.f}};
+		debugText.setScale(0.033f, 0.033f);
+	}
+	void NRGame::drawDebugGrid()
+	{
+		debugGridVertices.clear();
+		for(int iX{0}; iX < grid.getColumns(); iX++)
+			for(int iY{0}; iY < grid.getRows(); iY++) 
+			{
+				if(debugGrid[iX][iY] == 0) continue;
+				
+				Color color{255, 255, 0, 90};
+				
+				if((iX % 2 == 0 && iY % 2 != 0) || (iX % 2 != 0 && iY % 2 == 0)) 
+				{ 
+					Color tempColor{color};
+					color.r = color.b; color.b = tempColor.r; 
+				}
+				
+				int oIX{iX - grid.getOffset()};
+				int oIY{iY - grid.getOffset()};
+				
+				Vector2i a{grid.getCellSize() * oIX, grid.getCellSize() * oIY};
+				Vector2i b{grid.getCellSize() * (oIX + 1), grid.getCellSize() * oIY};
+				Vector2i c{grid.getCellSize() * (oIX + 1), grid.getCellSize() * (oIY + 1)};
+				Vector2i d{grid.getCellSize() * oIX, grid.getCellSize() * (oIY + 1)};
+				debugGridVertices.append({toPixels(a), color});
+				debugGridVertices.append({toPixels(b), color});
+				debugGridVertices.append({toPixels(c), color});
+				debugGridVertices.append({toPixels(d), color});
+			}
+		render(debugGridVertices);
+	}
+	
+	void NRGame::drawDebugText()
+	{
+		static vector<Vector2f> offsets{{-1.f, -1.f}, {-1.f, 1.f}, {1.f, -1.f}, {1.f, 1.f}};
 		for(auto& offset : offsets)
 		{
 			debugText.setColor(Color::Black);
@@ -156,10 +182,30 @@ namespace nr
 
 		debugText.setColor(Color::White);
 		debugText.setPosition({0, 0});
-		render(debugText);
+		render(debugText);		
 	}
-
+	
+	void NRGame::draw()
+	{
+		camera.apply();
+		manager.draw();
+		//drawDebugGrid();
+		camera.unapply();	
+		drawDebugText();
+	}
+	
 	void NRGame::render(const Drawable& mDrawable) { gameWindow.draw(mDrawable); }
+	
+	void NRGame::setDebugGrid(int mX, int mY)
+	{
+		debugGrid[mX + grid.getOffset()][mY + grid.getOffset()] = 1;
+	}
+	void NRGame::clearDebugGrid()
+	{
+		for(int iX{0}; iX < grid.getColumns(); iX++)
+			for(int iY{0}; iY < grid.getRows(); iY++) 
+				debugGrid[iX][iY] = 0;
+	}
 
 	// Getters
 	GameWindow& NRGame::getGameWindow()	{ return gameWindow; }
