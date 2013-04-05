@@ -39,7 +39,7 @@ namespace nr
 	{
 		private:
 			NRGame& game;
-			float life{100};
+			float life{75};
 			sf::Vector2i a, b;
 			sf::Color color;
 			sf::VertexArray vertices;
