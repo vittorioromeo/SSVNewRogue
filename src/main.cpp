@@ -110,11 +110,11 @@ struct CTest : Component
 
 struct TestGame
 {
-	GameWindow window{"", 1280, 720, 1};
+	GameWindow window{"", createStaticTimer(window, 0.5f), 1280, 720, 1};
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 2500, 300)};
+	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 2000, 300)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -141,10 +141,11 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY <100; iY++) for(int iX{0}; iX < 100; iX++) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 80; ++iY) for(int iX{0}; iX < 80; ++iX) create({iX * 1500, iY * 1500}, false);
 			log(endBenchmark(), "creation b");
 		}
 
+		if(false)
 		{
 			{
 				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vector2i{10000, 170000}, vertices, world);
@@ -204,8 +205,6 @@ struct TestGame
 		game.addInput({{k::X}}, 	[=](float mFrameTime){ camera.zoom(pow(0.9f, mFrameTime)); });
 
 		// Window creation
-		window.setStaticFrameTime(false);
-		window.setStaticFrameTimeValue(1);
 		window.setVsync(false);
 
 		// Update lambdas
@@ -213,6 +212,8 @@ struct TestGame
 		game.onUpdate += [&](float){ camera.centerOn(Vector2f(c->body.getPosition()) / 100.f); };
 
 		game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({0, 20}); };
+		//game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 10) > 7) e->body.setVelocity(Vector2f(getRnd(-150, 150), getRnd(-150, 150))); };
+		//game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({getRnd(-150, 2150), getRnd(-150, 2150)}); };
 		game.onUpdate += [&](float mFrameTime){ tm.update(mFrameTime); };
 		game.onUpdate += [&](float mFrameTime){ world.update(mFrameTime); };
 		game.onUpdate += [&](float mFrameTime){ manager.update(mFrameTime); };
@@ -220,7 +221,7 @@ struct TestGame
 
 
 
-		//game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CPlayer>("test")) if(e != c && getRnd(0, 250) < 3) e->body.setVelocity({getRnd(-150, 2150), getRnd(-150, 2150)}); };
+
 		//game.onUpdate += [&](float) { c->body->setVelocity({0, 0}); };
 
 		game.onDraw += [&]{ camera.apply(); };
