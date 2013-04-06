@@ -53,7 +53,7 @@ namespace nr
 		gameState.addInput({{k::LShift}},	[&](float){ inputWalk = 1; });
 
 		gameState.addInput({{k::Num1}}, [&](float){ factory.createWall(getMousePosition()); }, t::SINGLE);
-		gameState.addInput({{k::Num2}}, [&](float){ factory.createWanderer(getMousePosition()); }, t::SINGLE);
+		gameState.addInput({{k::Num2}}, [&](float){ factory.createWanderer(getMousePosition()); });
 		gameState.addInput({{k::Num3}}, [&](float){ factory.createPlayer(getMousePosition()); }, t::SINGLE);
 		gameState.addInput({{k::Num4}}, [&](float)
 		{

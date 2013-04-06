@@ -24,4 +24,20 @@ namespace nr
 
 		return result;
 	}
+
+	NRAnimation getAnimationFromJSON(const Json::Value mRoot)
+	{
+		NRAnimation result;
+		Json::Value frames(mRoot["frames"]);
+
+		for(unsigned int i{0}; i < frames.size(); ++i)
+			result.addStep({getArrayValue<string>(frames[i], 0), getArrayValue<float>(frames[i], 1)});
+
+		result.setLoop(getValueOrDefault<bool>(mRoot, "loop", true));
+		result.setPingPong(getValueOrDefault<bool>(mRoot, "pingPong", false));
+		result.setReverse(getValueOrDefault<bool>(mRoot, "reverse", false));
+		result.setSpeed(getValueOrDefault<float>(mRoot, "speed", 1.f));
+
+		return result;
+	}
 }

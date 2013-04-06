@@ -123,11 +123,11 @@ namespace nr
 		Vector2i out;
 		Entity* enemy{seekEntity(game, grid, body, body.getPosition() + Vector2i(body.getVelocity()), "humanoid", {"sensor"}, out)};
 
-		game.getFactory().createTrail(body.getPosition(), out, Color::Red);
+		//game.getFactory().createTrail(body.getPosition(), out, Color::Red);
 
 		if(enemy != nullptr)
 		{
-			enemy->destroy();
+			//enemy->destroy();
 		}
 	}
 

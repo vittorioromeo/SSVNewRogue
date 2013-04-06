@@ -1,0 +1,12 @@
+{
+	"tileWidth": 16,
+	"tileHeight": 16,
+
+	"labels": 
+	[
+		["stand", "ragdoll", "crouch", "slide", "death"],
+		["run0", "run1", "run2", "run3", "run4", "run5", "run6", "run7", "run8"],
+		["walk0", "walk1", "walk2", "walk3", "walk4", "walk5", "walk6", "walk7"],
+		["cwalk0", "cwalk1", "cwalk2", "cwalk3"]
+	]
+}

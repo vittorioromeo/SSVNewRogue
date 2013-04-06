@@ -2,6 +2,7 @@
 #define SSVNR_UTILS_UTILS
 
 #include "Core/NRDependencies.h"
+#include "Utils/NRAnimation.h"
 
 namespace nr
 {
@@ -11,6 +12,7 @@ namespace nr
 	template<typename T> sf::Vector2i toCoords(sf::Vector2<T> mValue)	{ return {toCoords(mValue.x), toCoords(mValue.y)}; }
 
 	ssvs::Tileset getTilesetFromJSON(const Json::Value mRoot);
+	NRAnimation getAnimationFromJSON(const Json::Value mRoot);
 }
 
 #endif
