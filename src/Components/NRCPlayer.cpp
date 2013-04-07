@@ -79,23 +79,20 @@ namespace nr
 		if(game.getInputJump() == 1) cHumanoid.jump();
 		if(game.getInputShoot() == 0) return;
 
-
-
 		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 		Vector2i out;
 		Entity* enemy{seekEntity(game, grid, body, game.getMousePosition(), "solid", {"sensor"}, out)};
 
-
 		game.getFactory().createTrail(body.getPosition(), out, Color::Green);
 
 		if(enemy != nullptr)
 		{
-			NRCPhysics& body = enemy->getFirstComponent<NRCPhysics>("physics");
+			NRCPhysics& cPhysics(enemy->getFirstComponent<NRCPhysics>("physics"));
 			//log("pew pew!");
 			//enemy->destroy();
-			body.getBody().setStatic(false);
-			body.setAffectedByGravity(true);
+			cPhysics.getBody().setStatic(false);
+			cPhysics.setAffectedByGravity(true);
 		}
 	}
 
