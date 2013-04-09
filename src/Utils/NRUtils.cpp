@@ -14,7 +14,7 @@ namespace nr
 	Tileset getTilesetFromJSON(const Json::Value mRoot)
 	{
 		Json::Reader(); Json::Value(); // BUG: these useless lines are needed to avoid linker errors (WTF)
-		Vector2i tileSize{getValue<int>(mRoot, "tileWidth"), getValue<int>(mRoot, "tileHeight")};
+		Vector2i tileSize{as<int>(mRoot, "tileWidth"), as<int>(mRoot, "tileHeight")};
 		Tileset result{tileSize};
 
 		Json::Value labels{mRoot["labels"]};
@@ -28,16 +28,29 @@ namespace nr
 	NRAnimation getAnimationFromJSON(const Json::Value mRoot)
 	{
 		NRAnimation result;
-		Json::Value frames(mRoot["frames"]);
 
-		for(unsigned int i{0}; i < frames.size(); ++i)
-			result.addStep({getArrayValue<string>(frames[i], 0), getArrayValue<float>(frames[i], 1)});
+		for(auto& frame : mRoot["frames"]) result.addStep({as<string>(frame, 0), as<float>(frame, 1)});
 
-		result.setLoop(getValueOrDefault<bool>(mRoot, "loop", true));
-		result.setPingPong(getValueOrDefault<bool>(mRoot, "pingPong", false));
-		result.setReverse(getValueOrDefault<bool>(mRoot, "reverse", false));
-		result.setSpeed(getValueOrDefault<float>(mRoot, "speed", 1.f));
+		result.setLoop(asOrDefault(mRoot, "loop", true));
+		result.setPingPong(asOrDefault(mRoot, "pingPong", false));
+		result.setReverse(asOrDefault(mRoot, "reverse", false));
+		result.setSpeed(asOrDefault(mRoot, "speed", 1.f));
 
 		return result;
 	}
+
+	Input::Combo getInputComboFromJSON(const Json::Value mArray)
+	{
+		Input::Combo result;
+
+		for(auto& inputName : asVector<string>(mArray))
+		{
+			if(isKeyNameValid(inputName)) result.addKey(getKey(inputName));
+			else if(isButtonNameValid(inputName)) result.addButton(getButton(inputName));
+			else log("<" + inputName + "> is not a valid input name", "getInputComboFromJSON");
+		}
+
+		return result;
+	}
+
 }

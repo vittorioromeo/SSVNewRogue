@@ -96,10 +96,12 @@ struct CTest : Component
 	}
 	void update(float) override
 	{
-		float left{toPixels(body.getShape().getLeft())};
-		float right{toPixels(body.getShape().getRight())};
-		float top{toPixels(body.getShape().getTop())};
-		float bottom{toPixels(body.getShape().getBottom())};
+		const AABB& s = body.getShape();
+
+		const float left{toPixels(s.getLeft())};
+		const float right{toPixels(s.getRight())};
+		const float top{toPixels(s.getTop())};
+		const float bottom{toPixels(s.getBottom())};
 
 		myVertices[0].position = {left, top};
 		myVertices[1].position = {right, top};
@@ -114,7 +116,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 2000, 300)};
+	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -141,7 +143,7 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 80; ++iY) for(int iX{0}; iX < 80; ++iX) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
 			log(endBenchmark(), "creation b");
 		}
 
@@ -212,7 +214,7 @@ struct TestGame
 		game.onUpdate += [&](float){ camera.centerOn(Vector2f(c->body.getPosition()) / 100.f); };
 
 		game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({0, 20}); };
-		//game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 10) > 7) e->body.setVelocity(Vector2f(getRnd(-150, 150), getRnd(-150, 150))); };
+		game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 10) > 7) e->body.setVelocity(Vector2f(getRnd(-150, 150), getRnd(-150, 150))); };
 		//game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({getRnd(-150, 2150), getRnd(-150, 2150)}); };
 		game.onUpdate += [&](float mFrameTime){ tm.update(mFrameTime); };
 		game.onUpdate += [&](float mFrameTime){ world.update(mFrameTime); };

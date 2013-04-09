@@ -13,6 +13,7 @@ namespace nr
 
 	ssvs::Tileset getTilesetFromJSON(const Json::Value mRoot);
 	NRAnimation getAnimationFromJSON(const Json::Value mRoot);
+	ssvs::Input::Combo getInputComboFromJSON(const Json::Value mArray);
 }
 
 #endif
