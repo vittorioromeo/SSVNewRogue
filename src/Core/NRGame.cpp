@@ -37,28 +37,28 @@ namespace nr
 
 		gameState.addInput({{k::Escape}}, [&](float){ gameWindow.stop(); });
 
-		gameState.addInput({{k::A}},	[=](float mFrameTime){ camera.move(Vector2f{-10, 0} * mFrameTime); });
-		gameState.addInput({{k::D}},	[=](float mFrameTime){ camera.move(Vector2f{10, 0} * mFrameTime); });
-		gameState.addInput({{k::W}},	[=](float mFrameTime){ camera.move(Vector2f{0, -10} * mFrameTime); });
-		gameState.addInput({{k::S}},	[=](float mFrameTime){ camera.move(Vector2f{0, 10} * mFrameTime); });
-		gameState.addInput({{k::Q}},	[=](float mFrameTime){ camera.zoom(pow(1.1f, mFrameTime)); });
-		gameState.addInput({{k::E}},	[=](float mFrameTime){ camera.zoom(pow(0.9f, mFrameTime)); });
+		gameState.addInput({{k::A}}, [=](float mFrameTime){ camera.move(Vector2f{-10, 0} * mFrameTime); });
+		gameState.addInput({{k::D}}, [=](float mFrameTime){ camera.move(Vector2f{10, 0} * mFrameTime); });
+		gameState.addInput({{k::W}}, [=](float mFrameTime){ camera.move(Vector2f{0, -10} * mFrameTime); });
+		gameState.addInput({{k::S}}, [=](float mFrameTime){ camera.move(Vector2f{0, 10} * mFrameTime); });
+		gameState.addInput({{k::Q}}, [=](float mFrameTime){ camera.zoom(pow(1.1f, mFrameTime)); });
+		gameState.addInput({{k::E}}, [=](float mFrameTime){ camera.zoom(pow(0.9f, mFrameTime)); });
 
-		gameState.addInput({{k::Left}},		[&](float){ inputX = -1; });
-		gameState.addInput({{k::Right}},	[&](float){ inputX = 1; });
-		gameState.addInput({{k::Up}},		[&](float){ inputY = -1; });
-		gameState.addInput({{k::Down}},		[&](float){ inputY = 1; });
-		gameState.addInput({{k::Z}, {b::Left}},		[&](float){ inputShoot = 1; }, t::SINGLE);
-		gameState.addInput({{k::X}},		[&](float){ inputJump = 1; });
-		gameState.addInput({{k::LShift}},	[&](float){ inputWalk = 1; });
+		gameState.addInput({{k::Left}},			[&](float){ inputX = -1; });
+		gameState.addInput({{k::Right}},		[&](float){ inputX = 1; });
+		gameState.addInput({{k::Up}},			[&](float){ inputY = -1; });
+		gameState.addInput({{k::Down}},			[&](float){ inputY = 1; });
+		gameState.addInput({{k::Z}, {b::Left}},	[&](float){ inputShoot = 1; }, t::SINGLE);
+		gameState.addInput({{k::X}},			[&](float){ inputJump = 1; });
+		gameState.addInput({{k::LShift}},		[&](float){ inputWalk = 1; });
 
 		gameState.addInput({{k::Num1}}, [&](float){ factory.createWall(getMousePosition()); }, t::SINGLE);
 		gameState.addInput({{k::Num2}}, [&](float){ factory.createWanderer(getMousePosition()); });
 		gameState.addInput({{k::Num3}}, [&](float){ factory.createPlayer(getMousePosition()); }, t::SINGLE);
 		gameState.addInput({{k::Num4}}, [&](float)
 		{
-			auto index = grid.getIndex(getMousePosition());
-			auto count = grid.getCell(index.x, index.y).getBodies().size();
+			auto index(grid.getIndex(getMousePosition()));
+			auto count(grid.getCell(index.x, index.y).getBodies().size());
 			log(toStr(index.x) + " " + toStr(index.y) + "  :: " + toStr(count));
 			debugGrid[index.x + grid.getOffset()][index.y + grid.getOffset()] = 1;
 		}, t::SINGLE);

@@ -19,8 +19,8 @@ namespace nr
 
 		Json::Value labels{mRoot["labels"]};
 		for(unsigned int iY{0}; iY < labels.size(); ++iY)
-			for(unsigned int iX{0}; iX < mRoot["labels"][iY].size(); ++iX)
-				result.setLabel(mRoot["labels"][iY][iX].asString(), iX, iY);
+			for(unsigned int iX{0}; iX < labels[iY].size(); ++iX)
+				result.setLabel(labels[iY][iX].asString(), iX, iY);
 
 		return result;
 	}
@@ -31,10 +31,10 @@ namespace nr
 
 		for(auto& frame : mRoot["frames"]) result.addStep({as<string>(frame, 0), as<float>(frame, 1)});
 
-		result.setLoop(asOrDefault(mRoot, "loop", true));
-		result.setPingPong(asOrDefault(mRoot, "pingPong", false));
-		result.setReverse(asOrDefault(mRoot, "reverse", false));
-		result.setSpeed(asOrDefault(mRoot, "speed", 1.f));
+		result.setLoop(as<bool>(mRoot, "loop", true));
+		result.setPingPong(as<bool>(mRoot, "pingPong", false));
+		result.setReverse(as<bool>(mRoot, "reverse", false));
+		result.setSpeed(as<float>(mRoot, "speed", 1.f));
 
 		return result;
 	}
@@ -43,7 +43,7 @@ namespace nr
 	{
 		Input::Combo result;
 
-		for(auto& inputName : asVector<string>(mArray))
+		for(auto& inputName : as<vector<string>>(mArray))
 		{
 			if(isKeyNameValid(inputName)) result.addKey(getKey(inputName));
 			else if(isButtonNameValid(inputName)) result.addButton(getButton(inputName));

@@ -1,3 +1,5 @@
+#ifndef SSVNEWROGUE_BENCHMARK
+
 #include "Core/NRDependencies.h"
 #include "Core/NRAssets.h"
 #include "Core/NRGame.h"
@@ -25,20 +27,15 @@ int main()
 
 	return 0;
 }
-/*
 
+#else
 
 #include <vector>
 #include <string>
 #include <iostream>
 #include <random>
 #include <fstream>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <SSVUtils/SSVUtils.h>
-#include <SSVEntitySystem/SSVEntitySystem.h>
-#include <SSVStart/SSVStart.h>
-#include <SSVSCollision/SSVSCollision.h>
+#include "Core/NRDependencies.h"
 
 using namespace sf;
 using namespace std;
@@ -49,7 +46,6 @@ using namespace ssvs::Utils;
 using namespace ssvsc;
 using namespace ssvsc::Utils;
 using namespace ssvu;
-
 
 AssetManager* assets;
 
@@ -83,7 +79,7 @@ struct CTest : Component
 		// body.onDetection += [&](DetectionInfo) { getEntity().destroy(); };
 		body.onOutOfBounds += [&]{ body.setPosition({0,0}); };
 	}
-	~CTest(){ body.destroy(); for(auto& v : myVertices) ssvu::eraseRemove(vertexPtrs, &v); }
+	~CTest(){ body.destroy(); for(auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
 
 	void setColor(Color mColor) { for(auto& v : myVertices) v.color = mColor; }
 	void move(const Vector2f& mOffset)
@@ -197,7 +193,6 @@ struct TestGame
 		auto move = [=](Vector2f mOffset){ c->move(mOffset); };
 		float spd = 610.f;
 
-		// Inputs
 		using k = Keyboard::Key;
 		game.addInput({{k::Left}}, 	[=](float){ move({-spd, 0}); });
 		game.addInput({{k::Right}}, [=](float){ move({spd, 0}); });
@@ -206,39 +201,36 @@ struct TestGame
 		game.addInput({{k::Z}}, 	[=](float mFrameTime){ camera.zoom(pow(1.1f, mFrameTime)); });
 		game.addInput({{k::X}}, 	[=](float mFrameTime){ camera.zoom(pow(0.9f, mFrameTime)); });
 
-		// Window creation
-		window.setVsync(false);
+		game.onUpdate += [&](float mFrameTime)
+		{
+			window.setTitle(toStr(window.getFPS()));
+			camera.centerOn(Vector2f(c->body.getPosition()) / 100.f);
 
-		// Update lambdas
-		game.onUpdate += [&](float){ window.setTitle(toStr(window.getFPS())); };
-		game.onUpdate += [&](float){ camera.centerOn(Vector2f(c->body.getPosition()) / 100.f); };
+			for(auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({0, 20});
+			for(auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
 
-		game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({0, 20}); };
-		game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 10) > 7) e->body.setVelocity(Vector2f(getRnd(-150, 150), getRnd(-150, 150))); };
-		//game.onUpdate += [=](float) { for(auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({getRnd(-150, 2150), getRnd(-150, 2150)}); };
-		game.onUpdate += [&](float mFrameTime){ tm.update(mFrameTime); };
-		game.onUpdate += [&](float mFrameTime){ world.update(mFrameTime); };
-		game.onUpdate += [&](float mFrameTime){ manager.update(mFrameTime); };
+			tm.update(mFrameTime);
+			world.update(mFrameTime);
+			manager.update(mFrameTime);
 
+			c->body.setVelocity({0, 0});
+		};
 
+		game.onDraw += [&]
+		{
+			camera.apply();
+			manager.draw();
+			VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v);
+			camera.unapply();
+		};
 
-
-
-		//game.onUpdate += [&](float) { c->body->setVelocity({0, 0}); };
-
-		game.onDraw += [&]{ camera.apply(); };
-		game.onDraw += [&]{ manager.draw(); };
-		game.onDraw += [&]{ VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v); };
-		game.onDraw += [&]{ camera.unapply(); };
-
-		// Other stuff
 		camera.zoom(2.7f);
-
-		// Run the game
+		window.setVsync(false);
 		window.setGameState(game);
 		window.run();
 	}
 };
 
 int main() { srand(time(0)); initAssets(); TestGame{}; return 0; }
-*/
+
+#endif

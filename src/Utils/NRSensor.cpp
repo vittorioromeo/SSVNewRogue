@@ -34,5 +34,5 @@ namespace nr
 
 	// Getters
 	Body& NRSensor::getBody() { return body; }
-	bool NRSensor::isActive() { return active; }
+	bool NRSensor::isActive() const { return active; }
 }

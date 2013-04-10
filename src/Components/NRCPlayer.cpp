@@ -88,11 +88,11 @@ namespace nr
 
 		if(enemy != nullptr)
 		{
-			NRCPhysics& cPhysics(enemy->getFirstComponent<NRCPhysics>("physics"));
+			//NRCPhysics& cPhysics(enemy->getFirstComponent<NRCPhysics>("physics"));
 			//log("pew pew!");
 			//enemy->destroy();
-			cPhysics.getBody().setStatic(false);
-			cPhysics.setAffectedByGravity(true);
+			//cPhysics.getBody().setStatic(false);
+			//cPhysics.setAffectedByGravity(true);
 		}
 	}
 
@@ -120,7 +120,7 @@ namespace nr
 		Vector2i out;
 		Entity* enemy{seekEntity(game, grid, body, body.getPosition() + Vector2i(body.getVelocity()), "humanoid", {"sensor"}, out)};
 
-		//game.getFactory().createTrail(body.getPosition(), out, Color::Red);
+		game.getFactory().createTrail(body.getPosition(), out, Color::Red);
 
 		if(enemy != nullptr)
 		{

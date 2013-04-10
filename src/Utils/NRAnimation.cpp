@@ -50,8 +50,8 @@ namespace nr
 	void NRAnimation::addSteps(std::vector<string> mStepLabels, float mStepTime)	{ for(auto& label : mStepLabels) steps.push_back({label, mStepTime}); }
 
 	// Getters
-	NRAnimationStep& NRAnimation::getCurrentStep()	{ return steps[currentIndex]; }
-	string NRAnimation::getCurrentLabel()			{ return getCurrentStep().label; }
+	const NRAnimationStep& NRAnimation::getCurrentStep() const { return steps[currentIndex]; }
+	const string& NRAnimation::getCurrentLabel() const { return getCurrentStep().label; }
 
 	// Setters
 	void NRAnimation::setSpeed(float mSpeed)		{ speed = mSpeed; }

@@ -33,6 +33,6 @@ namespace nr
 
 		if(currentAnim == nullptr) return;
 		currentAnim->update(mFrameTime);
-		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect(tileset.getTextureRect(currentAnim->getCurrentLabel()));
+		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect(tileset[currentAnim->getCurrentLabel()]);
 	}
 }

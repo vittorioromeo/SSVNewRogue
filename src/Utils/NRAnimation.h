@@ -25,8 +25,8 @@ namespace nr
 			void addSteps(std::vector<std::string> mStepLabels, float mStepTime);
 
 			// Getters
-			NRAnimationStep& getCurrentStep();
-			std::string getCurrentLabel();
+			const NRAnimationStep& getCurrentStep() const;
+			const std::string& getCurrentLabel() const;
 
 			// Setters
 			void setSpeed(float mSpeed);
