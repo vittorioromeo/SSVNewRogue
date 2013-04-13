@@ -1,8 +1,10 @@
+//#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
 #include "Core/NRAssets.h"
 #include "Core/NRGame.h"
+#include "Components/NRCPlayer.h"
 
 using namespace std;
 using namespace sf;
@@ -10,9 +12,64 @@ using namespace ssvu;
 using namespace ssvs;
 using namespace nr;
 
-
 int main()
 {
+	auto print = [&](NRStat<int>& mStat)
+	{
+		log(">>> " + toStr(mStat.getValueTotal()) + " / " + toStr(mStat.getMaxTotal()), "STAT");
+	};
+
+	NRStat<int> health{0, 250, 100};
+
+	NRStatModifier<int> bonusGainHealth; // You gain 1/4 bonus health every time you gain health
+	auto func = [&](int mDelta, int& mValue, const int& mOldValue)
+	{
+		if(mDelta < 0) return;
+		int newDelta{static_cast<int>(mDelta * 1.25f)};
+
+		log("bonus: +" + toStr(mDelta) + " becomes... +" + toStr(newDelta) + "!");
+
+		mValue = mOldValue + newDelta;
+	};
+	bonusGainHealth.onChange += func;
+
+	NRStatModifier<int> illness;
+	auto func2 = [&](int& mValue)
+	{
+		int newValue{mValue / 2};
+		log("illness! " + toStr(mValue) + "HP -> " + toStr(newValue) + "HP");
+		mValue = newValue;
+	};
+	illness.onGet += func2;
+
+	NRStatModifier<int> maxBonus;
+	auto func3 = [&](int& mValue)
+	{
+		mValue *= 2;
+	};
+	maxBonus.onGetMax += func3;
+
+
+	health.attach(&illness);
+
+	print(health);
+	health.addToBase(10);
+	print(health);
+
+	health.attach(&bonusGainHealth);
+	health.attach(&maxBonus);
+
+	print(health);
+	health.addToBase(10);
+	print(health);
+
+	health.addToBase(5510);
+	print(health);
+
+
+
+
+
 	srand(unsigned(time(NULL)));
 
 	//unsigned int width{VideoMode::getDesktopMode().width}, height{VideoMode::getDesktopMode().height};
@@ -112,7 +169,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
+	World world{createResolver<Impulse>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -139,7 +196,7 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 40; ++iY) for(int iX{0}; iX < 40; ++iX) create({iX * 1500, iY * 1500}, false);
 			log(endBenchmark(), "creation b");
 		}
 
@@ -207,13 +264,13 @@ struct TestGame
 			camera.centerOn(Vector2f(c->body.getPosition()) / 100.f);
 
 			for(auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({0, 20});
-			for(auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
+			//for(auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);
 			manager.update(mFrameTime);
 
-			c->body.setVelocity({0, 0});
+			//c->body.setVelocity({0, 0});
 		};
 
 		game.onDraw += [&]

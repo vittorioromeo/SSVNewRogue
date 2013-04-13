@@ -114,7 +114,7 @@ namespace nr
 		if(!tired) cHumanoid.unCrouch(); else cHumanoid.crouch();
 
 		if((int)time % 90 == 0) cHumanoid.jump();
-
+return;
 		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 		Vector2i out;
