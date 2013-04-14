@@ -21,7 +21,7 @@ namespace nr
 		debugText{"", assets.getAssetManager().getFont("bitxmap.ttf")}
 	{
 		gameState.onUpdate += [&](float mFrameTime){ update(mFrameTime); };
-		gameState.onPostUpdate += [&]{ inputX = inputY = inputShoot = inputJump = inputWalk = 0; };
+		gameState.onPostUpdate += [&]{ inputX = inputY = inputJump = inputWalk = 0; };
 		gameState.onDraw += [&]{ draw(); };
 
 		initInput();
@@ -113,6 +113,7 @@ namespace nr
 		world.update(mFrameTime);
 		manager.update(mFrameTime);
 		updateDebugText(mFrameTime);
+		inputShoot = 0;
 	}
 	void NRGame::updateDebugText(float mFrameTime)
 	{

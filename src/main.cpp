@@ -76,7 +76,7 @@ int main()
 	//width = 1440; height = 900;
 
 	NRAssets assets;
-	GameWindow gameWindow{"SSVNewRogue", createStaticTimer(gameWindow, 0.5f), 320, 240, 3, false};
+	GameWindow gameWindow{"SSVNewRogue", createStaticTimer(gameWindow, 0.5f, 0.5f), 320, 240, 3, false};
 	NRGame game{gameWindow, assets};
 
 	gameWindow.setGameState(game.getGameState());
@@ -165,7 +165,7 @@ struct CTest : Component
 
 struct TestGame
 {
-	GameWindow window{"", createStaticTimer(window, 0.5f), 1280, 720, 1};
+	GameWindow window{"", createStaticTimer(window, 0.8f, 0.8f), 1280, 720, 1};
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
