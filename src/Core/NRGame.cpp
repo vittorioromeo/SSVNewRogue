@@ -21,7 +21,6 @@ namespace nr
 		debugText{"", assets.getAssetManager().getFont("bitxmap.ttf")}
 	{
 		gameState.onUpdate += [&](float mFrameTime){ update(mFrameTime); };
-		gameState.onPostUpdate += [&]{ inputX = inputY = inputJump = inputWalk = 0; };
 		gameState.onDraw += [&]{ draw(); };
 
 		initInput();
@@ -44,13 +43,24 @@ namespace nr
 		gameState.addInput({{k::Q}}, [=](float mFrameTime){ camera.zoom(pow(1.1f, mFrameTime)); });
 		gameState.addInput({{k::E}}, [=](float mFrameTime){ camera.zoom(pow(0.9f, mFrameTime)); });
 
-		gameState.addInput({{k::Left}},			[&](float){ inputX = -1; });
-		gameState.addInput({{k::Right}},		[&](float){ inputX = 1; });
-		gameState.addInput({{k::Up}},			[&](float){ inputY = -1; });
-		gameState.addInput({{k::Down}},			[&](float){ inputY = 1; });
+		auto add2StateInput = [&](Input::Trigger mTrigger, int& mValue)
+		{
+			gameState.addInput(mTrigger,	[&](float){ mValue = 1; },	[&](float){ mValue = 0; });
+		};
+		auto add3StateInput = [&](Input::Trigger mNegative, Input::Trigger mPositive, int& mValue)
+		{
+			gameState.addInput(mNegative,	[&](float){ mValue = -1; },	[&](float){ if(mValue == -1) mValue = 0; });
+			gameState.addInput(mPositive,	[&](float){ mValue = 1; },	[&](float){ if(mValue == 1) mValue = 0; });
+		};
+
+		add2StateInput({{k::X}}, inputJump);
+		add2StateInput({{k::LShift}}, inputWalk);
+
+		add3StateInput({{k::Left}}, {{k::Right}}, inputX);
+		add3StateInput({{k::Up}}, {{k::Down}}, inputY);
+
 		gameState.addInput({{k::Z}, {b::Left}},	[&](float){ inputShoot = 1; }, t::SINGLE);
-		gameState.addInput({{k::X}},			[&](float){ inputJump = 1; });
-		gameState.addInput({{k::LShift}},		[&](float){ inputWalk = 1; });
+
 
 		gameState.addInput({{k::Num1}}, [&](float){ factory.createWall(getMousePosition()); }, t::SINGLE);
 		gameState.addInput({{k::Num2}}, [&](float){ factory.createWanderer(getMousePosition()); });
