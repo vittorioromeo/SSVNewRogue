@@ -25,9 +25,9 @@ namespace nr
 		return result;
 	}
 
-	NRAnimation getAnimationFromJSON(const Json::Value mRoot)
+	ssvs::Animation getAnimationFromJSON(const Json::Value mRoot)
 	{
-		NRAnimation result;
+		ssvs::Animation result;
 
 		for(auto& frame : mRoot["frames"]) result.addStep({as<string>(frame, 0), as<float>(frame, 1)});
 

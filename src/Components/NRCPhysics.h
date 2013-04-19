@@ -34,18 +34,18 @@ namespace nr
 			void setAffectedByGravity(bool mAffectedByGravity);
 
 			// Getters
-			ssvsc::World& getWorld();
-			ssvsc::Body& getBody();
-			sf::Vector2i getLastResolution();
-			bool isAffectedByGravity();
-			bool isCrushedLeft();
-			bool isCrushedRight();
-			bool isCrushedTop();
-			bool isCrushedBottom();
-			int getCrushedLeft();
-			int getCrushedRight();
-			int getCrushedTop();
-			int getCrushedBottom();
+			ssvsc::World& getWorld() const;
+			ssvsc::Body& getBody() const;
+			sf::Vector2i getLastResolution() const;
+			bool isAffectedByGravity() const;
+			bool isCrushedLeft() const;
+			bool isCrushedRight() const;
+			bool isCrushedTop() const;
+			bool isCrushedBottom() const;
+			int getCrushedLeft() const;
+			int getCrushedRight() const;
+			int getCrushedTop() const;
+			int getCrushedBottom() const;
 	};
 }
 

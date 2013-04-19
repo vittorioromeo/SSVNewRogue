@@ -2,7 +2,6 @@
 #define SSVNR_COMPONENTS_ANIMATIONCONTROLLER
 
 #include "Core/NRDependencies.h"
-#include "Utils/NRAnimation.h"
 #include "Utils/NRUtils.h"
 
 namespace nr
@@ -18,14 +17,14 @@ namespace nr
 
 			ssvs::Tileset tileset{getTilesetFromJSON(ssvuj::getRootFromFile("Data/Tilesets/tilesetHuman.json"))};
 			Json::Value animations{ssvuj::getRootFromFile("Data/Animations/animationsHuman.json")};
-			NRAnimation animStand{getAnimationFromJSON(animations["stand"])};
-			NRAnimation animJump{getAnimationFromJSON(animations["jump"])};
-			NRAnimation animFall{getAnimationFromJSON(animations["fall"])};
-			NRAnimation animCrouch{getAnimationFromJSON(animations["crouch"])};
-			NRAnimation animRun{getAnimationFromJSON(animations["run"])};
-			NRAnimation animWalk{getAnimationFromJSON(animations["walk"])};
-			NRAnimation animCrouchWalk{getAnimationFromJSON(animations["crouchWalk"])};
-			NRAnimation* currentAnim{nullptr};
+			ssvs::Animation animStand{getAnimationFromJSON(animations["stand"])};
+			ssvs::Animation animJump{getAnimationFromJSON(animations["jump"])};
+			ssvs::Animation animFall{getAnimationFromJSON(animations["fall"])};
+			ssvs::Animation animCrouch{getAnimationFromJSON(animations["crouch"])};
+			ssvs::Animation animRun{getAnimationFromJSON(animations["run"])};
+			ssvs::Animation animWalk{getAnimationFromJSON(animations["walk"])};
+			ssvs::Animation animCrouchWalk{getAnimationFromJSON(animations["crouchWalk"])};
+			ssvs::Animation* currentAnim{nullptr};
 
 		public:
 			NRCHumanoidAnimationController(sses::Entity& mEntity, NRCRender& mCRender, NRCHumanoid& mCHumanoid);

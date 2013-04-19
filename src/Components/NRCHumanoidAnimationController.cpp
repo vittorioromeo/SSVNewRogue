@@ -23,16 +23,20 @@ namespace nr
 		cRender.setOffset({0, -1});
 
 		Action action(cHumanoid.getAction());
-		if(action == Action::STANDING)				currentAnim = &animStand;
-		else if(action == Action::RUNNING)			currentAnim = &animRun;
-		else if(action == Action::WALKING)			currentAnim = &animWalk;
-		else if(action == Action::FALLING)			currentAnim = &animFall;
-		else if(action == Action::JUMPING)			currentAnim = &animJump;
-		else if(action == Action::CROUCHING)		{ cRender.setOffset({0, -3}); currentAnim = &animCrouch; }
-		else if(action == Action::CROUCHWALKING)	{ cRender.setOffset({0, -3}); currentAnim = &animCrouchWalk; }
+
+		switch(action)
+		{
+			case Action::WALKING: currentAnim = &animWalk; break;
+			case Action::RUNNING: currentAnim = &animRun; break;
+			case Action::STANDING: currentAnim = &animStand; break;
+			case Action::JUMPING: currentAnim = &animJump; break;
+			case Action::FALLING: currentAnim = &animFall; break;
+			case Action::CROUCHING: cRender.setOffset({0, -3}); currentAnim = &animCrouch; break;
+			case Action::CROUCHWALKING: cRender.setOffset({0, -3}); currentAnim = &animCrouchWalk; break;
+		}
 
 		if(currentAnim == nullptr) return;
 		currentAnim->update(mFrameTime);
-		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect(tileset[currentAnim->getCurrentLabel()]);
+		for(auto& s : cRender.getSprites()) s.setTextureRect(tileset[currentAnim->getCurrentLabel()]);
 	}
 }

@@ -3,7 +3,6 @@
 
 #include "Core/NRDependencies.h"
 #include "Core/NRFactory.h"
-#include "Utils/NRAnimation.h"
 
 namespace nr
 {

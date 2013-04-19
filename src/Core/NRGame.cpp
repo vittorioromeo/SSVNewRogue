@@ -131,8 +131,8 @@ namespace nr
 		auto& entities(manager.getEntities());
 		auto& bodies(world.getBodies());
 		int componentCount{0}, dynamicBodiesCount{0};
-		for(auto& entity : entities) componentCount += entity->getComponents().size();
-		for(auto& body : bodies) if(!body->isStatic()) ++dynamicBodiesCount;
+		for(auto& e : entities) componentCount += e->getComponents().size();
+		for(auto& b : bodies) if(!b->isStatic()) ++dynamicBodiesCount;
 
 		s << "FPS: "				<< toStr(gameWindow.getFPS()) << endl;
 		s << "FrameTime: "			<< toStr(mFrameTime) << endl;
