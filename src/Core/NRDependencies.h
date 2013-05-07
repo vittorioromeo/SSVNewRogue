@@ -6,5 +6,6 @@
 #include <SSVUtils/SSVUtils.h>
 #include <SSVUtilsJson/SSVUtilsJson.h>
 #include <SSVStart/SSVStart.h>
+#include <SSVStart/Json/UtilsJson.h>
 #include <SSVEntitySystem/SSVEntitySystem.h>
 #include <SSVSCollision/SSVSCollision.h>

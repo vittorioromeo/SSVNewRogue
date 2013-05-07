@@ -9,11 +9,6 @@ namespace nr
 	template<typename T> int toCoords(T mValue)							{ return mValue * 100; }
 	template<typename T> sf::Vector2f toPixels(sf::Vector2<T> mValue)	{ return {toPixels(mValue.x), toPixels(mValue.y)}; }
 	template<typename T> sf::Vector2i toCoords(sf::Vector2<T> mValue)	{ return {toCoords(mValue.x), toCoords(mValue.y)}; }
-
-	ssvs::Tileset getTilesetFromJSON(const Json::Value mRoot);
-	ssvs::Animation getAnimationFromJSON(const Json::Value mRoot);
-	ssvs::Input::Combo getInputComboFromJSON(const Json::Value mArray);
-	ssvs::Input::Trigger getInputTriggerFromJSON(const Json::Value mArray);
 }
 
 #endif

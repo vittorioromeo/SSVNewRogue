@@ -15,15 +15,15 @@ namespace nr
 			NRCRender& cRender;
 			NRCHumanoid& cHumanoid;
 
-			ssvs::Tileset tileset{getTilesetFromJSON(ssvuj::getRootFromFile("Data/Tilesets/tilesetHuman.json"))};
+			ssvs::Tileset tileset{ssvs::Utils::getTilesetFromJSON(ssvuj::getRootFromFile("Data/Tilesets/tilesetHuman.json"))};
 			Json::Value animations{ssvuj::getRootFromFile("Data/Animations/animationsHuman.json")};
-			ssvs::Animation animStand{getAnimationFromJSON(animations["stand"])};
-			ssvs::Animation animJump{getAnimationFromJSON(animations["jump"])};
-			ssvs::Animation animFall{getAnimationFromJSON(animations["fall"])};
-			ssvs::Animation animCrouch{getAnimationFromJSON(animations["crouch"])};
-			ssvs::Animation animRun{getAnimationFromJSON(animations["run"])};
-			ssvs::Animation animWalk{getAnimationFromJSON(animations["walk"])};
-			ssvs::Animation animCrouchWalk{getAnimationFromJSON(animations["crouchWalk"])};
+			ssvs::Animation animStand{ssvs::Utils::getAnimationFromJSON(animations["stand"])};
+			ssvs::Animation animJump{ssvs::Utils::getAnimationFromJSON(animations["jump"])};
+			ssvs::Animation animFall{ssvs::Utils::getAnimationFromJSON(animations["fall"])};
+			ssvs::Animation animCrouch{ssvs::Utils::getAnimationFromJSON(animations["crouch"])};
+			ssvs::Animation animRun{ssvs::Utils::getAnimationFromJSON(animations["run"])};
+			ssvs::Animation animWalk{ssvs::Utils::getAnimationFromJSON(animations["walk"])};
+			ssvs::Animation animCrouchWalk{ssvs::Utils::getAnimationFromJSON(animations["crouchWalk"])};
 			ssvs::Animation* currentAnim{nullptr};
 
 		public:
