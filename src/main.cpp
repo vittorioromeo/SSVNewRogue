@@ -1,4 +1,4 @@
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -130,7 +130,7 @@ struct CTest : Component
 	{
 		body.addGroups({"test"});
 		body.addGroupsToCheck({"test"});
-		body.addGroupsNoResolve({"test"});
+		//body.addGroupsNoResolve({"test"});
 
 		setColor(Color::Red);
 		for(int i{0}; i < 4; i++) vertexPtrs.push_back(&myVertices[i]);
@@ -171,7 +171,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
+	World world{createResolver<Impulse>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -198,7 +198,7 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 50; ++iY) for(int iX{0}; iX < 50; ++iX) create({iX * 1500, iY * 1500}, false);
 			log(endBenchmark(), "creation b");
 		}
 
@@ -266,7 +266,7 @@ struct TestGame
 			camera.centerOn(Vector2f(c->body.getPosition()) / 100.f);
 
 			for(auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({0, 20});
-			for(auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
+			//for(auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);

@@ -52,5 +52,14 @@ namespace nr
 
 		return result;
 	}
+	Input::Trigger getInputTriggerFromJSON(const Json::Value mArray)
+	{
+		Input::Trigger result;
+
+		for(auto& comboArray : as<vector<Json::Value>>(mArray))
+			result.add(getInputComboFromJSON(comboArray));
+
+		return result;
+	}
 
 }
