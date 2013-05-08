@@ -20,7 +20,8 @@ namespace nr
 			ssvsc::Grid& grid;
 			sses::Manager manager;
 
-			int inputX{0}, inputY{0}, inputShoot{0}, inputJump{0}, inputWalk{0};
+			int inputX{0}, inputY{0}, inputShoot{0};
+			bool inputJump{false}, inputWalk{false};
 			sf::Text debugText;
 			std::vector<std::vector<int>> debugGrid;
 			sf::VertexArray debugGridVertices{sf::PrimitiveType::Quads};
@@ -51,8 +52,8 @@ namespace nr
 			int getInputX();
 			int getInputY();
 			int getInputShoot();
-			int getInputJump();
-			int getInputWalk();
+			bool getInputJump();
+			bool getInputWalk();
 			void drawDebugText();
 	};
 }

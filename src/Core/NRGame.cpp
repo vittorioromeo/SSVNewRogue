@@ -11,6 +11,7 @@ using namespace ssvu;
 using namespace ssvuj;
 using namespace sses;
 using namespace ssvs;
+using namespace ssvs::Utils;
 using namespace ssvsc;
 using namespace ssvsc::Utils;
 
@@ -43,24 +44,13 @@ namespace nr
 		gameState.addInput({{k::Q}}, [=](float mFrameTime){ camera.zoom(pow(1.1f, mFrameTime)); });
 		gameState.addInput({{k::E}}, [=](float mFrameTime){ camera.zoom(pow(0.9f, mFrameTime)); });
 
-		auto add2StateInput = [&](Input::Trigger mTrigger, int& mValue)
-		{
-			gameState.addInput(mTrigger,	[&](float){ mValue = 1; },	[&](float){ mValue = 0; });
-		};
-		auto add3StateInput = [&](Input::Trigger mNegative, Input::Trigger mPositive, int& mValue)
-		{
-			gameState.addInput(mNegative,	[&](float){ mValue = -1; },	[&](float){ if(mValue == -1) mValue = 0; });
-			gameState.addInput(mPositive,	[&](float){ mValue = 1; },	[&](float){ if(mValue == 1) mValue = 0; });
-		};
+		add2StateInput(gameState, {{k::X}}, inputJump);
+		add2StateInput(gameState, {{k::LShift}}, inputWalk);
 
-		add2StateInput({{k::X}}, inputJump);
-		add2StateInput({{k::LShift}}, inputWalk);
-
-		add3StateInput({{k::Left}}, {{k::Right}}, inputX);
-		add3StateInput({{k::Up}}, {{k::Down}}, inputY);
+		add3StateInput(gameState, {{k::Left}}, {{k::Right}}, inputX);
+		add3StateInput(gameState, {{k::Up}}, {{k::Down}}, inputY);
 
 		gameState.addInput({{k::Z}, {b::Left}},	[&](float){ inputShoot = 1; }, t::SINGLE);
-
 
 		gameState.addInput({{k::Num1}}, [&](float){ factory.createWall(getMousePosition()); }, t::SINGLE);
 		gameState.addInput({{k::Num2}}, [&](float){ factory.createWanderer(getMousePosition()); });
@@ -228,6 +218,6 @@ namespace nr
 	int NRGame::getInputX() 			{ return inputX; }
 	int NRGame::getInputY() 			{ return inputY; }
 	int NRGame::getInputShoot() 		{ return inputShoot; }
-	int NRGame::getInputJump() 			{ return inputJump; }
-	int NRGame::getInputWalk() 			{ return inputWalk; }
+	bool NRGame::getInputJump() 		{ return inputJump; }
+	bool NRGame::getInputWalk() 		{ return inputWalk; }
 }
