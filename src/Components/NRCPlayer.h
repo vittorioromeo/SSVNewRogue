@@ -86,15 +86,15 @@ namespace nr
 
 			void setBase(T mValue)
 			{
-				for(auto& m : modifiers) m->onChange(mValue - baseValue, mValue, baseValue);
+				for(const auto& m : modifiers) m->onChange(mValue - baseValue, mValue, baseValue);
 				baseValue = mValue;
 				clampBaseToTotal();
 			}
 			void addToBase(T mValue) { setBase(baseValue + mValue); }
 
-			T getValueTotal()		{ T result{baseValue}; for(auto& m : modifiers) m->onGet(result); clampBaseToTotal(); return result; }
-			T getMinTotal() const	{ T result{baseMin}; for(auto& m : modifiers) m->onGetMin(result); return result; }
-			T getMaxTotal() const	{ T result{baseMax}; for(auto& m : modifiers) m->onGetMax(result); return result; }
+			T getValueTotal()		{ T result{baseValue}; for(const auto& m : modifiers) m->onGet(result); clampBaseToTotal(); return result; }
+			T getMinTotal() const	{ T result{baseMin}; for(const auto& m : modifiers) m->onGetMin(result); return result; }
+			T getMaxTotal() const	{ T result{baseMax}; for(const auto& m : modifiers) m->onGetMax(result); return result; }
 	};
 	// TODO: put classes in their own files
 }

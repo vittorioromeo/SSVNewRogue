@@ -26,7 +26,7 @@ namespace nr
 			if(scaleWithBody) sprite.setScale(size.x / 16.f, size.y / 16.f);
 		}
 	}
-	void NRCRender::draw() { for(auto& sprite : sprites) game.render(sprite); }
+	void NRCRender::draw() { for(const auto& sprite : sprites) game.render(sprite); }
 
 	void NRCRender::addSprite(Sprite mSprite) { sprites.push_back(mSprite); }
 

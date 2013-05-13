@@ -138,9 +138,9 @@ struct CTest : Component
 		// body.onDetection += [&](DetectionInfo) { getEntity().destroy(); };
 		body.onOutOfBounds += [&]{ body.setPosition({0,0}); };
 	}
-	~CTest(){ body.destroy(); for(auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
+	~CTest(){ body.destroy(); for(const auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
 
-	void setColor(Color mColor) { for(auto& v : myVertices) v.color = mColor; }
+	void setColor(Color mColor) { for(const auto& v : myVertices) v.color = mColor; }
 	void move(const Vector2f& mOffset)
 	{
 		Vector2f v = body.getVelocity();
@@ -265,8 +265,8 @@ struct TestGame
 			window.setTitle(toStr(window.getFPS()));
 			camera.centerOn(Vector2f(c->body.getPosition()) / 100.f);
 
-			for(auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({0, 20});
-			//for(auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
+			for(const auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({0, 20});
+			//for(const auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);

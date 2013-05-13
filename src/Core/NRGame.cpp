@@ -121,8 +121,8 @@ namespace nr
 		auto& entities(manager.getEntities());
 		auto& bodies(world.getBodies());
 		int componentCount{0}, dynamicBodiesCount{0};
-		for(auto& e : entities) componentCount += e->getComponents().size();
-		for(auto& b : bodies) if(!b->isStatic()) ++dynamicBodiesCount;
+		for(const auto& e : entities) componentCount += e->getComponents().size();
+		for(const auto& b : bodies) if(!b->isStatic()) ++dynamicBodiesCount;
 
 		s << "FPS: "				<< toStr(gameWindow.getFPS()) << endl;
 		s << "FrameTime: "			<< toStr(mFrameTime) << endl;
@@ -170,7 +170,7 @@ namespace nr
 	void NRGame::drawDebugText()
 	{
 		static vector<Vector2f> offsets{{-1.f, -1.f}, {-1.f, 1.f}, {1.f, -1.f}, {1.f, 1.f}};
-		for(auto& offset : offsets)
+		for(const auto& offset : offsets)
 		{
 			debugText.setColor(Color::Black);
 			for(int i{0}; i < 10; ++i)

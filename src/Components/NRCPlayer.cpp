@@ -61,7 +61,7 @@ namespace nr
 		}
 
 		mLastPos = Vector2i(gridQuery.getLastPos());
-		//for(auto& ii : gridQuery.getVisitedIndexes()) mGame.setDebugGrid(ii.x, ii.y);
+		//for(const auto& ii : gridQuery.getVisitedIndexes()) mGame.setDebugGrid(ii.x, ii.y);
 		return result;
 	}
 
