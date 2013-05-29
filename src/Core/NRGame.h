@@ -20,6 +20,8 @@ namespace nr
 			ssvsc::Grid& grid;
 			sses::Manager manager;
 
+			ssvu::TimelineManager timelineManager;
+
 			int inputX{0}, inputY{0}, inputShoot{0};
 			bool inputJump{false}, inputWalk{false};
 			sf::Text debugText;
