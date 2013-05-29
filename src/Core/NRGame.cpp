@@ -5,6 +5,8 @@
 #include "Core/NRGame.h"
 #include "Utils/NRUtils.h"
 
+#include "Components/NRCHumanoid.h"
+
 using namespace std;
 using namespace sf;
 using namespace ssvu;
@@ -94,9 +96,32 @@ namespace nr
 		factory.createWall({1600 * 7, 1600 * 13 + 800 - 1300 - 1300 - 1 - 1600});
 		factory.createWall({1600 * 9, 1600 * 12 + 1200});
 
-		factory.createPlayer({1600 * 4, 1600 * 5});
-		//factory.createWanderer({1600 * 2, 1600 * 5});
-		//factory.createWanderer({1600 * 3, 1600 * 5});
+		auto& player = factory.createPlayer({1600 * 4, 1600 * 5});
+		NRCHumanoid& playerCHumanoid = player.getFirstComponent<NRCHumanoid>("humanoid");
+		{
+			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
+			Timeline& buff = timelineManager.create();
+			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; };
+				playerCHumanoid.additionalSpeed.addModifier(b); });
+			buff.append<Wait>(100);
+			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(&b); playerCHumanoid.modifierManager.cleanUp(); });
+		}
+		{
+			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
+			Timeline& buff = timelineManager.create();
+			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; };
+				playerCHumanoid.additionalSpeed.addModifier(b); });
+			buff.append<Wait>(200);
+			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(&b); playerCHumanoid.modifierManager.cleanUp(); });
+		}
+		{
+			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
+			Timeline& buff = timelineManager.create();
+			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; };
+				playerCHumanoid.additionalSpeed.addModifier(b); });
+			buff.append<Wait>(300);
+			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(&b); playerCHumanoid.modifierManager.cleanUp(); });
+		}
 	}
 
 	void NRGame::initDebugGrid()
@@ -112,6 +137,7 @@ namespace nr
 	{
 		world.update(mFrameTime);
 		manager.update(mFrameTime);
+		timelineManager.update(mFrameTime);
 		updateDebugText(mFrameTime);
 		inputShoot = 0;
 	}

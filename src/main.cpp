@@ -1,4 +1,4 @@
-//#define SSVNEWROGUE_BENCHMARK
+//#defin	e SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -7,6 +7,7 @@
 #include "Components/NRCPlayer.h"
 
 #include <unordered_set>
+#include <string>
 
 using namespace std;
 using namespace sf;
@@ -16,61 +17,29 @@ using namespace nr;
 
 int main()
 {
-	auto print = [&](NRStat<int>& mStat)
+	startBenchmark();
 	{
-		log(">>> " + toStr(mStat.getValueTotal()) + " / " + toStr(mStat.getMaxTotal()), "STAT");
-	};
+		string s;
+		for(int i{0}; i < 1000000; ++i)
+		{
+			s = toStr(static_cast<float>(i * 0.5f + 1.f));
+		}
+		cout << s << endl;
+	}
+	log(endBenchmark(), "toStr");
 
-	NRStat<int> health{0, 250, 100};
-
-	NRStatModifier<int> bonusGainHealth; // You gain 1/4 bonus health every time you gain health
-	auto func = [&](int mDelta, int& mValue, const int& mOldValue)
+	startBenchmark();
 	{
-		if(mDelta < 0) return;
-		int newDelta{static_cast<int>(mDelta * 1.25f)};
+		string s;
+		for(int i{0}; i < 1000000; ++i)
+		{
+			s = to_string(static_cast<float>(i * 0.5f + 1.f));
+		}
+		cout << s << endl;
+	}
+	log(endBenchmark(), "to_string");
 
-		log("bonus: +" + toStr(mDelta) + " becomes... +" + toStr(newDelta) + "!");
-
-		mValue = mOldValue + newDelta;
-	};
-	bonusGainHealth.onChange += func;
-
-	NRStatModifier<int> illness;
-	auto func2 = [&](int& mValue)
-	{
-		int newValue{mValue / 2};
-		log("illness! " + toStr(mValue) + "HP -> " + toStr(newValue) + "HP");
-		mValue = newValue;
-	};
-	illness.onGet += func2;
-
-	NRStatModifier<int> maxBonus;
-	auto func3 = [&](int& mValue)
-	{
-		mValue *= 2;
-	};
-	maxBonus.onGetMax += func3;
-
-
-	health.attach(&illness);
-
-	print(health);
-	health.addToBase(10);
-	print(health);
-
-	health.attach(&bonusGainHealth);
-	health.attach(&maxBonus);
-
-	print(health);
-	health.addToBase(10);
-	print(health);
-
-	health.addToBase(5510);
-	print(health);
-
-
-
-
+	return 0;
 
 	setRandomSeed();
 
@@ -140,7 +109,7 @@ struct CTest : Component
 	}
 	~CTest(){ body.destroy(); for(const auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
 
-	void setColor(Color mColor) { for(const auto& v : myVertices) v.color = mColor; }
+	void setColor(Color mColor) { for(auto& v : myVertices) v.color = mColor; }
 	void move(const Vector2f& mOffset)
 	{
 		Vector2f v = body.getVelocity();
@@ -171,7 +140,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Impulse>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
+	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -198,7 +167,7 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 50; ++iY) for(int iX{0}; iX < 50; ++iX) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
 			log(endBenchmark(), "creation b");
 		}
 
@@ -277,10 +246,10 @@ struct TestGame
 
 		game.onDraw += [&]
 		{
-			camera.apply();
-			manager.draw();
-			VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v);
-			camera.unapply();
+			//camera.apply();
+			//manager.draw();
+			//VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v);
+			//camera.unapply();
 		};
 
 		camera.zoom(2.7f);

@@ -9,3 +9,4 @@
 #include <SSVStart/Json/UtilsJson.h>
 #include <SSVEntitySystem/SSVEntitySystem.h>
 #include <SSVSCollision/SSVSCollision.h>
+#include <SSVRPGSystem/SSVRPGSystem.h>
