@@ -1,0 +1,21 @@
+[submodule "extlibs/SSVUtils"]
+	path = extlibs/SSVUtils
+	url = https://github.com/SuperV1234/SSVUtils.git
+[submodule "extlibs/SSVUtilsJson"]
+	path = extlibs/SSVUtilsJson
+	url = https://github.com/SuperV1234/SSVUtilsJson.git
+[submodule "extlibs/SSVJsonCpp"]
+	path = extlibs/SSVJsonCpp
+	url = https://github.com/SuperV1234/SSVJsonCpp.git
+[submodule "extlibs/SSVStart"]
+	path = extlibs/SSVStart
+	url = https://github.com/SuperV1234/SSVStart.git
+[submodule "extlibs/SSVEntitySystem"]
+	path = extlibs/SSVEntitySystem
+	url = https://github.com/SuperV1234/SSVEntitySystem.git
+[submodule "extlibs/SSVSCollision"]
+	path = extlibs/SSVSCollision
+	url = https://github.com/SuperV1234/SSVSCollision.git
+[submodule "extlibs/SSVRPGSystem"]
+	path = extlibs/SSVRPGSystem
+	url = https://github.com/SuperV1234/SSVRPGSystem.git
