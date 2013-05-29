@@ -1,15 +1,14 @@
-/lib
-CMakeFiles/
-Makefile
-CMakeCache.*
-cmake_install.cmake
-/build/SSVNewRogue
-/build/*.7z
-*.out
-*.py
-*.sleepy
-*.csv
-*.cbp
+lib/
+*.0000000
+doc/html
+doc/latex
+doc/rtf
+doc/man
+doc/xml
+*.0000000
+*.5e4d6ab
+*.mk
+*.project
 
 #################
 ## Eclipse
@@ -39,6 +38,8 @@ local.properties
 # CDT-specific
 .cproject
 
+# PDT-specific
+.buildpath
 
 
 #################
@@ -71,6 +72,7 @@ local.properties
 *.tlh
 *.tmp
 *.vspscc
+.builds
 *.dotCover
 
 ## TODO: If you have NuGet Package Restore enabled, uncomment this
@@ -147,6 +149,7 @@ Desktop.ini
 *.egg
 *.egg-info
 dist
+build
 eggs
 parts
 bin
