@@ -1,4 +1,4 @@
-//#defin	e SSVNEWROGUE_BENCHMARK
+//#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -17,30 +17,6 @@ using namespace nr;
 
 int main()
 {
-	startBenchmark();
-	{
-		string s;
-		for(int i{0}; i < 1000000; ++i)
-		{
-			s = toStr(static_cast<float>(i * 0.5f + 1.f));
-		}
-		cout << s << endl;
-	}
-	log(endBenchmark(), "toStr");
-
-	startBenchmark();
-	{
-		string s;
-		for(int i{0}; i < 1000000; ++i)
-		{
-			s = to_string(static_cast<float>(i * 0.5f + 1.f));
-		}
-		cout << s << endl;
-	}
-	log(endBenchmark(), "to_string");
-
-	return 0;
-
 	setRandomSeed();
 
 	//unsigned int width{VideoMode::getDesktopMode().width}, height{VideoMode::getDesktopMode().height};
