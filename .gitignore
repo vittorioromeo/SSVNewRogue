@@ -184,4 +184,5 @@ SSVOpenHexagon.txt
 *.exe
 *.ttf
 *.i
-*.a
+*.aadd
+./_RELEASE/SSVNewRogue
