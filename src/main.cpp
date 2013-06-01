@@ -8,6 +8,7 @@
 
 #include <unordered_set>
 #include <string>
+#include <memory>
 
 using namespace std;
 using namespace sf;
@@ -143,7 +144,7 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 70; ++iY) for(int iX{0}; iX < 70; ++iX) create({iX * 1500, iY * 1500}, false);
 			log(endBenchmark(), "creation b");
 		}
 

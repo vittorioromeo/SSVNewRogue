@@ -186,3 +186,6 @@ SSVOpenHexagon.txt
 *.i
 ./_RELEASE/SSVNewRogue
 /_RELEASE/SSVNewRogue
+/_RELEASE/callgrind.out.5125
+/_RELEASE/callgrind.out.14190
+/_RELEASE/callgrind.out.11519
