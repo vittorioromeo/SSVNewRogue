@@ -44,7 +44,9 @@ namespace nr
 		Vector2f direction(mTarget - startPosition);
 		if(direction.x == 0 && direction.y == 0) return result;
 
-		auto gridQuery(mGrid.getQuery<GridQueryTypes::RayCast>(startPosition, direction));
+		auto gridQuery(mGrid.getQuery<GridQueryTypes::Distance>(startPosition, 5000));
+
+		vector<pair<Vector2i, Vector2i>> testvec;
 
 		Body* body;
 		while((body = gridQuery.next()) != nullptr)
@@ -57,8 +59,14 @@ namespace nr
 			if(entity == nullptr) continue;
 
 			result = entity;
-			break;
+
+
+			testvec.push_back({mSeeker.getPosition(), Vector2i(gridQuery.getLastPos())});
+
+			// break;
 		}
+
+		for(auto& t:testvec) mGame.getFactory().createTrail(t.first, t.second, Color::Green);
 
 		mLastPos = Vector2i(gridQuery.getLastPos());
 		//for(const auto& ii : gridQuery.getVisitedIndexes()) mGame.setDebugGrid(ii.x, ii.y);
@@ -81,10 +89,11 @@ namespace nr
 
 		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
+
 		Vector2i out;
 		Entity* enemy{seekEntity(game, grid, body, game.getMousePosition(), "solid", {"sensor"}, out)};
 
-		game.getFactory().createTrail(body.getPosition(), out, Color::Green);
+		//game.getFactory().createTrail(body.getPosition(), out, Color::Green);
 
 		if(enemy != nullptr)
 		{

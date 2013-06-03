@@ -1,4 +1,4 @@
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -15,9 +15,33 @@ using namespace sf;
 using namespace ssvu;
 using namespace ssvs;
 using namespace nr;
+using namespace ssvrpg;
 
 int main()
 {
+	Value<int> strength{10};
+	Value<int> endurance{10};
+
+	Value<int> maxHealth{10};
+
+
+	Modifier<int> enduranceHealthModifier;
+	enduranceHealthModifier.onCompute += [&](Value<int>&, int& mCurrent){ mCurrent += 5 * strength.getComputed(); };
+	enduranceHealthModifier.onCompute += [&](Value<int>&, int& mCurrent){ mCurrent += 10 * endurance.getComputed(); };
+
+	maxHealth.addDependency(strength);
+	maxHealth.addDependency(endurance);
+	maxHealth.addModifier(enduranceHealthModifier);
+
+	log(toStr(maxHealth.getComputed()));
+
+	endurance.setBase(15);
+
+
+	log(toStr(maxHealth.getComputed()));
+
+
+
 	setRandomSeed();
 
 	//unsigned int width{VideoMode::getDesktopMode().width}, height{VideoMode::getDesktopMode().height};
@@ -117,7 +141,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
+	World world{createResolver<Impulse>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -144,7 +168,7 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 70; ++iY) for(int iX{0}; iX < 70; ++iX) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 40; ++iY) for(int iX{0}; iX < 40; ++iX) create({iX * 1500, iY * 1500}, false);
 			log(endBenchmark(), "creation b");
 		}
 
@@ -223,10 +247,10 @@ struct TestGame
 
 		game.onDraw += [&]
 		{
-			//camera.apply();
-			//manager.draw();
-			//VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v);
-			//camera.unapply();
+			camera.apply();
+			manager.draw();
+			VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v);
+			camera.unapply();
 		};
 
 		camera.zoom(2.7f);
