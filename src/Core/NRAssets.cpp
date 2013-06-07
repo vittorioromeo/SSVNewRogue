@@ -9,7 +9,7 @@ namespace nr
 {
 	NRAssets::NRAssets()
 	{
-		getFiles("C:/"); // BUG: these useless lines are needed to avoid linker errors (WTF)
+		//getFiles("C:/"); // BUG: these useless lines are needed to avoid linker errors (WTF)
 		assetManager.loadFolder("Data/");
 	}
 
