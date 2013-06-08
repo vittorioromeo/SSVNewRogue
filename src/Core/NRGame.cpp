@@ -35,7 +35,7 @@ namespace nr
 	{
 		using k = Keyboard::Key;
 		using b = Mouse::Button;
-		using t = Input::Trigger::Types;
+		using t = Input::Trigger::Type;
 
 		gameState.addInput({{k::Escape}}, [&](float){ gameWindow.stop(); });
 
@@ -52,19 +52,19 @@ namespace nr
 		add3StateInput(gameState, {{k::Left}}, {{k::Right}}, inputX);
 		add3StateInput(gameState, {{k::Up}}, {{k::Down}}, inputY);
 
-		gameState.addInput({{k::Z}, {b::Left}},	[&](float){ inputShoot = 1; }, t::SINGLE);
+		gameState.addInput({{k::Z}, {b::Left}},	[&](float){ inputShoot = 1; }, t::Single);
 
-		gameState.addInput({{k::Num1}}, [&](float){ factory.createWall(getMousePosition()); }, t::SINGLE);
+		gameState.addInput({{k::Num1}}, [&](float){ factory.createWall(getMousePosition()); }, t::Single);
 		gameState.addInput({{k::Num2}}, [&](float){ factory.createWanderer(getMousePosition()); });
-		gameState.addInput({{k::Num3}}, [&](float){ factory.createPlayer(getMousePosition()); }, t::SINGLE);
+		gameState.addInput({{k::Num3}}, [&](float){ factory.createPlayer(getMousePosition()); }, t::Single);
 		gameState.addInput({{k::Num4}}, [&](float)
 		{
 			auto index(grid.getIndex(getMousePosition()));
 			auto count(grid.getCell(index.x, index.y).getBodies().size());
 			log(toStr(index.x) + " " + toStr(index.y) + "  :: " + toStr(count));
 			debugGrid[index.x + grid.getOffset()][index.y + grid.getOffset()] = 1;
-		}, t::SINGLE);
-		gameState.addInput({{k::Num5}}, [&](float){ clearDebugGrid(); }, t::SINGLE);
+		}, t::Single);
+		gameState.addInput({{k::Num5}}, [&](float){ clearDebugGrid(); }, t::Single);
 	}
 	void NRGame::initLevel()
 	{
