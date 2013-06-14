@@ -1,4 +1,4 @@
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -80,7 +80,6 @@ AssetManager* assets;
 
 void initAssets()
 {
-	ssvu::FileSystem::exists("");
 	assets = new AssetManager;
 	assets->loadFolder("Data/");
 }
@@ -141,7 +140,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Impulse>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
+	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -168,7 +167,7 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 40; ++iY) for(int iX{0}; iX < 40; ++iX) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
 			log(endBenchmark(), "creation b");
 		}
 
