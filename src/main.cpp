@@ -102,7 +102,7 @@ struct CTest : Component
 		//body.addGroupsNoResolve({"test"});
 
 		setColor(Color::Red);
-		for(int i{0}; i < 4; i++) vertexPtrs.push_back(&myVertices[i]);
+		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
 
 		// body.onDetection += [&](DetectionInfo) { getEntity().destroy(); };
 		body.onOutOfBounds += [&]{ body.setPosition({0,0}); };

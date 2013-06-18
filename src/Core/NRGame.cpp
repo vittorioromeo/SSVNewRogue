@@ -72,8 +72,8 @@ namespace nr
 		//tilesX = world.getSpatial<Grid>().getXMaxIndex() / 2;
 		//tilesY = world.getSpatial<Grid>().getYMaxIndex() /2;
 
-		for(int iY{0}; iY < tilesY; iY++)
-			for(int iX{0}; iX < tilesX; iX++)
+		for(int iY{0}; iY < tilesY; ++iY)
+			for(int iX{0}; iX < tilesX; ++iX)
 				if(iX == 0 || iY == 0 || iX == tilesX - 1 || iY == tilesY - 1)
 					factory.createWall({1600 * iX + 800, 1600 * iY + 800});
 				else
@@ -126,10 +126,10 @@ namespace nr
 
 	void NRGame::initDebugGrid()
 	{
-		for(int iX{0}; iX < grid.getColumns(); iX++)
+		for(int iX{0}; iX < grid.getColumns(); ++iX)
 		{
 			debugGrid.push_back(vector<int>(grid.getRows()));
-			for(int iY{0}; iY < grid.getRows(); iY++) debugGrid[iX][iY] = 0;
+			for(int iY{0}; iY < grid.getRows(); ++iY) debugGrid[iX][iY] = 0;
 		}
 	}
 
@@ -165,8 +165,8 @@ namespace nr
 	void NRGame::drawDebugGrid()
 	{
 		debugGridVertices.clear();
-		for(int iX{0}; iX < grid.getColumns(); iX++)
-			for(int iY{0}; iY < grid.getRows(); iY++)
+		for(int iX{0}; iX < grid.getColumns(); ++iX)
+			for(int iY{0}; iY < grid.getRows(); ++iY)
 			{
 				if(debugGrid[iX][iY] == 0) continue;
 
@@ -229,8 +229,8 @@ namespace nr
 	}
 	void NRGame::clearDebugGrid()
 	{
-		for(int iX{0}; iX < grid.getColumns(); iX++)
-			for(int iY{0}; iY < grid.getRows(); iY++)
+		for(int iX{0}; iX < grid.getColumns(); ++iX)
+			for(int iY{0}; iY < grid.getRows(); ++iY)
 				debugGrid[iX][iY] = 0;
 	}
 
