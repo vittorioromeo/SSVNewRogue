@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -144,7 +144,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
+	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 3500, 300)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -239,7 +239,7 @@ struct TestGame
 			camera.centerOn(Vector2f(c->body.getPosition()) / 100.f);
 
 			for(const auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({0, 20});
-			//for(const auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
+			for(const auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);
