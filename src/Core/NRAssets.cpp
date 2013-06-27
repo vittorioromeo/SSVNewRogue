@@ -8,13 +8,14 @@ using namespace std;
 using namespace sf;
 using namespace ssvu::FileSystem;
 using namespace ssvs;
+using namespace ssvs::Utils;
+using namespace ssvuj;
 
 namespace nr
 {
 	NRAssets::NRAssets()
 	{
-		//getFiles("C:/"); // BUG: these useless lines are needed to avoid linker errors (WTF)
-		assetManager.loadFolder("Data/");
+		loadAssetsFromJson(assetManager, "Data/", getRootFromFile("Data/assets.json"));
 	}
 
 	// Getters

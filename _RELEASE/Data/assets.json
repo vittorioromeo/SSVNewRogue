@@ -1,0 +1,15 @@
+{
+	"fonts":
+	[
+		"bitxmap.ttf"
+	],
+	"textures":
+	[
+		"arms.png",
+		"body.png",
+		"body2.png",
+		"head.png",
+		"legs.png",
+		"wall.png"
+	]
+}
