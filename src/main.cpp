@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#define SSVNEWROGUE_BENCHMARK
+//#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -23,36 +23,31 @@ using namespace ssvrpg;
 
 int main()
 {
-	Value<int> strength{10};
-	Value<int> endurance{10};
+	{
+		Value<int> strength{10};
+		Value<int> endurance{10};
+		Value<int> maxHealth{10};
 
-	Value<int> maxHealth{10};
+		Modifier<int> enduranceHealthModifier;
+		enduranceHealthModifier.onCompute += [&](Value<int>&, int& mCurrent){ mCurrent += 5 * strength.getComputed(); };
+		enduranceHealthModifier.onCompute += [&](Value<int>&, int& mCurrent){ mCurrent += 10 * endurance.getComputed(); };
 
+		maxHealth.addDependency(strength);
+		maxHealth.addDependency(endurance);
+		maxHealth.addModifier(enduranceHealthModifier);
 
-	Modifier<int> enduranceHealthModifier;
-	enduranceHealthModifier.onCompute += [&](Value<int>&, int& mCurrent){ mCurrent += 5 * strength.getComputed(); };
-	enduranceHealthModifier.onCompute += [&](Value<int>&, int& mCurrent){ mCurrent += 10 * endurance.getComputed(); };
-
-	maxHealth.addDependency(strength);
-	maxHealth.addDependency(endurance);
-	maxHealth.addModifier(enduranceHealthModifier);
-
-	log(toStr(maxHealth.getComputed()));
-
-	endurance.setBase(15);
-
-
-	log(toStr(maxHealth.getComputed()));
-
-
+		log(toStr(maxHealth.getComputed()));
+		endurance.setBase(15);
+		log(toStr(maxHealth.getComputed()));
+	}
 
 	setRandomSeed();
 
-	//unsigned int width{VideoMode::getDesktopMode().width}, height{VideoMode::getDesktopMode().height};
-	//width = 1440; height = 900;
+	unsigned int width{VideoMode::getDesktopMode().width}, height{VideoMode::getDesktopMode().height};
+	width = 800; height = 600;
 
 	NRAssets assets;
-	GameWindow gameWindow{"SSVNewRogue", createStaticTimer(gameWindow, 0.5f, 0.5f), 320, 240, 3, false};
+	GameWindow gameWindow{"SSVNewRogue", createStaticTimer(gameWindow, 0.5f, 0.5f), width, height, 1, false};
 	NRGame game{gameWindow, assets};
 
 	gameWindow.setGameState(game.getGameState());

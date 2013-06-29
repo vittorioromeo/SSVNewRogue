@@ -16,6 +16,7 @@ namespace nr
 	NRAssets::NRAssets()
 	{
 		loadAssetsFromJson(assetManager, "Data/", getRootFromFile("Data/assets.json"));
+		assetManager.loadBitmapFont("limeStroked", assetManager.getTexture("limeStroked.png"), getBitmapFontDataFromJson(getRootFromFile("Data/lime.json")));
 	}
 
 	// Getters

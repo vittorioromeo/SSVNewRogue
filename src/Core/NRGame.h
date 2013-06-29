@@ -16,7 +16,7 @@ namespace nr
 	{
 		private:
 			ssvs::GameWindow& gameWindow;
-			ssvs::Camera camera{gameWindow, {{320 / 2, 240 / 2}, {320, 240}}};
+			ssvs::Camera camera{gameWindow, {{640 / 2, 480 / 2}, {640, 480}}};
 			NRAssets& assets;
 			NRFactory factory;
 			ssvs::GameState gameState;
@@ -24,11 +24,12 @@ namespace nr
 			ssvsc::Grid& grid;
 			sses::Manager manager;
 
+			ssvs::BitmapText debugText;
+
 			ssvu::TimelineManager timelineManager;
 
 			int inputX{0}, inputY{0}, inputShoot{0};
 			bool inputJump{false}, inputWalk{false};
-			sf::Text debugText;
 			std::vector<std::vector<int>> debugGrid;
 			sf::VertexArray debugGridVertices{sf::PrimitiveType::Quads};
 
@@ -60,7 +61,6 @@ namespace nr
 			int getInputShoot();
 			bool getInputJump();
 			bool getInputWalk();
-			void drawDebugText();
 	};
 }
 

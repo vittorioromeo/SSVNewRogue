@@ -24,9 +24,10 @@ using namespace ssvsc::Utils;
 namespace nr
 {
 	NRGame::NRGame(GameWindow& mGameWindow, NRAssets& mAssets) : gameWindow(mGameWindow), assets(mAssets), factory{assets, *this, manager, world},
-		world(createResolver<Retro>(), createSpatial<Grid>(600, 600, 1600, 300)), grid(world.getSpatial<Grid>()),
-		debugText{"", assets.getAssetManager().getFont("bitxmap.ttf")}
+		world(createResolver<Retro>(), createSpatial<Grid>(600, 600, 1600, 300)), grid(world.getSpatial<Grid>()), debugText{assets.getAssetManager().getBitmapFont("limeStroked")}
 	{
+		debugText.setTracking(-3);
+
 		gameState.onUpdate += [&](float mFrameTime){ update(mFrameTime); };
 		gameState.onDraw += [&]{ draw(); };
 
@@ -163,8 +164,6 @@ namespace nr
 		s << "Components: "			<< toStr(componentCount) << endl;
 
 		debugText.setString(s.str());
-		debugText.setCharacterSize(200);
-		debugText.setScale(0.033f, 0.033f);
 	}
 	void NRGame::drawDebugGrid()
 	{
@@ -197,32 +196,14 @@ namespace nr
 		render(debugGridVertices);
 	}
 
-	void NRGame::drawDebugText()
-	{
-		static vector<Vector2f> offsets{{-1.f, -1.f}, {-1.f, 1.f}, {1.f, -1.f}, {1.f, 1.f}};
-		for(const auto& offset : offsets)
-		{
-			debugText.setColor(Color::Black);
-			for(int i{0}; i < 10; ++i)
-			{
-				float multiplier{static_cast<float>(i) * 0.1f};
-				debugText.setPosition({offset.x * multiplier, offset.y * multiplier});
-				render(debugText);
-			}
-		}
-
-		debugText.setColor(Color::White);
-		debugText.setPosition({0, 0});
-		render(debugText);
-	}
-
 	void NRGame::draw()
 	{
 		camera.apply();
 		manager.draw();
 		drawDebugGrid();
 		camera.unapply();
-		drawDebugText();
+		render(debugText);
+
 	}
 
 	void NRGame::render(const Drawable& mDrawable) { gameWindow.draw(mDrawable); }
