@@ -39,6 +39,7 @@ namespace nr
 
 		if(currentAnim == nullptr) return;
 		currentAnim->update(mFrameTime);
-		for(auto& s : cRender.getSprites()) s.setTextureRect(tileset[currentAnim->getCurrentLabel()]);
+		const auto& rect(tileset[currentAnim->getCurrentLabel()]);
+		for(auto& s : cRender.getSprites()) s.setTextureRect(rect);
 	}
 }
