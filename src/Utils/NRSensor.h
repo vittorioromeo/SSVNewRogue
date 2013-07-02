@@ -17,7 +17,7 @@ namespace nr
 		private:
 			NRCPhysics& parent;
 			sf::Vector2i position;
-			ssvsc::Body& body;
+			ssvsc::Sensor& sensor;
 			bool active{false};
 
 		public:
@@ -30,7 +30,7 @@ namespace nr
 			void setPosition(sf::Vector2i mOffset);
 
 			// Getters
-			ssvsc::Body& getBody();
+			ssvsc::Sensor& getSensor();
 			bool isActive() const;
 	};
 

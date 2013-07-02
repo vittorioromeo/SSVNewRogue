@@ -16,27 +16,24 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRSensor::NRSensor(NRCPhysics& mParent, Vector2i mSize) : parent(mParent),
-		position(parent.getBody().getPosition()), body(mParent.getWorld().create(position, mSize, false))
+	NRSensor::NRSensor(NRCPhysics& mParent, Vector2i mSize) : parent(mParent), position(parent.getBody().getPosition()), sensor(parent.getWorld().createSensor(position, mSize))
 	{
-		body.addGroups({"sensor"});
-		body.addGroupsToCheck({"solid"});
-		body.setResolve(false);
+		sensor.addGroupsToCheck({"solid"});
 
-		body.onPreUpdate += [&]{ active = false; body.setPosition(position); };
-		body.onDetection += [&](DetectionInfo mDetectionInfo)
+		sensor.onPreUpdate += [&]{ active = false; sensor.setPosition(position); };
+		sensor.onDetection += [&](DetectionInfo mDetectionInfo)
 		{
 			if(mDetectionInfo.userData == nullptr) return;
 			Entity* entity(static_cast<Entity*>(mDetectionInfo.userData));
 			if(entity != &(parent.getEntity())) active = true;
 		};
 	}
-	NRSensor::~NRSensor() { body.destroy(); }
+	NRSensor::~NRSensor() { sensor.destroy(); }
 
 	// Setters
 	void NRSensor::setPosition(Vector2i mPosition) { position = mPosition; }
 
 	// Getters
-	Body& NRSensor::getBody() { return body; }
-	bool NRSensor::isActive() const { return active; }
+	Sensor& NRSensor::getSensor()	{ return sensor; }
+	bool NRSensor::isActive() const	{ return active; }
 }

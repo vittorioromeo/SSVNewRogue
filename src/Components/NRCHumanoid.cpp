@@ -25,9 +25,9 @@ namespace nr
 		body(cPhysics.getBody()), standingHeight{body.getHeight()}
 	{
 		auto& s(body.getShape());
-		auto& ucsShape(unCrouchSensor.getBody().getShape());
-		auto& actsShape(autoCrouchTopSensor.getBody().getShape());
-		auto& acbsShape(autoCrouchBottomSensor.getBody().getShape());
+		auto& ucsShape(unCrouchSensor.getSensor().getShape());
+		auto& actsShape(autoCrouchTopSensor.getSensor().getShape());
+		auto& acbsShape(autoCrouchBottomSensor.getSensor().getShape());
 
 		body.onPreUpdate += [&]{ jumpReady = false; };
 		body.onPostUpdate += [&]
