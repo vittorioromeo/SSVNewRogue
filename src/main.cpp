@@ -97,6 +97,8 @@ struct CTest : Component
 	CTest(Entity& mEntity, Vector2i mPosition, vector<Vertex*>& mVertices, World& mWorld) : Component(mEntity, "test"), vertexPtrs(mVertices),
 		world(mWorld), body(world.create(mPosition, {1500, 1500}, false))
 	{
+		body.setUserData(this);
+
 		body.addGroups({"test"});
 		body.addGroupsToCheck({"test"});
 		//body.addGroupsNoResolve({"test"});
@@ -140,7 +142,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 3500, 300)};
+	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -234,13 +236,14 @@ struct TestGame
 			window.setTitle(toStr(window.getFPS()));
 			camera.centerOn(Vector2f(c->body.getPosition()) / 100.f);
 
-			for(const auto& e : manager.getComponents<CTest>("test")) e->body.applyForce({0, 20});
+			//for(const auto& e : manager.getComponents<CTest>("test")) { e->body.applyForce({0, 20}); e->setColor(Color::Red); }
 			for(const auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);
 			manager.update(mFrameTime);
 
+			//for(Body* b : player.getFirstComponent<CTest>("test").body.test) { static_cast<CTest*>(b->getUserData())->setColor(Color::Blue); }
 			//c->body.setVelocity({0, 0});
 		};
 

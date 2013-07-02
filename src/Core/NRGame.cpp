@@ -74,8 +74,8 @@ namespace nr
 	void NRGame::initLevel()
 	{
 		int tilesX{320 / 16}, tilesY{240 / 16};
-		//tilesX = world.getSpatial<Grid>().getIndexXMax() / 2;
-		//tilesY = world.getSpatial<Grid>().getIndexYMax() / 2;
+		tilesX = world.getSpatial<Grid>().getIndexXMax() / 4;
+		tilesY = world.getSpatial<Grid>().getIndexYMax() / 4;
 
 		for(int iY{0}; iY < tilesY; ++iY)
 			for(int iX{0}; iX < tilesX; ++iX)
@@ -83,11 +83,11 @@ namespace nr
 					factory.createWall({1600 * iX + 800, 1600 * iY + 800});
 				else
 				{
-					if(getRnd(0, 100) > 5) { }
+					if(getRnd(0, 100) > 70) { factory.createWanderer({1600 * iX + 800, 1600 * iY + 800}); }
 					else
 					{
-						//if(getRnd(0, 100) > 50) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
-						//else factory.createWanderer({1600 * iX + 800, 1600 * iY + 800});
+						if(getRnd(0, 100) > 50) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
+
 					}
 				}
 
@@ -146,8 +146,8 @@ namespace nr
 	void NRGame::updateDebugText(float mFrameTime)
 	{
 		ostringstream s;
-		auto& entities(manager.getEntities());
-		auto& bodies(world.getBodies());
+		const auto& entities(manager.getEntities());
+		const auto& bodies(world.getBodies());
 		int componentCount{0}, dynamicBodiesCount{0};
 		for(const auto& e : entities) componentCount += e->getComponents().size();
 		for(const auto& b : bodies) if(!b->isStatic()) ++dynamicBodiesCount;
@@ -197,7 +197,7 @@ namespace nr
 	{
 		camera.apply();
 		manager.draw();
-		drawDebugGrid();
+		//drawDebugGrid();
 		camera.unapply();
 		render(debugText);
 	}
