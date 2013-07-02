@@ -26,7 +26,7 @@ namespace nr
 			void update(float) override;
 			void draw() override;
 
-			void addSprite(sf::Sprite mSprite);
+			void addSprite(const sf::Sprite& mSprite);
 
 			// Getters
 			bool isFlippedX() const;

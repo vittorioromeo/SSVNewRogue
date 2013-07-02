@@ -16,7 +16,7 @@ namespace nr
 	{
 		private:
 			ssvs::GameWindow& gameWindow;
-			ssvs::Camera camera{gameWindow, {{640 / 2, 480 / 2}, {640, 480}}};
+			ssvs::Camera camera{gameWindow, {{800 / 2 - 200, 600 / 2 - 150}, {400, 300}}};
 			NRAssets& assets;
 			NRFactory factory;
 			ssvs::GameState gameState;

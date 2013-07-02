@@ -16,10 +16,9 @@ namespace nr
 	NRAssets::NRAssets()
 	{
 		loadAssetsFromJson(assetManager, "Data/", getRootFromFile("Data/assets.json"));
-		assetManager.loadBitmapFont("limeStroked", assetManager.getTexture("limeStroked.png"), getBitmapFontDataFromJson(getRootFromFile("Data/lime.json")));
+		assetManager.loadBitmapFont("limeStroked", assetManager.getTexture("limeStroked.png"), getBitmapFontDataFromJson(getRootFromFile("Data/lime.json"))); // TODO: automatically load bitmapfonts in ssvs
 	}
 
 	// Getters
-	AssetManager& NRAssets::getAssetManager() { return assetManager; }
-	Texture& NRAssets::getTexture(const string& mId) { return assetManager.getTexture(mId); }
+	AssetManager& NRAssets::operator()() { return assetManager; }
 }

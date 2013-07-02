@@ -5,6 +5,13 @@
 #include "Core/NRFactory.h"
 #include "Core/NRAssets.h"
 #include "Core/NRGame.h"
+#include "Components/NRCPhysics.h"
+#include "Components/NRCRender.h"
+#include "Components/NRCPlayer.h"
+#include "Components/NRCHumanoidAnimationController.h"
+#include "Components/NRCHumanoid.h"
+#include "Components/NRCTrail.h"
+#include "Components/NRCWanderer.h"
 
 using namespace std;
 using namespace sf;
@@ -36,7 +43,7 @@ namespace nr
 		body.addGroups({"solid"});
 		body.addGroupsToCheck({"solid"});
 
-		cRender.addSprite(Sprite{assets.getTexture("wall.png")});
+		cRender.addSprite(Sprite{assets().getTexture("wall.png")});
 		cRender.setScaleWithBody(true);
 
 		return result;
@@ -61,10 +68,10 @@ namespace nr
 		result.createComponent<NRCPlayer>(game, result.getFirstComponent<NRCHumanoid>("humanoid"));
 
 		auto& cRender = result.getFirstComponent<NRCRender>("render");
-		cRender.addSprite(Sprite{assets.getTexture("legs.png")});
-		cRender.addSprite(Sprite{assets.getTexture("body.png")});
-		cRender.addSprite(Sprite{assets.getTexture("arms.png")});
-		cRender.addSprite(Sprite{assets.getTexture("head.png")});
+		cRender.addSprite(Sprite{assets().getTexture("legs.png")});
+		cRender.addSprite(Sprite{assets().getTexture("body.png")});
+		cRender.addSprite(Sprite{assets().getTexture("arms.png")});
+		cRender.addSprite(Sprite{assets().getTexture("head.png")});
 
 		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect({0, 0, 16, 16});
 
@@ -76,10 +83,10 @@ namespace nr
 		result.createComponent<NRCWanderer>(game, result.getFirstComponent<NRCHumanoid>("humanoid"));
 
 		auto& cRender = result.getFirstComponent<NRCRender>("render");
-		cRender.addSprite(Sprite{assets.getTexture("legs.png")});
-		cRender.addSprite(Sprite{assets.getTexture("body2.png")});
-		cRender.addSprite(Sprite{assets.getTexture("arms.png")});
-		cRender.addSprite(Sprite{assets.getTexture("head.png")});
+		cRender.addSprite(Sprite{assets().getTexture("legs.png")});
+		cRender.addSprite(Sprite{assets().getTexture("body2.png")});
+		cRender.addSprite(Sprite{assets().getTexture("arms.png")});
+		cRender.addSprite(Sprite{assets().getTexture("head.png")});
 
 		for(auto& sprite : cRender.getSprites()) sprite.setTextureRect({0, 0, 16, 16});
 

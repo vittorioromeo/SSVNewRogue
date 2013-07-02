@@ -23,6 +23,7 @@ using namespace ssvrpg;
 
 int main()
 {
+	if(false)
 	{
 		Value<int> strength{10};
 		Value<int> endurance{10};

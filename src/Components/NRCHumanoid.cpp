@@ -3,6 +3,7 @@
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
 #include "Components/NRCPlayer.h"
+#include "Components/NRCHumanoid.h"
 #include "Components/NRCPhysics.h"
 #include "Core/NRGame.h"
 #include "Utils/NRUtils.h"

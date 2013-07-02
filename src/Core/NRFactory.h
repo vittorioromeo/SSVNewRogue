@@ -6,11 +6,6 @@
 #define SSVNR_CORE_FACTORY
 
 #include "Core/NRDependencies.h"
-#include "Components/NRCPhysics.h"
-#include "Components/NRCRender.h"
-#include "Components/NRCPlayer.h"
-#include "Components/NRCHumanoidAnimationController.h"
-#include "Components/NRCHumanoid.h"
 
 namespace nr
 {

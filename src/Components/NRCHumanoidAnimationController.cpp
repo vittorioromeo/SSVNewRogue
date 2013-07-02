@@ -26,9 +26,7 @@ namespace nr
 		cRender.setFlippedX(cHumanoid.isFacingLeft());
 		cRender.setOffset({0, -1});
 
-		Action action(cHumanoid.getAction());
-
-		switch(action)
+		switch(cHumanoid.getAction())
 		{
 			case Action::WALKING: currentAnim = &animWalk; break;
 			case Action::RUNNING: currentAnim = &animRun; break;

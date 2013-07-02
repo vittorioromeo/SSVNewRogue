@@ -20,29 +20,28 @@ namespace nr
 	void NRCRender::update(float)
 	{
 		Vector2f position{toPixels(body.getPosition())}, size{toPixels(body.getSize())};
-		for(auto& sprite : sprites)
+		for(auto& s : sprites)
 		{
-			auto& rect(sprite.getTextureRect());
-			sprite.setOrigin({rect.width / 2.f, rect.height / 2.f});
-
-			sprite.setPosition(position + offset);
-			sprite.setScale(flippedX ? -1 : 1, flippedY ? -1 : 1);
-			if(scaleWithBody) sprite.setScale(size.x / 16.f, size.y / 16.f);
+			const auto& rect(s.getTextureRect());
+			s.setOrigin({rect.width / 2.f, rect.height / 2.f});
+			s.setPosition(position + offset);
+			s.setScale(flippedX ? -1 : 1, flippedY ? -1 : 1);
+			if(scaleWithBody) s.setScale(size.x / 16.f, size.y / 16.f); // TODO: what is 16?
 		}
 	}
-	void NRCRender::draw() { for(const auto& sprite : sprites) game.render(sprite); }
+	void NRCRender::draw() { for(const auto& s : sprites) game.render(s); }
 
-	void NRCRender::addSprite(Sprite mSprite) { sprites.push_back(mSprite); }
+	void NRCRender::addSprite(const Sprite& mSprite) { sprites.push_back(mSprite); }
 
 	// Getters
-	bool NRCRender::isFlippedX() const			{ return flippedX; }
-	bool NRCRender::isFlippedY() const			{ return flippedY; }
-	vector<Sprite>& NRCRender::getSprites()		{ return sprites; }
+	bool NRCRender::isFlippedX() const						{ return flippedX; }
+	bool NRCRender::isFlippedY() const						{ return flippedY; }
+	vector<Sprite>& NRCRender::getSprites()					{ return sprites; }
 
 	// Setters
-	void NRCRender::setRotation(float mDegrees)	{ for(auto& sprite : sprites) sprite.setRotation(mDegrees); }
-	void NRCRender::setFlippedX(bool mFlippedX)	{ flippedX = mFlippedX; }
-	void NRCRender::setFlippedY(bool mFlippedY)	{ flippedY = mFlippedY; }
-	void NRCRender::setScaleWithBody(bool mScaleWithBody) { scaleWithBody = mScaleWithBody; }
-	void NRCRender::setOffset(Vector2f mOffset)	{ offset = mOffset; }
+	void NRCRender::setRotation(float mDegrees)				{ for(auto& s : sprites) s.setRotation(mDegrees); }
+	void NRCRender::setFlippedX(bool mFlippedX)				{ flippedX = mFlippedX; }
+	void NRCRender::setFlippedY(bool mFlippedY)				{ flippedY = mFlippedY; }
+	void NRCRender::setScaleWithBody(bool mScaleWithBody)	{ scaleWithBody = mScaleWithBody; }
+	void NRCRender::setOffset(Vector2f mOffset)				{ offset = mOffset; }
 }

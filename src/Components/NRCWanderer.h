@@ -2,8 +2,8 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#ifndef SSVNR_COMPONENTS_PLAYER
-#define SSVNR_COMPONENTS_PLAYER
+#ifndef SSVNR_COMPONENTS_WANDERER
+#define SSVNR_COMPONENTS_WANDERER
 
 #include "Core/NRDependencies.h"
 
@@ -12,16 +12,19 @@ namespace nr
 	class NRGame;
 	class NRCHumanoid;
 
-	class NRCPlayer : public sses::Component
+	class NRCWanderer : public sses::Component
 	{
 		private:
 			NRGame& game;
 			NRCHumanoid& cHumanoid;
+			float time{200};
+			int dir{0};
+			bool tired{false};
 
 		public:
-			NRCPlayer(sses::Entity& mEntity, NRGame& mGame, NRCHumanoid& mCHumanoid);
+			NRCWanderer(sses::Entity& mEntity, NRGame& mGame, NRCHumanoid& mCHumanoid);
 
-			void update(float) override;
+			void update(float mFrameTime) override;
 	};
 }
 

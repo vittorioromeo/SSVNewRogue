@@ -18,8 +18,7 @@ namespace nr
 			NRAssets();
 
 			// Getters
-			ssvs::AssetManager& getAssetManager();
-			sf::Texture& getTexture(const std::string& mId);
+			ssvs::AssetManager& operator()();
 	};
 }
 

@@ -31,8 +31,8 @@ namespace nr
 
 		public:
 
-			ssvrpg::Value<int> additionalSpeed{0};
-			ssvu::MemoryManager<ssvrpg::Modifier<int>> modifierManager;
+			ssvrpg::Value<int> additionalSpeed{0}; // TEST
+			ssvu::MemoryManager<ssvrpg::Modifier<int>> modifierManager; // TEST
 
 
 

@@ -24,7 +24,7 @@ using namespace ssvsc::Utils;
 namespace nr
 {
 	NRGame::NRGame(GameWindow& mGameWindow, NRAssets& mAssets) : gameWindow(mGameWindow), assets(mAssets), factory{assets, *this, manager, world},
-		world(createResolver<Retro>(), createSpatial<Grid>(600, 600, 1600, 300)), grid(world.getSpatial<Grid>()), debugText{assets.getAssetManager().getBitmapFont("limeStroked")}
+		world(createResolver<Retro>(), createSpatial<Grid>(600, 600, 1600, 300)), grid(world.getSpatial<Grid>()), debugText{assets().getBitmapFont("limeStroked")}
 	{
 		debugText.setTracking(-3);
 
@@ -74,8 +74,8 @@ namespace nr
 	void NRGame::initLevel()
 	{
 		int tilesX{320 / 16}, tilesY{240 / 16};
-		//tilesX = world.getSpatial<Grid>().getXMaxIndex() / 2;
-		//tilesY = world.getSpatial<Grid>().getYMaxIndex() /2;
+		//tilesX = world.getSpatial<Grid>().getIndexXMax() / 2;
+		//tilesY = world.getSpatial<Grid>().getIndexYMax() / 2;
 
 		for(int iY{0}; iY < tilesY; ++iY)
 			for(int iX{0}; iX < tilesX; ++iX)
@@ -86,7 +86,7 @@ namespace nr
 					if(getRnd(0, 100) > 5) { }
 					else
 					{
-						if(getRnd(0, 100) > 50) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
+						//if(getRnd(0, 100) > 50) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
 						//else factory.createWanderer({1600 * iX + 800, 1600 * iY + 800});
 					}
 				}
@@ -106,24 +106,21 @@ namespace nr
 		{
 			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
 			Timeline& buff = timelineManager.create();
-			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; };
-				playerCHumanoid.additionalSpeed.addModifier(b); });
+			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; }; playerCHumanoid.additionalSpeed.addModifier(b); });
 			buff.append<Wait>(100);
 			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(&b); playerCHumanoid.modifierManager.cleanUp(); });
 		}
 		{
 			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
 			Timeline& buff = timelineManager.create();
-			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; };
-				playerCHumanoid.additionalSpeed.addModifier(b); });
+			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; }; playerCHumanoid.additionalSpeed.addModifier(b); });
 			buff.append<Wait>(200);
 			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(&b); playerCHumanoid.modifierManager.cleanUp(); });
 		}
 		{
 			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
 			Timeline& buff = timelineManager.create();
-			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; };
-				playerCHumanoid.additionalSpeed.addModifier(b); });
+			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; }; playerCHumanoid.additionalSpeed.addModifier(b); });
 			buff.append<Wait>(300);
 			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(&b); playerCHumanoid.modifierManager.cleanUp(); });
 		}
@@ -203,7 +200,6 @@ namespace nr
 		drawDebugGrid();
 		camera.unapply();
 		render(debugText);
-
 	}
 
 	void NRGame::render(const Drawable& mDrawable) { gameWindow.draw(mDrawable); }
