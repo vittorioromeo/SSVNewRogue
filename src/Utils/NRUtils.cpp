@@ -17,7 +17,7 @@ using namespace sses;
 
 namespace nr
 {
-	Entity* seekEntity(NRGame& mGame, Grid& mGrid, Body& mSeeker, Vector2i mTarget, Vector2i& mLastPos)
+	Entity* seekEntity(NRGame&, Grid& mGrid, Body& mSeeker, Vector2i mTarget, Vector2i& mLastPos)
 	{
 		Entity* result{nullptr};
 		const auto& startPosition(mSeeker.getPosition());
