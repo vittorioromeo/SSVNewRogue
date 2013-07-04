@@ -52,13 +52,18 @@ namespace nr
 
 		vector<pair<Vector2i, Vector2i>> testvec;
 
+		auto& world(mSeeker.getWorld());
+		auto targetGroup(world.getGroup(mTargetGroup));
+		Bitset ignoreGroups;
+		for(const auto& l : mIgnoreGroups) ignoreGroups.set(world.getGroup(l));
+
 		Body* body;
 		while((body = gridQuery.next()) != nullptr)
 		{
 			if(body == &mSeeker) continue;
 
-			if(containsAny(body->getGroups(), mIgnoreGroups)) continue;
-			if(!contains(body->getGroups(), mTargetGroup)) break;
+			if((body->getGroups() & ignoreGroups).any()) continue;
+			if(!body->hasGroup(targetGroup)) break;
 			Entity* entity{static_cast<Entity*>(body->getUserData())};
 			if(entity == nullptr) continue;
 

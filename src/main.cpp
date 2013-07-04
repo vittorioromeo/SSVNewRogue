@@ -63,6 +63,7 @@ int main()
 #include <string>
 #include <iostream>
 #include <random>
+#include <bitset>
 #include <fstream>
 #include "Core/NRDependencies.h"
 
@@ -99,19 +100,28 @@ struct CTest : Component
 	{
 		body.setUserData(this);
 
+		/*unsigned int rand = getRnd(0, 3);
+
+		body.addGroup(rand);
+		body.addGroupToCheck(rand);
+		body.addGroupToCheck(10);
+		for(unsigned int i = 0; i < 3; ++i) if(i != rand) body.addGroupNoResolve(i);*/
+
 		body.addGroups({"test"});
 		body.addGroupsToCheck({"test"});
 		//body.addGroupsNoResolve({"test"});
 
-		setColor(Color::Red);
+		/*if (rand == 0) setColor(Color::Red);
+		if (rand == 1) setColor(Color::Blue);
+		if (rand == 2) setColor(Color::Yellow);*/
 		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
 
-		// body.onDetection += [&](DetectionInfo) { getEntity().destroy(); };
+		body.onDetection += [&](DetectionInfo) {  };
 		body.onOutOfBounds += [&]{ body.setPosition({0,0}); };
 	}
 	~CTest(){ body.destroy(); for(const auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
 
-	void setColor(Color mColor) { for(auto& v : myVertices) v.color = mColor; }
+	void setColor(const Color& mColor) { for(auto& v : myVertices) v.color = mColor; }
 	void move(const Vector2f& mOffset)
 	{
 		Vector2f v = body.getVelocity();
@@ -142,7 +152,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(1200, 1200, 1500, 300)};
+	World world{createResolver<Retro>(), createSpatial<Grid>(300, 300, 3500, 100)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -208,13 +218,13 @@ struct TestGame
 
 		{
 			auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vector2i{200000, 170000}, vertices, world);
-			c.body.setStatic(true); c.setColor(Color::White);
+			c.body.setStatic(true); c.setColor(Color::Magenta);
 			c.body.getShape().setHalfSize({400000, 2500});
 		}
 
 		{
 			auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vector2i{-170000, 170000}, vertices, world);
-			c.body.setStatic(true); c.setColor(Color::White);
+			c.body.setStatic(true); c.setColor(Color::Magenta);
 			c.body.getShape().setHalfSize({2500, 400000});
 		}
 
@@ -236,8 +246,8 @@ struct TestGame
 			window.setTitle(toStr(window.getFPS()));
 			camera.centerOn(Vector2f(c->body.getPosition()) / 100.f);
 
-			//for(const auto& e : manager.getComponents<CTest>("test")) { e->body.applyForce({0, 20}); e->setColor(Color::Red); }
-			for(const auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
+			for(const auto& e : manager.getComponents<CTest>("test")) { e->body.applyForce({0, 20});  }
+			//for(const auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);
