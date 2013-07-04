@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#define SSVNEWROGUE_BENCHMARK
+//#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -100,20 +100,10 @@ struct CTest : Component
 	{
 		body.setUserData(this);
 
-		/*unsigned int rand = getRnd(0, 3);
-
-		body.addGroup(rand);
-		body.addGroupToCheck(rand);
-		body.addGroupToCheck(10);
-		for(unsigned int i = 0; i < 3; ++i) if(i != rand) body.addGroupNoResolve(i);*/
-
 		body.addGroups({"test"});
-		body.addGroupsToCheck({"test"});
+		body.addGroupsToCheck({"test","test2"});
 		//body.addGroupsNoResolve({"test"});
 
-		/*if (rand == 0) setColor(Color::Red);
-		if (rand == 1) setColor(Color::Blue);
-		if (rand == 2) setColor(Color::Yellow);*/
 		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
 
 		body.onDetection += [&](DetectionInfo) {  };
@@ -152,7 +142,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(300, 300, 3500, 100)};
+	World world{createResolver<Retro>(), createSpatial<Grid>(300, 300, 7500, 100)};
 	Manager manager;
 	vector<Vertex*> vertices;
 	TimelineManager tm;
@@ -219,7 +209,7 @@ struct TestGame
 		{
 			auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vector2i{200000, 170000}, vertices, world);
 			c.body.setStatic(true); c.setColor(Color::Magenta);
-			c.body.getShape().setHalfSize({400000, 2500});
+			c.body.getShape().setHalfSize({400000, 2500}); c.body.clearGroups(); c.body.addGroups({"test2"});
 		}
 
 		{
@@ -257,13 +247,13 @@ struct TestGame
 			//c->body.setVelocity({0, 0});
 		};
 
-		game.onDraw += [&]
+		/*game.onDraw += [&]
 		{
 			camera.apply();
 			manager.draw();
 			VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v);
 			camera.unapply();
-		};
+		};*/
 
 		camera.zoom(2.7f);
 		window.setVsync(false);

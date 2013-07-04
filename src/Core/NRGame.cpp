@@ -24,7 +24,7 @@ using namespace ssvsc::Utils;
 namespace nr
 {
 	NRGame::NRGame(GameWindow& mGameWindow, NRAssets& mAssets) : gameWindow(mGameWindow), assets(mAssets), factory{assets, *this, manager, world},
-		world(createResolver<Retro>(), createSpatial<Grid>(600, 600, 1600, 300)), grid(world.getSpatial<Grid>()), debugText{assets().getBitmapFont("limeStroked")}
+		world(createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1000, 500)), grid(world.getSpatial<Grid>()), debugText{assets().getBitmapFont("limeStroked")}
 	{
 		debugText.setTracking(-3);
 
@@ -74,8 +74,8 @@ namespace nr
 	void NRGame::initLevel()
 	{
 		int tilesX{320 / 16}, tilesY{240 / 16};
-		tilesX = world.getSpatial<Grid>().getIndexXMax() / 4;
-		tilesY = world.getSpatial<Grid>().getIndexYMax() / 4;
+		tilesX = 75;//world.getSpatial<Grid>().getIndexXMax() / 4;
+		tilesY = 75;//world.getSpatial<Grid>().getIndexYMax() / 4;
 
 		for(int iY{0}; iY < tilesY; ++iY)
 			for(int iX{0}; iX < tilesX; ++iX)
@@ -83,7 +83,7 @@ namespace nr
 					factory.createWall({1600 * iX + 800, 1600 * iY + 800});
 				else
 				{
-					if(getRnd(0, 100) > 70) { factory.createWanderer({1600 * iX + 800, 1600 * iY + 800}); }
+					if(getRnd(0, 100) > 50) { factory.createWanderer({1600 * iX + 800, 1600 * iY + 800}); }
 					else
 					{
 						if(getRnd(0, 100) > 50) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
@@ -157,6 +157,7 @@ namespace nr
 		s << "Bodies(all): "		<< toStr(bodies.size()) << endl;
 		s << "Bodies(static): "		<< toStr(bodies.size() - dynamicBodiesCount) << endl;
 		s << "Bodies(dynamic): "	<< toStr(dynamicBodiesCount) << endl;
+		s << "Sensors: "			<< toStr(world.getSensors().size()) << endl;
 		s << "Entities: "			<< toStr(entities.size()) << endl;
 		s << "Components: "			<< toStr(componentCount) << endl;
 
@@ -196,7 +197,7 @@ namespace nr
 	void NRGame::draw()
 	{
 		camera.apply();
-		manager.draw();
+		if(getGameWindow().isKeyPressed(Keyboard::Key::F)) manager.draw();
 		//drawDebugGrid();
 		camera.unapply();
 		render(debugText);
