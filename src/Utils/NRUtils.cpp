@@ -62,7 +62,7 @@ namespace nr
 		{
 			if(body == &mSeeker) continue;
 
-			if((body->getGroups() & ignoreGroups).any()) continue;
+			if((body->hasAnyGroup(ignoreGroups))) continue;
 			if(!body->hasGroup(targetGroup)) break;
 			Entity* entity{static_cast<Entity*>(body->getUserData())};
 			if(entity == nullptr) continue;
