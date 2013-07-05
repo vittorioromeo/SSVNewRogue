@@ -36,7 +36,7 @@ namespace nr
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 
 		Vector2i out;
-		Entity* enemy{seekEntity(game, grid, body, game.getMousePosition(), "solid", {"sensor"}, out)};
+		Entity* enemy{seekEntity(game, grid, body, game.getMousePosition(), "solid", {}, out)};
 
 		//game.getFactory().createTrail(body.getPosition(), out, Color::Green);
 
@@ -44,7 +44,7 @@ namespace nr
 		{
 			//NRCPhysics& cPhysics(enemy->getFirstComponent<NRCPhysics>("physics"));
 			//log("pew pew!");
-			//enemy->destroy();
+			enemy->destroy();
 			//cPhysics.getBody().setStatic(false);
 			//cPhysics.setAffectedByGravity(true);
 		}
