@@ -69,9 +69,9 @@ namespace nr
 
 			result = entity;
 
-
 			testvec.push_back({mSeeker.getPosition(), Vector2i(gridQuery.getLastPos())});
 
+			// MUST BREAK FOR NORMAL RESULTS
 			// break;
 		}
 
