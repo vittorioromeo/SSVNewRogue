@@ -16,7 +16,7 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCTrail::NRCTrail(Entity& mEntity, NRGame& mGame, Vector2i mA, Vector2i mB, Color mColor) : Component(mEntity, "trail"), game(mGame), a{mA}, b{mB},
+	NRCTrail::NRCTrail(Entity& mEntity, NRGame& mGame, Vec2i mA, Vec2i mB, Color mColor) : Component(mEntity, "trail"), game(mGame), a{mA}, b{mB},
 		color{mColor}, vertices{PrimitiveType::Lines, 2} { }
 
 	void NRCTrail::update(float mFrameTime)
@@ -25,8 +25,8 @@ namespace nr
 		if(life <= 0) getEntity().destroy();
 		color.a = life * (255 / 100);
 		vertices[0].color = vertices[1].color = color;
-		vertices[0].position = toPixels(a + Vector2i{getRnd(-20, 20), getRnd(-20, 20)});
-		vertices[1].position = toPixels(b + Vector2i{getRnd(-20, 20), getRnd(-20, 20)});
+		vertices[0].position = toPixels(a + Vec2i{getRnd(-20, 20), getRnd(-20, 20)});
+		vertices[1].position = toPixels(b + Vec2i{getRnd(-20, 20), getRnd(-20, 20)});
 	}
 	void NRCTrail::draw() { game.render(vertices); }
 }

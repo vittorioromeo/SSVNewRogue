@@ -95,7 +95,7 @@ struct CTest : Component
 	Body& body;
 	vector<Vertex> myVertices{4};
 
-	CTest(Entity& mEntity, Vector2i mPosition, vector<Vertex*>& mVertices, World& mWorld) : Component(mEntity, "test"), vertexPtrs(mVertices),
+	CTest(Entity& mEntity, Vec2i mPosition, vector<Vertex*>& mVertices, World& mWorld) : Component(mEntity, "test"), vertexPtrs(mVertices),
 		world(mWorld), body(world.create(mPosition, {1500, 1500}, false))
 	{
 		body.setUserData(this);
@@ -112,9 +112,9 @@ struct CTest : Component
 	~CTest(){ body.destroy(); for(const auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
 
 	void setColor(const Color& mColor) { for(auto& v : myVertices) v.color = mColor; }
-	void move(const Vector2f& mOffset)
+	void move(const Vec2f& mOffset)
 	{
-		Vector2f v = body.getVelocity();
+		Vec2f v = body.getVelocity();
 		if(mOffset.x != 0) v.x = mOffset.x;
 		if(mOffset.y != 0) v.y = mOffset.y;
 
@@ -147,7 +147,7 @@ struct TestGame
 	vector<Vertex*> vertices;
 	TimelineManager tm;
 
-	Entity& create(Vector2i mPosition, bool mStatic = false)
+	Entity& create(Vec2i mPosition, bool mStatic = false)
 	{
 		auto& e = manager.createEntity("test");
 		auto& c = e.createComponent<CTest>(mPosition, vertices, world);
@@ -156,7 +156,7 @@ struct TestGame
 		return e;
 	}
 
-	Entity& createPlayer(Vector2i mPosition)
+	Entity& createPlayer(Vec2i mPosition)
 	{
 		auto& e = manager.createEntity("test");
 		auto& c = e.createComponent<CTest>(mPosition, vertices, world);
@@ -176,7 +176,7 @@ struct TestGame
 		if(false)
 		{
 			{
-				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vector2i{10000, 170000}, vertices, world);
+				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{10000, 170000}, vertices, world);
 				c.body.setStatic(true); c.setColor(Color::Blue);
 				c.body.getShape().setHalfSize({5000, 5000});
 
@@ -191,7 +191,7 @@ struct TestGame
 			}
 
 			{
-				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vector2i{15000, 170000}, vertices, world);
+				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{15000, 170000}, vertices, world);
 				c.body.setStatic(true); c.setColor(Color::Yellow);
 				c.body.getShape().setHalfSize({5000, 5000});
 
@@ -207,20 +207,20 @@ struct TestGame
 		}
 
 		{
-			auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vector2i{200000, 170000}, vertices, world);
+			auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{200000, 170000}, vertices, world);
 			c.body.setStatic(true); c.setColor(Color::Magenta);
 			c.body.getShape().setHalfSize({400000, 2500}); c.body.clearGroups(); c.body.addGroups({"test2"});
 		}
 
 		{
-			auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vector2i{-170000, 170000}, vertices, world);
+			auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{-170000, 170000}, vertices, world);
 			c.body.setStatic(true); c.setColor(Color::Magenta);
 			c.body.getShape().setHalfSize({2500, 400000});
 		}
 
 		auto& player = createPlayer({-5000, 0});
 		CTest* c = player.getComponents<CTest>("test")[0];
-		auto move = [=](Vector2f mOffset){ c->move(mOffset); };
+		auto move = [=](Vec2f mOffset){ c->move(mOffset); };
 		float spd = 610.f;
 
 		using k = Keyboard::Key;
@@ -234,10 +234,10 @@ struct TestGame
 		game.onUpdate += [&](float mFrameTime)
 		{
 			window.setTitle(toStr(window.getFPS()));
-			camera.centerOn(Vector2f(c->body.getPosition()) / 100.f);
+			camera.centerOn(Vec2f(c->body.getPosition()) / 100.f);
 
 			for(const auto& e : manager.getComponents<CTest>("test")) { e->body.applyForce({0, 20});  }
-			//for(const auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vector2f(getRnd(-250, 250), getRnd(-250, 250)));
+			//for(const auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vec2f(getRnd(-250, 250), getRnd(-250, 250)));
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);

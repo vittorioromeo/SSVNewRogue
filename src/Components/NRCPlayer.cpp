@@ -35,7 +35,7 @@ namespace nr
 		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 
-		Vector2i out;
+		Vec2i out;
 		Entity* enemy{seekEntity(game, grid, body, game.getMousePosition(), "solid", {}, out)};
 
 		//game.getFactory().createTrail(body.getPosition(), out, Color::Green);

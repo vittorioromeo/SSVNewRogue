@@ -16,18 +16,18 @@ namespace nr
 	{
 		private:
 			NRCPhysics& parent;
-			sf::Vector2i position;
+			ssvs::Vec2i position;
 			ssvsc::Sensor& sensor;
 			bool active{false};
 
 		public:
 			ssvu::Delegate<void, sses::Entity&> onDetection;
 
-			NRSensor(NRCPhysics& mParent, sf::Vector2i mSize);
+			NRSensor(NRCPhysics& mParent, ssvs::Vec2i mSize);
 			~NRSensor();
 
 			// Setters
-			void setPosition(sf::Vector2i mOffset);
+			void setPosition(ssvs::Vec2i mOffset);
 
 			// Getters
 			ssvsc::Sensor& getSensor();

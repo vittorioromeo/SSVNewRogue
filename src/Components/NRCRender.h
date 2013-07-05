@@ -18,7 +18,7 @@ namespace nr
 			ssvsc::Body& body;
 			std::vector<sf::Sprite> sprites;
 			bool flippedX{false}, flippedY{false}, scaleWithBody{false};
-			sf::Vector2f offset;
+			ssvs::Vec2f offset;
 
 		public:
 			NRCRender(sses::Entity& mEntity, NRGame& mGame, ssvsc::Body& mBody);
@@ -38,7 +38,7 @@ namespace nr
 			void setFlippedX(bool mFlippedX);
 			void setFlippedY(bool mFlippedY);
 			void setScaleWithBody(bool mScaleWithBody);
-			void setOffset(sf::Vector2f mOffset);
+			void setOffset(ssvs::Vec2f mOffset);
 	};
 
 	// TODO: find a way to add sprites with individual offsets, and still have a global offset (RenderData struct?)

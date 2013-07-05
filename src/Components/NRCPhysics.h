@@ -19,17 +19,17 @@ namespace nr
 			NRGame& game;
 			ssvsc::World& world;
 			ssvsc::Body& body;
-			sf::Vector2i lastResolution;
+			ssvs::Vec2i lastResolution;
 			bool affectedByGravity{true};
 			int crushedLeft{0}, crushedRight{0}, crushedTop{0}, crushedBottom{0};
 			int maxVelocityY{1000};
-			sf::Vector2f gravityForce{0, 25};
+			ssvs::Vec2f gravityForce{0, 25};
 
 		public:
 			ssvu::Delegate<void, sses::Entity&> onDetection;
-			ssvu::Delegate<void, sf::Vector2i> onResolution;
+			ssvu::Delegate<void, ssvs::Vec2i> onResolution;
 
-			NRCPhysics(sses::Entity& mEntity, NRGame& mGame, ssvsc::World& mWorld, bool mIsStatic, sf::Vector2i mPosition, sf::Vector2i mSize, bool mAffectedByGravity = true);
+			NRCPhysics(sses::Entity& mEntity, NRGame& mGame, ssvsc::World& mWorld, bool mIsStatic, ssvs::Vec2i mPosition, ssvs::Vec2i mSize, bool mAffectedByGravity = true);
 			~NRCPhysics();
 
 			void update(float mFrameTime) override;
@@ -40,7 +40,7 @@ namespace nr
 			// Getters
 			ssvsc::World& getWorld() const;
 			ssvsc::Body& getBody() const;
-			sf::Vector2i getLastResolution() const;
+			ssvs::Vec2i getLastResolution() const;
 			bool isAffectedByGravity() const;
 			bool isCrushedLeft() const;
 			bool isCrushedRight() const;

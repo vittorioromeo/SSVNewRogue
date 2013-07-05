@@ -17,11 +17,11 @@ using namespace sses;
 
 namespace nr
 {
-	Entity* seekEntity(NRGame&, Grid& mGrid, Body& mSeeker, Vector2i mTarget, Vector2i& mLastPos)
+	Entity* seekEntity(NRGame&, Grid& mGrid, Body& mSeeker, Vec2i mTarget, Vec2i& mLastPos)
 	{
 		Entity* result{nullptr};
 		const auto& startPosition(mSeeker.getPosition());
-		Vector2f direction(mTarget - startPosition);
+		Vec2f direction(mTarget - startPosition);
 		if(direction.x == 0 && direction.y == 0) return result;
 
 		auto gridQuery(mGrid.getQuery<GridQueryTypes::RayCast>(startPosition, direction));
@@ -38,19 +38,19 @@ namespace nr
 			break;
 		}
 
-		mLastPos = Vector2i(gridQuery.getLastPos());
+		mLastPos = Vec2i(gridQuery.getLastPos());
 		return result;
 	}
-	Entity* seekEntity(NRGame& mGame, Grid& mGrid, Body& mSeeker, Vector2i mTarget, const string& mTargetGroup, const vector<string>& mIgnoreGroups, Vector2i& mLastPos)
+	Entity* seekEntity(NRGame& mGame, Grid& mGrid, Body& mSeeker, Vec2i mTarget, const string& mTargetGroup, const vector<string>& mIgnoreGroups, Vec2i& mLastPos)
 	{
 		Entity* result{nullptr};
 		const auto& startPosition(mSeeker.getPosition());
-		Vector2f direction(mTarget - startPosition);
+		Vec2f direction(mTarget - startPosition);
 		if(direction.x == 0 && direction.y == 0) return result;
 
 		auto gridQuery(mGrid.getQuery<GridQueryTypes::Distance>(startPosition, 5000));
 
-		vector<pair<Vector2i, Vector2i>> testvec;
+		vector<pair<Vec2i, Vec2i>> testvec;
 
 		auto& world(mSeeker.getWorld());
 		auto targetGroup(world.getGroup(mTargetGroup));
@@ -69,7 +69,7 @@ namespace nr
 
 			result = entity;
 
-			testvec.push_back({mSeeker.getPosition(), Vector2i(gridQuery.getLastPos())});
+			testvec.push_back({mSeeker.getPosition(), Vec2i(gridQuery.getLastPos())});
 
 			// MUST BREAK FOR NORMAL RESULTS
 			// break;
@@ -77,7 +77,7 @@ namespace nr
 
 		for(auto& t:testvec) mGame.getFactory().createTrail(t.first, t.second, Color::Green);
 
-		mLastPos = Vector2i(gridQuery.getLastPos());
+		mLastPos = Vec2i(gridQuery.getLastPos());
 		//for(const auto& ii : gridQuery.getVisitedIndexes()) mGame.setDebugGrid(ii.x, ii.y);
 		return result;
 	}

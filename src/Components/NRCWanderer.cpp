@@ -38,8 +38,8 @@ namespace nr
 
 		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
-		Vector2i out;
-		Entity* enemy{seekEntity(game, grid, body, body.getPosition() + Vector2i(body.getVelocity()), "humanoid", {"sensor"}, out)};
+		Vec2i out;
+		Entity* enemy{seekEntity(game, grid, body, body.getPosition() + Vec2i(body.getVelocity()), "humanoid", {"sensor"}, out)};
 
 		game.getFactory().createTrail(body.getPosition(), out, Color::Red);
 

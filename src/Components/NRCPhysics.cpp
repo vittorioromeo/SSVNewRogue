@@ -14,7 +14,7 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCPhysics::NRCPhysics(Entity& mEntity, NRGame& mGame, World& mWorld, bool mIsStatic, Vector2i mPosition, Vector2i mSize, bool mAffectedByGravity)
+	NRCPhysics::NRCPhysics(Entity& mEntity, NRGame& mGame, World& mWorld, bool mIsStatic, Vec2i mPosition, Vec2i mSize, bool mAffectedByGravity)
 		: Component(mEntity, "physics"), game(mGame), world(mWorld), body(world.create(mPosition, mSize, mIsStatic)), affectedByGravity{mAffectedByGravity}
 	{
 		body.setUserData(&getEntity());
@@ -57,7 +57,7 @@ namespace nr
 	// Getters
 	World& NRCPhysics::getWorld() const				{ return world; }
 	Body& NRCPhysics::getBody() const				{ return body; }
-	Vector2i NRCPhysics::getLastResolution() const	{ return lastResolution; }
+	Vec2i NRCPhysics::getLastResolution() const	{ return lastResolution; }
 	bool NRCPhysics::isAffectedByGravity() const	{ return affectedByGravity; }
 	bool NRCPhysics::isCrushedLeft() const			{ return crushedLeft > crushedTolerance; }
 	bool NRCPhysics::isCrushedRight() const			{ return crushedRight > crushedTolerance; }

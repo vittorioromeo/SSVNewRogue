@@ -19,7 +19,7 @@ namespace nr
 
 	void NRCRender::update(float)
 	{
-		Vector2f position{toPixels(body.getPosition())}, size{toPixels(body.getSize())};
+		Vec2f position{toPixels(body.getPosition())}, size{toPixels(body.getSize())};
 		for(auto& s : sprites)
 		{
 			const auto& rect(s.getTextureRect());
@@ -43,5 +43,5 @@ namespace nr
 	void NRCRender::setFlippedX(bool mFlippedX)				{ flippedX = mFlippedX; }
 	void NRCRender::setFlippedY(bool mFlippedY)				{ flippedY = mFlippedY; }
 	void NRCRender::setScaleWithBody(bool mScaleWithBody)	{ scaleWithBody = mScaleWithBody; }
-	void NRCRender::setOffset(Vector2f mOffset)				{ offset = mOffset; }
+	void NRCRender::setOffset(Vec2f mOffset)				{ offset = mOffset; }
 }

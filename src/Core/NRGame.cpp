@@ -44,10 +44,10 @@ namespace nr
 
 		gameState.addInput({{k::Escape}}, [&](float){ gameWindow.stop(); });
 
-		gameState.addInput({{k::A}}, [=](float mFrameTime){ camera.move(Vector2f{-10, 0} * mFrameTime); });
-		gameState.addInput({{k::D}}, [=](float mFrameTime){ camera.move(Vector2f{10, 0} * mFrameTime); });
-		gameState.addInput({{k::W}}, [=](float mFrameTime){ camera.move(Vector2f{0, -10} * mFrameTime); });
-		gameState.addInput({{k::S}}, [=](float mFrameTime){ camera.move(Vector2f{0, 10} * mFrameTime); });
+		gameState.addInput({{k::A}}, [=](float mFrameTime){ camera.move(Vec2f{-10, 0} * mFrameTime); });
+		gameState.addInput({{k::D}}, [=](float mFrameTime){ camera.move(Vec2f{10, 0} * mFrameTime); });
+		gameState.addInput({{k::W}}, [=](float mFrameTime){ camera.move(Vec2f{0, -10} * mFrameTime); });
+		gameState.addInput({{k::S}}, [=](float mFrameTime){ camera.move(Vec2f{0, 10} * mFrameTime); });
 		gameState.addInput({{k::Q}}, [=](float mFrameTime){ camera.zoom(pow(1.1f, mFrameTime)); });
 		gameState.addInput({{k::E}}, [=](float mFrameTime){ camera.zoom(pow(0.9f, mFrameTime)); });
 
@@ -182,10 +182,10 @@ namespace nr
 				int oIX{iX - grid.getOffset()};
 				int oIY{iY - grid.getOffset()};
 
-				Vector2i a{grid.getCellSize() * oIX, grid.getCellSize() * oIY};
-				Vector2i b{grid.getCellSize() * (oIX + 1), grid.getCellSize() * oIY};
-				Vector2i c{grid.getCellSize() * (oIX + 1), grid.getCellSize() * (oIY + 1)};
-				Vector2i d{grid.getCellSize() * oIX, grid.getCellSize() * (oIY + 1)};
+				Vec2i a{grid.getCellSize() * oIX, grid.getCellSize() * oIY};
+				Vec2i b{grid.getCellSize() * (oIX + 1), grid.getCellSize() * oIY};
+				Vec2i c{grid.getCellSize() * (oIX + 1), grid.getCellSize() * (oIY + 1)};
+				Vec2i d{grid.getCellSize() * oIX, grid.getCellSize() * (oIY + 1)};
 				debugGridVertices.append({toPixels(a), color});
 				debugGridVertices.append({toPixels(b), color});
 				debugGridVertices.append({toPixels(c), color});
@@ -223,7 +223,7 @@ namespace nr
 	Manager& NRGame::getManager()		{ return manager; }
 	World& NRGame::getWorld()			{ return world; }
 	NRFactory& NRGame::getFactory()		{ return factory; }
-	Vector2i NRGame::getMousePosition() { return toCoords(camera.getMousePosition()); }
+	Vec2i NRGame::getMousePosition() { return toCoords(camera.getMousePosition()); }
 	int NRGame::getInputX() 			{ return inputX; }
 	int NRGame::getInputY() 			{ return inputY; }
 	int NRGame::getInputShoot() 		{ return inputShoot; }

@@ -27,16 +27,16 @@ namespace nr
 	NRFactory::NRFactory(NRAssets& mAssets, NRGame& mGame, Manager& mManager, World& mWorld) : assets(mAssets), game(mGame),
 		manager(mManager), world(mWorld) { }
 
-	Entity& NRFactory::createTrail(Vector2i mA, Vector2i mB, Color mColor)
+	Entity& NRFactory::createTrail(Vec2i mA, Vec2i mB, Color mColor)
 	{
 		auto& result(manager.createEntity("trail"));
 		result.createComponent<NRCTrail>(game, mA, mB, mColor);
 		return result;
 	}
-	Entity& NRFactory::createWall(Vector2i mPosition)
+	Entity& NRFactory::createWall(Vec2i mPosition)
 	{
 		auto& result(manager.createEntity("wall"));
-		auto& cPhysics(result.createComponent<NRCPhysics>(game, world, true, mPosition, Vector2i{1600, 1600}));
+		auto& cPhysics(result.createComponent<NRCPhysics>(game, world, true, mPosition, Vec2i{1600, 1600}));
 		auto& cRender(result.createComponent<NRCRender>(game, cPhysics.getBody()));
 
 		Body& body(cPhysics.getBody());
@@ -48,10 +48,10 @@ namespace nr
 
 		return result;
 	}
-	Entity& NRFactory::createHumanoid(Vector2i mPosition)
+	Entity& NRFactory::createHumanoid(Vec2i mPosition)
 	{
 		auto& result(manager.createEntity("humanoid"));
-		auto& cPhysics(result.createComponent<NRCPhysics>(game, world, false, mPosition, Vector2i{700, 1300}));
+		auto& cPhysics(result.createComponent<NRCPhysics>(game, world, false, mPosition, Vec2i{700, 1300}));
 		auto& cHumanoid(result.createComponent<NRCHumanoid>(game, cPhysics));
 		auto& cRender(result.createComponent<NRCRender>(game, cPhysics.getBody()));
 		result.createComponent<NRCHumanoidAnimationController>(cRender, cHumanoid);
@@ -62,7 +62,7 @@ namespace nr
 
 		return result;
 	}
-	Entity& NRFactory::createPlayer(Vector2i mPosition)
+	Entity& NRFactory::createPlayer(Vec2i mPosition)
 	{
 		auto& result(createHumanoid(mPosition));
 		result.createComponent<NRCPlayer>(game, result.getFirstComponent<NRCHumanoid>("humanoid"));
@@ -77,7 +77,7 @@ namespace nr
 
 		return result;
 	}
-	Entity& NRFactory::createWanderer(Vector2i mPosition)
+	Entity& NRFactory::createWanderer(Vec2i mPosition)
 	{
 		auto& result(createHumanoid(mPosition));
 		result.createComponent<NRCWanderer>(game, result.getFirstComponent<NRCHumanoid>("humanoid"));

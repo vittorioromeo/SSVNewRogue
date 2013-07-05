@@ -20,8 +20,8 @@ namespace nr
 	using Action = NRCHumanoid::Action;
 
 	NRCHumanoid::NRCHumanoid(Entity& mEntity, NRGame& mGame, NRCPhysics& mCPhysics) : Component(mEntity, "humanoid"),
-		game(mGame), cPhysics(mCPhysics), unCrouchSensor{cPhysics, Vector2i{700, 1300}},
-		autoCrouchTopSensor{cPhysics, Vector2i(100, 100)}, autoCrouchBottomSensor{cPhysics, Vector2i(100, 100)},
+		game(mGame), cPhysics(mCPhysics), unCrouchSensor{cPhysics, Vec2i{700, 1300}},
+		autoCrouchTopSensor{cPhysics, Vec2i(100, 100)}, autoCrouchBottomSensor{cPhysics, Vec2i(100, 100)},
 		body(cPhysics.getBody()), standingHeight{body.getHeight()}
 	{
 		auto& s(body.getShape());
@@ -47,12 +47,12 @@ namespace nr
 			autoCrouchTopSensor.setPosition({atcsX, atcsY});
 			autoCrouchBottomSensor.setPosition({abcsX, abcsY});
 		};
-		cPhysics.onResolution += [&](Vector2i mMinIntersection) { if(mMinIntersection.y < 0) jumpReady = true; };
+		cPhysics.onResolution += [&](Vec2i mMinIntersection) { if(mMinIntersection.y < 0) jumpReady = true; };
 	}
 
 	void NRCHumanoid::update(float)
 	{
-		Vector2f velocity{body.getVelocity()};
+		Vec2f velocity{body.getVelocity()};
 		if(!isInAir() && autoCrouchTopSensor.isActive() && !autoCrouchBottomSensor.isActive())
 		{
 			autoCrouching = true;
@@ -85,7 +85,7 @@ namespace nr
 		if(unCrouchSensor.isActive() || autoCrouching) return;
 		if(crouching)
 		{
-			body.setPosition(body.getPosition() - Vector2i{0, (standingHeight - crouchingHeight) / 2});
+			body.setPosition(body.getPosition() - Vec2i{0, (standingHeight - crouchingHeight) / 2});
 			body.setHeight(standingHeight);
 		}
 		crouching = false;
@@ -95,7 +95,7 @@ namespace nr
 		if(!mForce && isInAir()) return;
 		if(!crouching)
 		{
-			body.setPosition(body.getPosition() + Vector2i{0, (standingHeight - crouchingHeight) / 2});
+			body.setPosition(body.getPosition() + Vec2i{0, (standingHeight - crouchingHeight) / 2});
 			body.setHeight(crouchingHeight);
 		}
 		crouching = true;

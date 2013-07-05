@@ -55,7 +55,7 @@ namespace nr
 			sses::Manager& getManager();
 			ssvsc::World& getWorld();
 			NRFactory& getFactory();
-			sf::Vector2i getMousePosition();
+			ssvs::Vec2i getMousePosition();
 			int getInputX();
 			int getInputY();
 			int getInputShoot();

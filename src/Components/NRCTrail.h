@@ -17,12 +17,12 @@ namespace nr
 		private:
 			NRGame& game;
 			float life{75};
-			sf::Vector2i a, b;
+			ssvs::Vec2i a, b;
 			sf::Color color;
 			sf::VertexArray vertices;
 
 		public:
-			NRCTrail(sses::Entity& mEntity, NRGame& mGame, sf::Vector2i mA, sf::Vector2i mB, sf::Color mColor);
+			NRCTrail(sses::Entity& mEntity, NRGame& mGame, ssvs::Vec2i mA, ssvs::Vec2i mB, sf::Color mColor);
 
 			void update(float mFrameTime) override;
 			void draw() override;

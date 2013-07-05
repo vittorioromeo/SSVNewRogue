@@ -23,11 +23,11 @@ namespace nr
 		public:
 			NRFactory(NRAssets& mAssets, NRGame& mGame, sses::Manager& mManager, ssvsc::World& mWorld);
 
-			sses::Entity& createTrail(sf::Vector2i mA, sf::Vector2i mB, sf::Color mColor);
-			sses::Entity& createWall(sf::Vector2i mPosition);
-			sses::Entity& createHumanoid(sf::Vector2i mPosition);
-			sses::Entity& createPlayer(sf::Vector2i mPosition);
-			sses::Entity& createWanderer(sf::Vector2i mPosition);
+			sses::Entity& createTrail(ssvs::Vec2i mA, ssvs::Vec2i mB, sf::Color mColor);
+			sses::Entity& createWall(ssvs::Vec2i mPosition);
+			sses::Entity& createHumanoid(ssvs::Vec2i mPosition);
+			sses::Entity& createPlayer(ssvs::Vec2i mPosition);
+			sses::Entity& createWanderer(ssvs::Vec2i mPosition);
 	};
 }
 

@@ -16,7 +16,7 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRSensor::NRSensor(NRCPhysics& mParent, Vector2i mSize) : parent(mParent), position(parent.getBody().getPosition()), sensor(parent.getWorld().createSensor(position, mSize))
+	NRSensor::NRSensor(NRCPhysics& mParent, Vec2i mSize) : parent(mParent), position(parent.getBody().getPosition()), sensor(parent.getWorld().createSensor(position, mSize))
 	{
 		sensor.addGroupsToCheck({"solid"});
 
@@ -31,7 +31,7 @@ namespace nr
 	NRSensor::~NRSensor() { sensor.destroy(); }
 
 	// Setters
-	void NRSensor::setPosition(Vector2i mPosition) { position = mPosition; }
+	void NRSensor::setPosition(Vec2i mPosition) { position = mPosition; }
 
 	// Getters
 	Sensor& NRSensor::getSensor()	{ return sensor; }
