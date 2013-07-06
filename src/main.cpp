@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -79,11 +79,7 @@ using namespace ssvu;
 
 AssetManager* assets;
 
-void initAssets()
-{
-	assets = new AssetManager;
-	assets->loadFolder("Data/");
-}
+void initAssets() { assets = new AssetManager; assets->loadFolder("Data/"); }
 
 float toPixels(int mCoords) { return mCoords / 100.f; }
 float toPixels(float mCoords) { return mCoords / 100.f; }
@@ -91,25 +87,11 @@ float toPixels(float mCoords) { return mCoords / 100.f; }
 struct CTest : Component
 {
 	vector<Vertex*>& vertexPtrs;
-	World& world;
-	Body& body;
+	World& world; Body& body;
 	vector<Vertex> myVertices{4};
 
-	CTest(Entity& mEntity, Vec2i mPosition, vector<Vertex*>& mVertices, World& mWorld) : Component(mEntity, "test"), vertexPtrs(mVertices),
-		world(mWorld), body(world.create(mPosition, {1500, 1500}, false))
-	{
-		body.setUserData(this);
-
-		body.addGroups({"test"});
-		body.addGroupsToCheck({"test","test2"});
-		//body.addGroupsNoResolve({"test"});
-
-		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
-
-		body.onDetection += [&](DetectionInfo) {  };
-		body.onOutOfBounds += [&]{ body.setPosition({0,0}); };
-	}
-	~CTest(){ body.destroy(); for(const auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
+	CTest(Vec2i mPosition, vector<Vertex*>& mVertices, World& mWorld) : vertexPtrs(mVertices), world(mWorld), body(world.create(mPosition, {1500, 1500}, false)) { }
+	~CTest() { body.destroy(); for(const auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
 
 	void setColor(const Color& mColor) { for(auto& v : myVertices) v.color = mColor; }
 	void move(const Vec2f& mOffset)
@@ -120,9 +102,23 @@ struct CTest : Component
 
 		body.setVelocity(v);
 	}
+	void init() override
+	{
+		body.setUserData(this);
+
+
+		body.addGroups({"test"});
+		body.addGroupsToCheck({"test"});
+		body.addGroupsNoResolve({"test"});
+
+		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
+
+		body.onDetection += [&](DetectionInfo){ };
+		body.onOutOfBounds += [&]{ body.setPosition({0,0}); };
+	}
 	void update(float) override
 	{
-		const AABB& s = body.getShape();
+		const AABB& s(body.getShape());
 
 		const float left{toPixels(s.getLeft())};
 		const float right{toPixels(s.getRight())};
@@ -142,10 +138,8 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(300, 300, 7500, 100)};
-	Manager manager;
-	vector<Vertex*> vertices;
-	TimelineManager tm;
+	World world{createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1500, 400)};
+	Manager manager; vector<Vertex*> vertices; TimelineManager tm;
 
 	Entity& create(Vec2i mPosition, bool mStatic = false)
 	{
@@ -173,12 +167,12 @@ struct TestGame
 			log(endBenchmark(), "creation b");
 		}
 
-		if(false)
+		if(true)
 		{
 			{
 				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{10000, 170000}, vertices, world);
 				c.body.setStatic(true); c.setColor(Color::Blue);
-				c.body.getShape().setHalfSize({5000, 5000});
+				c.body.setHalfSize({5000, 5000});
 
 				auto& t = tm.create();
 				t.append<Do>([&]
@@ -193,7 +187,7 @@ struct TestGame
 			{
 				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{15000, 170000}, vertices, world);
 				c.body.setStatic(true); c.setColor(Color::Yellow);
-				c.body.getShape().setHalfSize({5000, 5000});
+				c.body.setHalfSize({5000, 5000});
 
 				auto& t = tm.create();
 				t.append<Do>([&]
@@ -207,20 +201,16 @@ struct TestGame
 		}
 
 		{
-			auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{200000, 170000}, vertices, world);
-			c.body.setStatic(true); c.setColor(Color::Magenta);
-			c.body.getShape().setHalfSize({400000, 2500}); c.body.clearGroups(); c.body.addGroups({"test2"});
-		}
-
-		{
-			auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{-170000, 170000}, vertices, world);
-			c.body.setStatic(true); c.setColor(Color::Magenta);
-			c.body.getShape().setHalfSize({2500, 400000});
+			auto& e = manager.createEntity("test");
+			auto& f = e.createComponent<CTest>(Vec2i{200000, 170000}, vertices, world);
+			f.body.setStatic(true);
+			f.setColor(Color::Magenta);
+			f.body.setHalfSize({400000, 2500});
 		}
 
 		auto& player = createPlayer({-5000, 0});
-		CTest* c = player.getComponents<CTest>("test")[0];
-		auto move = [=](Vec2f mOffset){ c->move(mOffset); };
+		auto& c = player.getFirstComponent<CTest>();
+		auto move = [&](Vec2f mOffset){ c.move(mOffset); };
 		float spd = 610.f;
 
 		using k = Keyboard::Key;
@@ -234,10 +224,10 @@ struct TestGame
 		game.onUpdate += [&](float mFrameTime)
 		{
 			window.setTitle(toStr(window.getFPS()));
-			camera.centerOn(Vec2f(c->body.getPosition()) / 100.f);
+			camera.centerOn(Vec2f(c.body.getPosition()) / 100.f);
 
-			for(const auto& e : manager.getComponents<CTest>("test")) { e->body.applyForce({0, 20});  }
-			//for(const auto& e : manager.getComponents<CTest>("test")) if(e != c && getRnd(0, 20) > 17) e->body.setVelocity(Vec2f(getRnd(-250, 250), getRnd(-250, 250)));
+			//for(const auto& e : manager.getComponents<CTest>()) { e->body.applyForce({0, 20});  }
+			for(auto& e : manager.getComponents<CTest>()) if(e != &c && getRnd(0, 20) > 17) e->body.setVelocity(Vec2f(getRnd(-250, 250), getRnd(-250, 250)));
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);
@@ -247,13 +237,13 @@ struct TestGame
 			//c->body.setVelocity({0, 0});
 		};
 
-		/*game.onDraw += [&]
+		game.onDraw += [&]
 		{
 			camera.apply();
 			manager.draw();
 			VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v);
 			camera.unapply();
-		};*/
+		};
 
 		camera.zoom(2.7f);
 		window.setVsync(false);
