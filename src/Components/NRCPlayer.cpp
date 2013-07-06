@@ -18,7 +18,7 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCPlayer::NRCPlayer(NRGame& mGame, NRCHumanoid& mCHumanoid) : Component("player"), game(mGame), cHumanoid(mCHumanoid) { }
+	NRCPlayer::NRCPlayer(NRGame& mGame, NRCHumanoid& mCHumanoid) : game(mGame), cHumanoid(mCHumanoid) { }
 
 	void NRCPlayer::update(float)
 	{
@@ -32,7 +32,7 @@ namespace nr
 		if(game.getInputJump() == 1) cHumanoid.jump();
 		if(game.getInputShoot() == 0) return;
 
-		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
+		auto& body = getEntity().getFirstComponent<NRCPhysics>().getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 
 		Vec2i out;

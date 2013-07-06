@@ -18,7 +18,7 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCWanderer::NRCWanderer(NRGame& mGame, NRCHumanoid& mCHumanoid) : Component("wanderer"), game(mGame), cHumanoid(mCHumanoid) { }
+	NRCWanderer::NRCWanderer(NRGame& mGame, NRCHumanoid& mCHumanoid) : game(mGame), cHumanoid(mCHumanoid) { }
 
 	void NRCWanderer::update(float mFrameTime)
 	{
@@ -36,7 +36,7 @@ namespace nr
 		if((int)time % 90 == 0) cHumanoid.jump();
 		return;
 
-		auto& body = getEntity().getFirstComponent<NRCPhysics>("physics").getBody();
+		auto& body = getEntity().getFirstComponent<NRCPhysics>().getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 		Vec2i out;
 		Entity* enemy{seekEntity(game, grid, body, body.getPosition() + Vec2i(body.getVelocity()), "humanoid", {"sensor"}, out)};

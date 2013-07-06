@@ -18,8 +18,7 @@ namespace nr
 {
 	using Action = NRCHumanoid::Action;
 
-	NRCHumanoidAnimationController::NRCHumanoidAnimationController(NRCRender& mCRender, NRCHumanoid& mCHumanoid) : Component("humanoidAnimationController"),
-		cRender(mCRender), cHumanoid(mCHumanoid) { }
+	NRCHumanoidAnimationController::NRCHumanoidAnimationController(NRCRender& mCRender, NRCHumanoid& mCHumanoid) : cRender(mCRender), cHumanoid(mCHumanoid) { }
 
 	void NRCHumanoidAnimationController::update(float mFrameTime)
 	{

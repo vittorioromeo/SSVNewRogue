@@ -83,7 +83,7 @@ namespace nr
 					factory.createWall({1600 * iX + 800, 1600 * iY + 800});
 				else
 				{
-					if(getRnd(0, 100) > 50) {/* factory.createWanderer({1600 * iX + 800, 1600 * iY + 800});*/ }
+					if(getRnd(0, 100) > 50) { factory.createWanderer({1600 * iX + 800, 1600 * iY + 800}); }
 					else
 					{
 						if(getRnd(0, 100) > 50) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
@@ -102,7 +102,7 @@ namespace nr
 		factory.createWall({1600 * 9, 1600 * 12 + 1200});
 
 		auto& player = factory.createPlayer({1600 * 4, 1600 * 5});
-		NRCHumanoid& playerCHumanoid = player.getFirstComponent<NRCHumanoid>("humanoid");
+		NRCHumanoid& playerCHumanoid = player.getFirstComponent<NRCHumanoid>();
 		{
 			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
 			Timeline& buff = timelineManager.create();

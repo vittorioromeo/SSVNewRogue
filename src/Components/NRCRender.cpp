@@ -15,7 +15,7 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCRender::NRCRender(NRGame& mGame, Body& mBody) : Component("render"), game(mGame), body(mBody) { }
+	NRCRender::NRCRender(NRGame& mGame, Body& mBody) : game(mGame), body(mBody) { }
 
 	void NRCRender::update(float)
 	{
