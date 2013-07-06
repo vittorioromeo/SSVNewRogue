@@ -14,8 +14,11 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCPhysics::NRCPhysics(Entity& mEntity, NRGame& mGame, World& mWorld, bool mIsStatic, Vec2i mPosition, Vec2i mSize, bool mAffectedByGravity)
-		: Component(mEntity, "physics"), game(mGame), world(mWorld), body(world.create(mPosition, mSize, mIsStatic)), affectedByGravity{mAffectedByGravity}
+	NRCPhysics::NRCPhysics(NRGame& mGame, World& mWorld, bool mIsStatic, Vec2i mPosition, Vec2i mSize, bool mAffectedByGravity)
+		: Component("physics"), game(mGame), world(mWorld), body(world.create(mPosition, mSize, mIsStatic)), affectedByGravity{mAffectedByGravity} { }
+	NRCPhysics::~NRCPhysics() { body.destroy(); } // BUG: this has to be called before world is destroyed, or else SEGFAULT - find a way to avoid that!
+
+	void NRCPhysics::init()
 	{
 		body.setUserData(&getEntity());
 
@@ -44,27 +47,9 @@ namespace nr
 			if(crushedBottom > 0) --crushedBottom;
 		};
 	}
-	NRCPhysics::~NRCPhysics() { body.destroy(); } // BUG: this has to be called before world is destroyed, or else SEGFAULT - find a way to avoid that!
 
 	void NRCPhysics::update(float)
 	{
 		if(affectedByGravity && body.getVelocity().y < maxVelocityY) body.applyForce(gravityForce);
 	}
-
-	// Setters
-	void NRCPhysics::setAffectedByGravity(bool mAffectedByGravity) { affectedByGravity = mAffectedByGravity; }
-
-	// Getters
-	World& NRCPhysics::getWorld() const				{ return world; }
-	Body& NRCPhysics::getBody() const				{ return body; }
-	Vec2i NRCPhysics::getLastResolution() const	{ return lastResolution; }
-	bool NRCPhysics::isAffectedByGravity() const	{ return affectedByGravity; }
-	bool NRCPhysics::isCrushedLeft() const			{ return crushedLeft > crushedTolerance; }
-	bool NRCPhysics::isCrushedRight() const			{ return crushedRight > crushedTolerance; }
-	bool NRCPhysics::isCrushedTop() const			{ return crushedTop > crushedTolerance; }
-	bool NRCPhysics::isCrushedBottom() const		{ return crushedBottom > crushedTolerance; }
-	int NRCPhysics::getCrushedLeft() const			{ return crushedLeft; }
-	int NRCPhysics::getCrushedRight() const			{ return crushedRight; }
-	int NRCPhysics::getCrushedTop() const			{ return crushedTop; }
-	int NRCPhysics::getCrushedBottom() const		{ return crushedBottom; }
 }

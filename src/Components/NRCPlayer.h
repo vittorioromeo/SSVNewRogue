@@ -19,7 +19,7 @@ namespace nr
 			NRCHumanoid& cHumanoid;
 
 		public:
-			NRCPlayer(sses::Entity& mEntity, NRGame& mGame, NRCHumanoid& mCHumanoid);
+			NRCPlayer(NRGame& mGame, NRCHumanoid& mCHumanoid);
 
 			void update(float) override;
 	};

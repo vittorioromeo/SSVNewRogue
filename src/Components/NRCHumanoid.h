@@ -36,8 +36,9 @@ namespace nr
 
 
 
-			NRCHumanoid(sses::Entity& mEntity, NRGame& mGame, NRCPhysics& mCPhysics);
+			NRCHumanoid(NRGame& mGame, NRCPhysics& mCPhysics);
 
+			void init() override;
 			void update(float mFrameTime) override;
 
 			void unCrouch();

@@ -18,7 +18,7 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCPlayer::NRCPlayer(Entity& mEntity, NRGame& mGame, NRCHumanoid& mCHumanoid) : Component(mEntity, "player"), game(mGame), cHumanoid(mCHumanoid) { }
+	NRCPlayer::NRCPlayer(NRGame& mGame, NRCHumanoid& mCHumanoid) : Component("player"), game(mGame), cHumanoid(mCHumanoid) { }
 
 	void NRCPlayer::update(float)
 	{

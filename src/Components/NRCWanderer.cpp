@@ -18,7 +18,7 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCWanderer::NRCWanderer(Entity& mEntity, NRGame& mGame, NRCHumanoid& mCHumanoid) : Component(mEntity, "wanderer"), game(mGame), cHumanoid(mCHumanoid) { }
+	NRCWanderer::NRCWanderer(NRGame& mGame, NRCHumanoid& mCHumanoid) : Component("wanderer"), game(mGame), cHumanoid(mCHumanoid) { }
 
 	void NRCWanderer::update(float mFrameTime)
 	{

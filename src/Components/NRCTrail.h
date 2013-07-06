@@ -22,7 +22,7 @@ namespace nr
 			sf::VertexArray vertices;
 
 		public:
-			NRCTrail(sses::Entity& mEntity, NRGame& mGame, ssvs::Vec2i mA, ssvs::Vec2i mB, sf::Color mColor);
+			NRCTrail(NRGame& mGame, ssvs::Vec2i mA, ssvs::Vec2i mB, sf::Color mColor);
 
 			void update(float mFrameTime) override;
 			void draw() override;

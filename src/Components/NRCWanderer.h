@@ -22,7 +22,7 @@ namespace nr
 			bool tired{false};
 
 		public:
-			NRCWanderer(sses::Entity& mEntity, NRGame& mGame, NRCHumanoid& mCHumanoid);
+			NRCWanderer(NRGame& mGame, NRCHumanoid& mCHumanoid);
 
 			void update(float mFrameTime) override;
 	};

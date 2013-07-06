@@ -21,7 +21,7 @@ namespace nr
 			ssvs::Vec2f offset;
 
 		public:
-			NRCRender(sses::Entity& mEntity, NRGame& mGame, ssvsc::Body& mBody);
+			NRCRender(NRGame& mGame, ssvsc::Body& mBody);
 
 			void update(float) override;
 			void draw() override;
