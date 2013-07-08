@@ -106,7 +106,6 @@ struct CTest : Component
 	{
 		body.setUserData(this);
 
-
 		body.addGroups({"test"});
 		body.addGroupsToCheck({"test"});
 		body.addGroupsNoResolve({"test"});
@@ -118,6 +117,8 @@ struct CTest : Component
 	}
 	void update(float) override
 	{
+		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
+
 		const AABB& s(body.getShape());
 
 		const float left{toPixels(s.getLeft())};
@@ -227,7 +228,6 @@ struct TestGame
 			camera.centerOn(Vec2f(c.body.getPosition()) / 100.f);
 
 			//for(const auto& e : manager.getComponents<CTest>()) { e->body.applyForce({0, 20});  }
-			for(auto& e : manager.getComponents<CTest>()) if(e != &c && getRnd(0, 20) > 17) e->body.setVelocity(Vec2f(getRnd(-250, 250), getRnd(-250, 250)));
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);

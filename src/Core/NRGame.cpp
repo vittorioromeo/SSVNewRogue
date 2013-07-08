@@ -10,6 +10,7 @@
 #include "Utils/NRUtils.h"
 
 #include "Components/NRCHumanoid.h"
+#include "Components/NRCTrail.h"
 
 using namespace std;
 using namespace sf;
