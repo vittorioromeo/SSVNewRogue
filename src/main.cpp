@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#define SSVNEWROGUE_BENCHMARK
+//#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -107,17 +107,18 @@ struct CTest : Component
 		body.setUserData(this);
 
 		body.addGroups({"test"});
-		body.addGroupsToCheck({"test"});
-		body.addGroupsNoResolve({"test"});
+		body.addGroupsToCheck({"test", "sup"});
+		//body.addGroupsNoResolve({"test"});
 
 		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
 
-		//body.onDetection += [&](DetectionInfo){  };
+		body.onDetection += [&](DetectionInfo di){ if(myVertices[0].color == Color::Green) static_cast<CTest*>(di.body.getUserData())->getEntity().destroy();};
 		body.onOutOfBounds += [&]{ body.setPosition({0,0}); };
 	}
 	void update(float) override
 	{
-		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
+		//if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
+		body.applyForce({0.f, 100.f});
 
 		const AABB& s(body.getShape());
 
@@ -168,7 +169,7 @@ struct TestGame
 			log(endBenchmark(), "creation b");
 		}
 
-		if(true)
+		if(false)
 		{
 			{
 				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{10000, 170000}, vertices, world);
@@ -207,6 +208,8 @@ struct TestGame
 			f.body.setStatic(true);
 			f.setColor(Color::Magenta);
 			f.body.setHalfSize({400000, 2500});
+			f.body.clearGroups();
+			f.body.addGroups({"sup"});
 		}
 
 		auto& player = createPlayer({-5000, 0});
