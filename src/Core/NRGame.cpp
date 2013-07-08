@@ -103,7 +103,7 @@ namespace nr
 		factory.createWall({1600 * 9, 1600 * 12 + 1200});
 
 		auto& player = factory.createPlayer({1600 * 4, 1600 * 5});
-		NRCHumanoid& playerCHumanoid = player.getFirstComponent<NRCHumanoid>();
+		NRCHumanoid& playerCHumanoid = player.getComponent<NRCHumanoid>();
 		{
 			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
 			Timeline& buff = timelineManager.create();

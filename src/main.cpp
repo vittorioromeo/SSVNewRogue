@@ -112,7 +112,7 @@ struct CTest : Component
 
 		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
 
-		body.onDetection += [&](DetectionInfo){ };
+		//body.onDetection += [&](DetectionInfo){  };
 		body.onOutOfBounds += [&]{ body.setPosition({0,0}); };
 	}
 	void update(float) override
@@ -210,7 +210,7 @@ struct TestGame
 		}
 
 		auto& player = createPlayer({-5000, 0});
-		auto& c = player.getFirstComponent<CTest>();
+		auto& c = player.getComponent<CTest>();
 		auto move = [&](Vec2f mOffset){ c.move(mOffset); };
 		float spd = 610.f;
 
@@ -233,7 +233,7 @@ struct TestGame
 			world.update(mFrameTime);
 			manager.update(mFrameTime);
 
-			//for(Body* b : player.getFirstComponent<CTest>("test").body.test) { static_cast<CTest*>(b->getUserData())->setColor(Color::Blue); }
+			//for(Body* b : player.getComponent<CTest>("test").body.test) { static_cast<CTest*>(b->getUserData())->setColor(Color::Blue); }
 			//c->body.setVelocity({0, 0});
 		};
 

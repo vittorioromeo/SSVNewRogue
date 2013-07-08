@@ -32,7 +32,7 @@ namespace nr
 		if(game.getInputJump() == 1) cHumanoid.jump();
 		if(game.getInputShoot() == 0) return;
 
-		auto& body = getEntity().getFirstComponent<NRCPhysics>().getBody();
+		auto& body = getEntity().getComponent<NRCPhysics>().getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 
 		Vec2i out;
@@ -42,7 +42,7 @@ namespace nr
 
 		if(enemy != nullptr)
 		{
-			//NRCPhysics& cPhysics(enemy->getFirstComponent<NRCPhysics>("physics"));
+			//NRCPhysics& cPhysics(enemy->getComponent<NRCPhysics>("physics"));
 			//log("pew pew!");
 			enemy->destroy();
 			//cPhysics.getBody().setStatic(false);

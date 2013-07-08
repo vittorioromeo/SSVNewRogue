@@ -36,7 +36,7 @@ namespace nr
 		if((int)time % 90 == 0) cHumanoid.jump();
 		return;
 
-		auto& body = getEntity().getFirstComponent<NRCPhysics>().getBody();
+		auto& body = getEntity().getComponent<NRCPhysics>().getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 		Vec2i out;
 		Entity* enemy{seekEntity(game, grid, body, body.getPosition() + Vec2i(body.getVelocity()), "humanoid", {"sensor"}, out)};
