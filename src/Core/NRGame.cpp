@@ -109,21 +109,24 @@ namespace nr
 			Timeline& buff = timelineManager.create();
 			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; }; playerCHumanoid.additionalSpeed.addModifier(b); });
 			buff.append<Wait>(100);
-			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(&b); playerCHumanoid.modifierManager.cleanUp(); });
+			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(b); playerCHumanoid.modifierManager.refresh(); });
+			playerCHumanoid.modifierManager.refresh();
 		}
 		{
 			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
 			Timeline& buff = timelineManager.create();
 			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; }; playerCHumanoid.additionalSpeed.addModifier(b); });
 			buff.append<Wait>(200);
-			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(&b); playerCHumanoid.modifierManager.cleanUp(); });
+			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(b); playerCHumanoid.modifierManager.refresh(); });
+			playerCHumanoid.modifierManager.refresh();
 		}
 		{
 			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
 			Timeline& buff = timelineManager.create();
 			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; }; playerCHumanoid.additionalSpeed.addModifier(b); });
 			buff.append<Wait>(300);
-			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(&b); playerCHumanoid.modifierManager.cleanUp(); });
+			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(b); playerCHumanoid.modifierManager.refresh(); });
+			playerCHumanoid.modifierManager.refresh();
 		}
 	}
 
