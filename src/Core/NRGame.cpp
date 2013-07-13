@@ -7,7 +7,7 @@
 #include "Core/NRDependencies.h"
 #include "Core/NRAssets.h"
 #include "Core/NRGame.h"
-#include "Utils/NRUtils.h"
+
 
 #include "Components/NRCHumanoid.h"
 #include "Components/NRCTrail.h"
@@ -32,9 +32,7 @@ namespace nr
 		gameState.onUpdate += [&](float mFrameTime){ update(mFrameTime); };
 		gameState.onDraw += [&]{ draw(); };
 
-		initInput();
-		initLevel();
-		initDebugGrid();
+		initInput(); initLevel(); initDebugGrid();
 	}
 
 	void NRGame::initInput()
@@ -75,21 +73,16 @@ namespace nr
 	void NRGame::initLevel()
 	{
 		int tilesX{320 / 16}, tilesY{240 / 16};
-		tilesX = 25;//world.getSpatial<Grid>().getIndexXMax() / 4;
-		tilesY = 25;//world.getSpatial<Grid>().getIndexYMax() / 4;
+		tilesX = 50; // world.getSpatial<Grid>().getIndexXMax() / 4;
+		tilesY = 50; // world.getSpatial<Grid>().getIndexYMax() / 4;
 
 		for(int iY{0}; iY < tilesY; ++iY)
 			for(int iX{0}; iX < tilesX; ++iX)
-				if(iX == 0 || iY == 0 || iX == tilesX - 1 || iY == tilesY - 1)
-					factory.createWall({1600 * iX + 800, 1600 * iY + 800});
+				if(iX == 0 || iY == 0 || iX == tilesX - 1 || iY == tilesY - 1) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
 				else
 				{
-					if(getRnd(0, 100) > 50) { factory.createWanderer({1600 * iX + 800, 1600 * iY + 800}); }
-					else
-					{
-						if(getRnd(0, 100) > 50) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
-
-					}
+					if(getRnd(0, 100) > 50) factory.createWanderer({1600 * iX + 800, 1600 * iY + 800});
+					else if(getRnd(0, 100) > 50) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
 				}
 
 		factory.createWall({1600 * 7 + 800, 1600 * 7 + 800});
@@ -130,15 +123,6 @@ namespace nr
 		}
 	}
 
-	void NRGame::initDebugGrid()
-	{
-		for(int iX{0}; iX < grid.getColumns(); ++iX)
-		{
-			debugGrid.push_back(vector<int>(grid.getRows()));
-			for(int iY{0}; iY < grid.getRows(); ++iY) debugGrid[iX][iY] = 0;
-		}
-	}
-
 	void NRGame::update(float mFrameTime)
 	{
 		world.update(mFrameTime);
@@ -156,17 +140,32 @@ namespace nr
 		for(const auto& e : entities) componentCount += e->getComponents().size();
 		for(const auto& b : bodies) if(!b->isStatic()) ++dynamicBodiesCount;
 
-		s << "FPS: "				<< toStr(gameWindow.getFPS()) << endl;
-		s << "FrameTime: "			<< toStr(mFrameTime) << endl;
-		s << "Bodies(all): "		<< toStr(bodies.size()) << endl;
-		s << "Bodies(static): "		<< toStr(bodies.size() - dynamicBodiesCount) << endl;
-		s << "Bodies(dynamic): "	<< toStr(dynamicBodiesCount) << endl;
-		s << "Sensors: "			<< toStr(world.getSensors().size()) << endl;
-		s << "Entities: "			<< toStr(entities.size()) << endl;
-		s << "Components: "			<< toStr(componentCount) << endl;
+		s << "FPS: "				<< gameWindow.getFPS() << endl;
+		s << "FrameTime: "			<< mFrameTime << endl;
+		s << "Bodies(all): "		<< bodies.size() << endl;
+		s << "Bodies(static): "		<< bodies.size() - dynamicBodiesCount << endl;
+		s << "Bodies(dynamic): "	<< dynamicBodiesCount << endl;
+		s << "Sensors: "			<< world.getSensors().size() << endl;
+		s << "Entities: "			<< entities.size() << endl;
+		s << "Components: "			<< componentCount << endl;
 
 		debugText.setString(s.str());
 	}
+
+	void NRGame::draw()
+	{
+		camera.apply();
+		//if(getGameWindow().isKeyPressed(Keyboard::Key::F))
+		manager.draw();
+		//drawDebugGrid();
+		camera.unapply();
+		render(debugText);
+	}
+
+	void NRGame::render(const Drawable& mDrawable) { gameWindow.draw(mDrawable); }
+
+	void NRGame::setDebugGrid(int mX, int mY) { debugGrid[mX + grid.getOffset()][mY + grid.getOffset()] = 1; }
+	void NRGame::clearDebugGrid() { for(int iX{0}; iX < grid.getColumns(); ++iX) for(int iY{0}; iY < grid.getRows(); ++iY) debugGrid[iX][iY] = 0; }
 	void NRGame::drawDebugGrid()
 	{
 		debugGridVertices.clear();
@@ -197,40 +196,12 @@ namespace nr
 			}
 		render(debugGridVertices);
 	}
-
-	void NRGame::draw()
-	{
-		camera.apply();
-		//if(getGameWindow().isKeyPressed(Keyboard::Key::F))
-		manager.draw();
-		//drawDebugGrid();
-		camera.unapply();
-		render(debugText);
-	}
-
-	void NRGame::render(const Drawable& mDrawable) { gameWindow.draw(mDrawable); }
-
-	void NRGame::setDebugGrid(int mX, int mY)
-	{
-		debugGrid[mX + grid.getOffset()][mY + grid.getOffset()] = 1;
-	}
-	void NRGame::clearDebugGrid()
+	void NRGame::initDebugGrid()
 	{
 		for(int iX{0}; iX < grid.getColumns(); ++iX)
-			for(int iY{0}; iY < grid.getRows(); ++iY)
-				debugGrid[iX][iY] = 0;
+		{
+			debugGrid.push_back(vector<int>(grid.getRows()));
+			for(int iY{0}; iY < grid.getRows(); ++iY) debugGrid[iX][iY] = 0;
+		}
 	}
-
-	// Getters
-	GameWindow& NRGame::getGameWindow()	{ return gameWindow; }
-	GameState& NRGame::getGameState()	{ return gameState; }
-	Manager& NRGame::getManager()		{ return manager; }
-	World& NRGame::getWorld()			{ return world; }
-	NRFactory& NRGame::getFactory()		{ return factory; }
-	Vec2i NRGame::getMousePosition()	{ return toCoords(camera.getMousePosition()); }
-	int NRGame::getInputX() 			{ return inputX; }
-	int NRGame::getInputY() 			{ return inputY; }
-	int NRGame::getInputShoot() 		{ return inputShoot; }
-	bool NRGame::getInputJump() 		{ return inputJump; }
-	bool NRGame::getInputWalk() 		{ return inputWalk; }
 }

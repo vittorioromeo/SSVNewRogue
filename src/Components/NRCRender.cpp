@@ -30,18 +30,4 @@ namespace nr
 		}
 	}
 	void NRCRender::draw() { for(const auto& s : sprites) game.render(s); }
-
-	void NRCRender::addSprite(const Sprite& mSprite) { sprites.push_back(mSprite); }
-
-	// Getters
-	bool NRCRender::isFlippedX() const						{ return flippedX; }
-	bool NRCRender::isFlippedY() const						{ return flippedY; }
-	vector<Sprite>& NRCRender::getSprites()					{ return sprites; }
-
-	// Setters
-	void NRCRender::setRotation(float mDegrees)				{ for(auto& s : sprites) s.setRotation(mDegrees); }
-	void NRCRender::setFlippedX(bool mFlippedX)				{ flippedX = mFlippedX; }
-	void NRCRender::setFlippedY(bool mFlippedY)				{ flippedY = mFlippedY; }
-	void NRCRender::setScaleWithBody(bool mScaleWithBody)	{ scaleWithBody = mScaleWithBody; }
-	void NRCRender::setOffset(Vec2f mOffset)				{ offset = mOffset; }
 }

@@ -24,10 +24,10 @@ namespace nr
 
 	void NRCHumanoid::init()
 	{
-		auto& s(body.getShape());
-		auto& ucsShape(unCrouchSensor.getSensor().getShape());
-		auto& actsShape(autoCrouchTopSensor.getSensor().getShape());
-		auto& acbsShape(autoCrouchBottomSensor.getSensor().getShape());
+		const auto& s(body.getShape());
+		const auto& ucsShape(unCrouchSensor.getSensor().getShape());
+		const auto& actsShape(autoCrouchTopSensor.getSensor().getShape());
+		const auto& acbsShape(autoCrouchBottomSensor.getSensor().getShape());
 
 		body.onPreUpdate += [&]{ jumpReady = false; };
 		body.onPostUpdate += [&]
@@ -112,10 +112,4 @@ namespace nr
 		if(crouching || isInAir() || !jumpReady) return;
 		body.setVelocityY(-jumpSpeed);
 	}
-
-	// Getters
-	bool NRCHumanoid::isFacingLeft()	{ return facingLeft; }
-	bool NRCHumanoid::isJumpReady()		{ return jumpReady; }
-	bool NRCHumanoid::isInAir()			{ return body.getShape().getY() != body.getOldShape().getY(); }
-	Action NRCHumanoid::getAction()		{ return action; }
 }

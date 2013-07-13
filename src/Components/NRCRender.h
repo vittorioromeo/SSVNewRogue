@@ -26,19 +26,19 @@ namespace nr
 			void update(float) override;
 			void draw() override;
 
-			void addSprite(const sf::Sprite& mSprite);
+			inline void addSprite(const sf::Sprite& mSprite) { sprites.push_back(mSprite); }
 
 			// Getters
-			bool isFlippedX() const;
-			bool isFlippedY() const;
-			std::vector<sf::Sprite>& getSprites();
+			inline bool isFlippedX() const					{ return flippedY; }
+			inline bool isFlippedY() const					{ return flippedX; }
+			inline std::vector<sf::Sprite>& getSprites()	{ return sprites; }
 
 			// Setters
-			void setRotation(float mDegrees);
-			void setFlippedX(bool mFlippedX);
-			void setFlippedY(bool mFlippedY);
-			void setScaleWithBody(bool mScaleWithBody);
-			void setOffset(ssvs::Vec2f mOffset);
+			inline void setRotation(float mDegrees)				{ for(auto& s : sprites) s.setRotation(mDegrees); }
+			inline void setFlippedX(bool mFlippedX)				{ flippedX = mFlippedX; }
+			inline void setFlippedY(bool mFlippedY)				{ flippedY = mFlippedY; }
+			inline void setScaleWithBody(bool mScaleWithBody)	{ scaleWithBody = mScaleWithBody; }
+			inline void setOffset(ssvs::Vec2f mOffset)			{ offset = mOffset; }
 	};
 
 	// TODO: find a way to add sprites with individual offsets, and still have a global offset (RenderData struct?)

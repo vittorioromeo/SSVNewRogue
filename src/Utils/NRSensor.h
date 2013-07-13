@@ -27,14 +27,12 @@ namespace nr
 			~NRSensor();
 
 			// Setters
-			void setPosition(ssvs::Vec2i mOffset);
+			void setPosition(ssvs::Vec2i mPosition) { position = mPosition; }
 
 			// Getters
-			ssvsc::Sensor& getSensor();
-			bool isActive() const;
+			inline ssvsc::Sensor& getSensor() { return sensor; }
+			inline bool isActive() const { return active; }
 	};
-
-	// TODO: maybe sensor can be a non-body class, that calculates index and checks the grid for collisions?
 }
 
 #endif

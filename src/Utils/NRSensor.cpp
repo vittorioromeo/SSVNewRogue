@@ -29,11 +29,4 @@ namespace nr
 		};
 	}
 	NRSensor::~NRSensor() { sensor.destroy(); }
-
-	// Setters
-	void NRSensor::setPosition(Vec2i mPosition) { position = mPosition; }
-
-	// Getters
-	Sensor& NRSensor::getSensor()	{ return sensor; }
-	bool NRSensor::isActive() const	{ return active; }
 }

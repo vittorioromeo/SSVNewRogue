@@ -7,6 +7,7 @@
 
 #include "Core/NRDependencies.h"
 #include "Core/NRFactory.h"
+#include "Utils/NRUtils.h"
 
 namespace nr
 {
@@ -50,17 +51,17 @@ namespace nr
 			void clearDebugGrid();
 
 			// Getters
-			ssvs::GameWindow& getGameWindow();
-			ssvs::GameState& getGameState();
-			sses::Manager& getManager();
-			ssvsc::World& getWorld();
-			NRFactory& getFactory();
-			ssvs::Vec2i getMousePosition();
-			int getInputX();
-			int getInputY();
-			int getInputShoot();
-			bool getInputJump();
-			bool getInputWalk();
+			inline ssvs::GameWindow& getGameWindow()	{ return gameWindow; }
+			inline ssvs::GameState& getGameState()		{ return gameState; }
+			inline sses::Manager& getManager()			{ return manager; }
+			inline ssvsc::World& getWorld()				{ return world; }
+			inline NRFactory& getFactory()				{ return factory; }
+			inline ssvs::Vec2i getMousePosition()		{ return toCoords(camera.getMousePosition()); }
+			inline int getInputX()						{ return inputX; }
+			inline int getInputY()						{ return inputY; }
+			inline int getInputShoot()					{ return inputShoot; }
+			inline bool getInputJump()					{ return inputJump; }
+			inline bool getInputWalk()					{ return inputWalk; }
 	};
 }
 

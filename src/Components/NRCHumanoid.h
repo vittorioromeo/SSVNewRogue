@@ -30,11 +30,8 @@ namespace nr
 			int crouchingHeight{900};
 
 		public:
-
-			ssvrpg::Value<int> additionalSpeed{0}; // TEST
-			ssvu::MemoryManager<ssvrpg::Modifier<int>> modifierManager; // TEST
-
-
+			ssvrpg::Value<int> additionalSpeed{0}; // TODO: remove, TEST
+			ssvu::MemoryManager<ssvrpg::Modifier<int>> modifierManager; // TODO: remove, TEST
 
 			NRCHumanoid(NRGame& mGame, NRCPhysics& mCPhysics);
 
@@ -47,10 +44,10 @@ namespace nr
 			void jump();
 
 			// Getters
-			bool isFacingLeft();
-			bool isJumpReady();
-			bool isInAir();
-			Action getAction();
+			inline bool isFacingLeft()	{ return facingLeft; }
+			inline bool isJumpReady()	{ return jumpReady; }
+			inline bool isInAir()		{ return body.getShape().getY() != body.getOldShape().getY(); }
+			inline Action getAction()	{ return action; }
 	};
 }
 
