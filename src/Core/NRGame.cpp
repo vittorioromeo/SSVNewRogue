@@ -25,7 +25,7 @@ using namespace ssvsc::Utils;
 namespace nr
 {
 	NRGame::NRGame(GameWindow& mGameWindow, NRAssets& mAssets) : gameWindow(mGameWindow), assets(mAssets), factory{assets, *this, manager, world},
-		world(createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1000, 500)), grid(world.getSpatial<Grid>()), debugText{assets().getBitmapFont("limeStroked")}
+		world(createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1000, 500)), grid(world.getSpatial<Grid>()), debugText{assets().get<BitmapFont>("limeStroked")}
 	{
 		debugText.setTracking(-3);
 
