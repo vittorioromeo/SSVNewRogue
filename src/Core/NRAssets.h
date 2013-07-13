@@ -17,8 +17,7 @@ namespace nr
 		public:
 			NRAssets();
 
-			// Getters
-			ssvs::AssetManager& operator()();
+			inline ssvs::AssetManager& operator()() { return assetManager; }
 	};
 }
 

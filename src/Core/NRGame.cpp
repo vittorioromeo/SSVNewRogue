@@ -227,7 +227,7 @@ namespace nr
 	Manager& NRGame::getManager()		{ return manager; }
 	World& NRGame::getWorld()			{ return world; }
 	NRFactory& NRGame::getFactory()		{ return factory; }
-	Vec2i NRGame::getMousePosition() { return toCoords(camera.getMousePosition()); }
+	Vec2i NRGame::getMousePosition()	{ return toCoords(camera.getMousePosition()); }
 	int NRGame::getInputX() 			{ return inputX; }
 	int NRGame::getInputY() 			{ return inputY; }
 	int NRGame::getInputShoot() 		{ return inputShoot; }
