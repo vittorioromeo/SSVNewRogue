@@ -111,7 +111,7 @@ struct CTest : Component
 
 		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
 
-		body.onDetection += [&](DetectionInfo di){ if(myVertices[0].color == Color::Green) static_cast<CTest*>(di.body.getUserData())->getEntity().destroy();};
+		body.onDetection += [&](const DetectionInfo& di){ if(myVertices[0].color == Color::Green) static_cast<CTest*>(di.body.getUserData())->getEntity().destroy();};
 		body.onOutOfBounds += [&]{ body.setPosition({0,0}); };
 	}
 	void update(float) override

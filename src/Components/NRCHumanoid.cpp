@@ -52,7 +52,7 @@ namespace nr
 
 	void NRCHumanoid::update(float)
 	{
-		Vec2f velocity{body.getVelocity()};
+		const auto& velocity(body.getVelocity());
 		if(!isInAir() && autoCrouchTopSensor.isActive() && !autoCrouchBottomSensor.isActive())
 		{
 			autoCrouching = true;

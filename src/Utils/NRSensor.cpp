@@ -21,7 +21,7 @@ namespace nr
 		sensor.addGroupsToCheck({"solid"});
 
 		sensor.onPreUpdate += [&]{ active = false; sensor.setPosition(position); };
-		sensor.onDetection += [&](DetectionInfo mDetectionInfo)
+		sensor.onDetection += [&](const DetectionInfo& mDetectionInfo)
 		{
 			if(mDetectionInfo.userData == nullptr) return;
 			Entity* entity(static_cast<Entity*>(mDetectionInfo.userData));

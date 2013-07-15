@@ -73,16 +73,16 @@ namespace nr
 	void NRGame::initLevel()
 	{
 		int tilesX{320 / 16}, tilesY{240 / 16};
-		tilesX = 50; // world.getSpatial<Grid>().getIndexXMax() / 4;
-		tilesY = 50; // world.getSpatial<Grid>().getIndexYMax() / 4;
+		// tilesX = 50; // world.getSpatial<Grid>().getIndexXMax() / 4;
+		// tilesY = 50; // world.getSpatial<Grid>().getIndexYMax() / 4;
 
 		for(int iY{0}; iY < tilesY; ++iY)
 			for(int iX{0}; iX < tilesX; ++iX)
 				if(iX == 0 || iY == 0 || iX == tilesX - 1 || iY == tilesY - 1) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
-				else
+				else if(false)
 				{
-					if(getRnd(0, 100) > 50) factory.createWanderer({1600 * iX + 800, 1600 * iY + 800});
-					else if(getRnd(0, 100) > 50) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
+					if(getRnd(0, 100) > 90) factory.createWanderer({1600 * iX + 800, 1600 * iY + 800});
+					else if(getRnd(0, 100) > 90) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
 				}
 
 		factory.createWall({1600 * 7 + 800, 1600 * 7 + 800});

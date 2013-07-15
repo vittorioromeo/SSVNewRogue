@@ -22,13 +22,13 @@ namespace nr
 	{
 		body.setUserData(&getEntity());
 
-		body.onDetection += [&](DetectionInfo mDetectionInfo)
+		body.onDetection += [&](const DetectionInfo& mDetectionInfo)
 		{
 			if(mDetectionInfo.userData == nullptr) return;
 			Entity* entity(static_cast<Entity*>(mDetectionInfo.userData));
 			onDetection(*entity);
 		};
-		body.onResolution += [&](ResolutionInfo mResolutionInfo)
+		body.onResolution += [&](const ResolutionInfo& mResolutionInfo)
 		{
 			onResolution(mResolutionInfo.resolution);
 
