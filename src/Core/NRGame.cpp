@@ -65,7 +65,7 @@ namespace nr
 		{
 			auto index(grid.getIndex(getMousePosition()));
 			auto count(grid.getCell(index.x, index.y).getBodies().size());
-			log(toStr(index.x) + " " + toStr(index.y) + "  :: " + toStr(count));
+			lo << index.x << " " << index.y << "  :: " << count << endl;
 			debugGrid[index.x + grid.getOffset()][index.y + grid.getOffset()] = 1;
 		}, t::Single);
 		gameState.addInput({{k::Num5}}, [&](float){ clearDebugGrid(); }, t::Single);

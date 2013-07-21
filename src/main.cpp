@@ -37,9 +37,9 @@ int main()
 		maxHealth.addDependency(endurance);
 		maxHealth.addModifier(enduranceHealthModifier);
 
-		log(toStr(maxHealth.getComputed()));
+		lo << maxHealth.getComputed() << endl;
 		endurance.setBase(15);
-		log(toStr(maxHealth.getComputed()));
+		lo << maxHealth.getComputed() << endl;
 	}
 
 	setRandomSeed();
