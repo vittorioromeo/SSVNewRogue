@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -41,8 +41,6 @@ int main()
 		endurance.setBase(15);
 		lo << maxHealth.getComputed() << endl;
 	}
-
-	setRandomSeed();
 
 	unsigned int width{VideoMode::getDesktopMode().width}, height{VideoMode::getDesktopMode().height};
 	width = 800; height = 600;
@@ -165,7 +163,7 @@ struct TestGame
 		{
 			startBenchmark();
 			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
-			log(endBenchmark(), "creation b");
+			lo << lt("creation b") << endBenchmark();
 		}
 
 		if(false)
