@@ -105,7 +105,7 @@ struct CTest : Component
 
 		body.addGroups({"test"});
 		body.addGroupsToCheck({"test", "sup"});
-		//body.addGroupsNoResolve({"test"});
+		body.addGroupsNoResolve({"test"});
 
 		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
 
@@ -115,7 +115,7 @@ struct CTest : Component
 	void update(float) override
 	{
 		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
-		body.applyForce({0.f, 100.f});
+		//body.applyForce({0.f, 100.f});
 
 		const AABB& s(body.getShape());
 
