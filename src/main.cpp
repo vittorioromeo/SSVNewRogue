@@ -105,7 +105,7 @@ struct CTest : Component
 
 		body.addGroups({"test"});
 		body.addGroupsToCheck({"test", "sup"});
-		body.addGroupsNoResolve({"test"});
+		//body.addGroupsNoResolve({"test"});
 
 		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
 
