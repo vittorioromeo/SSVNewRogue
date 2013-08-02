@@ -67,16 +67,16 @@ namespace nr
 		{
 			if(!crouching)
 			{
-				if(velocity.x == 0) action = Action::STANDING;
-				else if(abs(velocity.x) >= runSpeed) action = Action::RUNNING;
-				else if(abs(velocity.x) >= walkSpeed) action = Action::WALKING;
+				if(velocity.x == 0) action = Action::Standing;
+				else if(abs(velocity.x) >= runSpeed) action = Action::Running;
+				else if(abs(velocity.x) >= walkSpeed) action = Action::Walking;
 			}
-			else action = velocity.x == 0 ? Action::CROUCHING : Action::CROUCHWALKING;
+			else action = velocity.x == 0 ? Action::Crouching : Action::CrouchWalking;
 		}
 		else
 		{
-			if(velocity.y > 0) action = Action::FALLING;
-			else if(velocity.y < 0) action = Action::JUMPING;
+			if(velocity.y > 0) action = Action::Falling;
+			else if(velocity.y < 0) action = Action::Jumping;
 		}
 	}
 

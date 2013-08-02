@@ -16,7 +16,7 @@ namespace nr
 	class NRCHumanoid : public sses::Component
 	{
 		public:
-			enum class Action{ WALKING, RUNNING, CROUCHING, CROUCHWALKING, STANDING, JUMPING, FALLING };
+			enum class Action{Walking, Running, Crouching, CrouchWalking, Standing, Jumping, Falling};
 
 		private:
 			NRGame& game;

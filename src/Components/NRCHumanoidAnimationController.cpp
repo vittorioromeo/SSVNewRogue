@@ -27,13 +27,13 @@ namespace nr
 
 		switch(cHumanoid.getAction())
 		{
-			case Action::WALKING: currentAnim = &animWalk; break;
-			case Action::RUNNING: currentAnim = &animRun; break;
-			case Action::STANDING: currentAnim = &animStand; break;
-			case Action::JUMPING: currentAnim = &animJump; break;
-			case Action::FALLING: currentAnim = &animFall; break;
-			case Action::CROUCHING: cRender.setOffset({0, -3}); currentAnim = &animCrouch; break;
-			case Action::CROUCHWALKING: cRender.setOffset({0, -3}); currentAnim = &animCrouchWalk; break;
+			case Action::Walking: currentAnim = &animWalk; break;
+			case Action::Running: currentAnim = &animRun; break;
+			case Action::Standing: currentAnim = &animStand; break;
+			case Action::Jumping: currentAnim = &animJump; break;
+			case Action::Falling: currentAnim = &animFall; break;
+			case Action::Crouching: cRender.setOffset({0, -3}); currentAnim = &animCrouch; break;
+			case Action::CrouchWalking: cRender.setOffset({0, -3}); currentAnim = &animCrouchWalk; break;
 		}
 
 		if(currentAnim == nullptr) return;
