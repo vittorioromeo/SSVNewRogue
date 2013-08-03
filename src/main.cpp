@@ -51,17 +51,19 @@ struct PreAllocator
 		inline size_t getSize() const { return sizeof(char) * (end - start); }
 	};
 
-	char* buffer{new char[1000]};
-	list<Piece> available;
+	constexpr static unsigned int bufferSize{1000};
+	char* buffer{new char[bufferSize]};
+	vector<Piece> available;
 
-	PreAllocator()
+	inline PreAllocator()
 	{
 		// lo << "Created preallocator" << endl;
 
-		available.emplace_front(&buffer[0], &buffer[1000]);
+
+		available.emplace_back(&buffer[0], &buffer[bufferSize]);
 		// lo << "Pushed 0-999 piece" << endl;
 	}
-	~PreAllocator()
+	inline ~PreAllocator()
 	{
 		// lo << "Destroying preallocator" << endl;
 
@@ -69,7 +71,7 @@ struct PreAllocator
 		// lo << "Destroyed preallocator" << endl;
 	}
 
-	template<typename T> T* create()
+	template<typename T> inline  T* create()
 	{
 		// if(available.empty()) { lo << "No available memory pieces" << endl; throw; }
 
@@ -77,7 +79,7 @@ struct PreAllocator
 		size_t needed{sizeof(T)};
 		// lo << "Needed: " << needed << endl;
 
-		std::list<Piece>::iterator suitable{std::end(available)};
+		std::vector<Piece>::iterator suitable{std::end(available)};
 		bool triedUnifying{false};
 
 		while(true)
@@ -120,66 +122,42 @@ struct PreAllocator
 		// lo << "Leftover: " << leftover.getSize() << endl;
 
 		available.erase(suitable);
-		if(leftover.getSize() > 0) available.emplace_front(leftover);
+		if(leftover.getSize() > 0) available.push_back(leftover);
 
 		return new (toUse) T;
 	}
-	template<typename T> void destroy(T* mObject)
+	template<typename T> inline void destroy(T* mObject)
 	{
 		// lo << "Destroying an object" << endl;
 
 		mObject->~T();
-		// lo << "Object destructor called" << endl;
+		// lo << "Objectavailable destructor called" << endl;
 
 		char* objStart{reinterpret_cast<char*>(mObject)};
 		//Piece usedByObj{objStart, objStart + sizeof(T)};
 
-		available.emplace_front(objStart, objStart + sizeof(T));
+		available.emplace_back(objStart, objStart + sizeof(T));
 	}
 
-	void unifyContiguous()
+	inline void unifyFrom(unsigned int mIndex)
 	{
-		// lo << "Unifying contiguous available memory" << endl;
+		char* start{available[mIndex].start};
+		char* lastEnd{available[mIndex].end};
 
-		bool repeat{true};
-
-		vector<Piece*> toRemove;
-		vector<Piece> toAdd;
-
-		while(repeat)
-		{
-			repeat = false;
-			toRemove.clear();
-			toAdd.clear();
-
-			available.sort([](const Piece& mA, const Piece& mB){ return mA.start < mB.start; });
-
-			for(auto itr(std::begin(available)); itr != std::end(available); ++itr)
-			{
-				auto itr2 = itr;
-				bool found{false};
-				char* lastEnd = itr->end;
-
-				std::advance(itr2, 1);
-				while(itr2 != std::end(available) && lastEnd == itr2->start)
-				{
-					found = true;
-					lastEnd = itr2->end;
-					std::advance(itr2, 1);
-				}
-				std::advance(itr2, -1);
-
-				if(!found) continue;
-
-				toAdd.emplace_back(itr->start, itr2->end);
-				available.erase(itr, itr2);
-				break;
-			}
-
-			for(const auto& ta : toAdd) available.push_back(ta);
-		}
+		auto itr(std::begin(available) + mIndex + 1);
+		for(; itr != std::end(available); ++itr)
+			if(itr->start == lastEnd) lastEnd = itr->end;
+			else break;
 
 
+		available.erase(available.begin() + mIndex, itr);
+		available.emplace_back(start, lastEnd);
+	}
+
+	inline void unifyContiguous()
+	{
+		std::sort(std::begin(available), std::end(available), [](const Piece& mA, const Piece& mB){ return mA.start < mB.start; });
+		for(unsigned int i{0}; i < available.size(); ++i) unifyFrom(i);
 	}
 };
 
