@@ -13,7 +13,7 @@
 #include <unordered_set>
 #include <string>
 #include <memory>
-#include <list>
+#include <cassert>
 
 using namespace std;
 using namespace sf;
@@ -40,125 +40,89 @@ struct TestObjBig : ObjBase
 	~TestObjBig()	{ } //lo << "dtorbig" << endl; }
 };
 
-struct PreAllocator
+class PreAllocator
 {
-	struct Piece
-	{
-		char* start; // inclusive
-		char* end; // exclusive
+	private:
+		constexpr static unsigned int bufferSize{1000};
+		using MemoryPtr = char*;
 
-		inline Piece(char* mStart, char* mEnd) : start{mStart}, end{mEnd} { }
-		inline size_t getSize() const { return sizeof(char) * (end - start); }
-	};
-
-	constexpr static unsigned int bufferSize{1000};
-	char* buffer{new char[bufferSize]};
-	vector<Piece> available;
-
-	inline PreAllocator()
-	{
-		// lo << "Created preallocator" << endl;
-
-
-		available.emplace_back(&buffer[0], &buffer[bufferSize]);
-		// lo << "Pushed 0-999 piece" << endl;
-	}
-	inline ~PreAllocator()
-	{
-		// lo << "Destroying preallocator" << endl;
-
-		delete[] buffer;
-		// lo << "Destroyed preallocator" << endl;
-	}
-
-	template<typename T> inline  T* create()
-	{
-		// if(available.empty()) { lo << "No available memory pieces" << endl; throw; }
-
-		// Find suitable memory piece
-		size_t needed{sizeof(T)};
-		// lo << "Needed: " << needed << endl;
-
-		std::vector<Piece>::iterator suitable{std::end(available)};
-		bool triedUnifying{false};
-
-		while(true)
+		struct Piece
 		{
-			for(auto itr(std::begin(available)); itr != std::end(available); ++itr)
-			{
-				if(itr->getSize() < needed) continue;
+			// Piece is a range of memory [begin, end)
+			MemoryPtr begin, end;
 
-				// lo << "Suitable piece found" << endl;
-				suitable = itr; break;
-			}
+			inline Piece(MemoryPtr mStart, MemoryPtr mEnd) : begin{mStart}, end{mEnd} { }
+			inline size_t getSize() const { return sizeof(MemoryPtr) * (end - begin); }
+		};
 
-			if(suitable == std::end(available))
-			{
-				// lo << "No suitable memory pieces" << endl;
-				if(!triedUnifying)
-				{
-					// lo << "Trying to unify memory" << endl;
-					unifyContiguous();
-					triedUnifying = true;
-				}
-				else
-				{
-					for(const auto& p : available) lo << lt("Piece") << p.getSize() << " " << (void*) p.start << " " << (void*) p.end << endl;
-					throw;
-				}
-			}
-			else break;
+		char* buffer{new char[bufferSize]};
+		vector<Piece> available;
+
+		inline void unifyFrom(unsigned int mIndex)
+		{
+			auto lastEnd(available[mIndex].end);
+			auto itr(std::begin(available) + mIndex + 1);
+
+			for(; itr != std::end(available); ++itr)
+				if(itr->begin == lastEnd) lastEnd = itr->end;
+				else break;
+
+			available.erase(std::begin(available) + mIndex, itr);
+			available.emplace_back(available[mIndex].begin, lastEnd);
 		}
 
-		// lo << "To reclaim: " << suitable->getSize() << endl;
-		// lo << "Splitting piece" << endl;
+		inline void unifyContiguous()
+		{
+			std::sort(std::begin(available), std::end(available), [](const Piece& mA, const Piece& mB){ return mA.begin < mB.begin; });
+			for(unsigned int i{0}; i < available.size(); ++i) unifyFrom(i);
+		}
 
-		//Piece toUse{suitable->start, suitable->start + needed};
-		Piece leftover{suitable->start + needed, suitable->end};
+		inline std::vector<Piece>::iterator findSuitableMemory(size_t mRequiredSize)
+		{
+			// Tries to find a memory piece big enough to hold mRequiredSize
+			// If it is not found, contiguous memory pieces are unified
+			// If it is not found again, throws an exception
 
-		char* toUse{suitable->start};
+			assert(!available.empty());
+			for(auto itr(std::begin(available)); itr != std::end(available); ++itr) if(itr->getSize() >= mRequiredSize) return itr;
+			unifyContiguous();
+			for(auto itr(std::begin(available)); itr != std::end(available); ++itr) if(itr->getSize() >= mRequiredSize) return itr;
+			throw;
+		}
 
-		// lo << "To use: " << toUse.getSize() << endl;
-		// lo << "Leftover: " << leftover.getSize() << endl;
+	public:
+		PreAllocator()
+		{
+			// Add the whole buffer to the available memory vector
+			available.emplace_back(&buffer[0], &buffer[bufferSize]);
+		}
+		~PreAllocator() { delete[] buffer; }
 
-		available.erase(suitable);
-		if(leftover.getSize() > 0) available.push_back(leftover);
+		template<typename T> inline T* create()
+		{
+			// Creates and returns a T* allocated with "placement new" on an available piece of the buffer
+			// T must be the "real object type" - this method will fail with pointers to bases that store derived instances!
 
-		return new (toUse) T;
-	}
-	template<typename T> inline void destroy(T* mObject)
-	{
-		// lo << "Destroying an object" << endl;
+			auto requiredSize(sizeof(T));
+			auto suitable(findSuitableMemory(requiredSize));
 
-		mObject->~T();
-		// lo << "Objectavailable destructor called" << endl;
+			MemoryPtr toUse{suitable->begin};
+			Piece leftover{toUse + requiredSize, suitable->end};
 
-		char* objStart{reinterpret_cast<char*>(mObject)};
-		//Piece usedByObj{objStart, objStart + sizeof(T)};
+			available.erase(suitable);
+			if(leftover.getSize() > 0) available.push_back(leftover);
 
-		available.emplace_back(objStart, objStart + sizeof(T));
-	}
+			return new (toUse) T;
+		}
+		template<typename T> inline void destroy(T* mObject)
+		{
+			// Destroyes a previously allocated object, calling its destructor and reclaiming its memory piece
+			// T must be the "real object type" - this method will fail with pointers to bases that store derived instances!
 
-	inline void unifyFrom(unsigned int mIndex)
-	{
-		char* start{available[mIndex].start};
-		char* lastEnd{available[mIndex].end};
-
-		auto itr(std::begin(available) + mIndex + 1);
-		for(; itr != std::end(available); ++itr)
-			if(itr->start == lastEnd) lastEnd = itr->end;
-			else break;
-
-
-		available.erase(available.begin() + mIndex, itr);
-		available.emplace_back(start, lastEnd);
-	}
-
-	inline void unifyContiguous()
-	{
-		std::sort(std::begin(available), std::end(available), [](const Piece& mA, const Piece& mB){ return mA.start < mB.start; });
-		for(unsigned int i{0}; i < available.size(); ++i) unifyFrom(i);
-	}
+			mObject->~T();
+			auto objStart(reinterpret_cast<MemoryPtr>(mObject));
+			available.emplace_back(objStart, objStart + sizeof(T));
+		}
 };
 
 
