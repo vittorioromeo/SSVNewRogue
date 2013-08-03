@@ -13,6 +13,7 @@
 #include <unordered_set>
 #include <string>
 #include <memory>
+#include <list>
 
 using namespace std;
 using namespace sf;
@@ -21,8 +22,229 @@ using namespace ssvs;
 using namespace nr;
 using namespace ssvrpg;
 
+struct ObjBase { };
+
+struct TestObj : ObjBase
+{
+	char data[100];
+
+	TestObj()	{ } //lo << "ctor" << endl; }
+	~TestObj()	{ } //lo << "dtor" << endl; }
+};
+
+struct TestObjBig : ObjBase
+{
+	char data[500];
+
+	TestObjBig()	{ } //lo << "ctorbig" << endl; }
+	~TestObjBig()	{ } //lo << "dtorbig" << endl; }
+};
+
+struct PreAllocator
+{
+	struct Piece
+	{
+		char* start; // inclusive
+		char* end; // exclusive
+
+		inline Piece(char* mStart, char* mEnd) : start{mStart}, end{mEnd} { }
+		inline size_t getSize() const { return sizeof(char) * (end - start); }
+	};
+
+	char* buffer{new char[1000]};
+	list<Piece> available;
+
+	PreAllocator()
+	{
+		// lo << "Created preallocator" << endl;
+
+		available.emplace_front(&buffer[0], &buffer[1000]);
+		// lo << "Pushed 0-999 piece" << endl;
+	}
+	~PreAllocator()
+	{
+		// lo << "Destroying preallocator" << endl;
+
+		delete[] buffer;
+		// lo << "Destroyed preallocator" << endl;
+	}
+
+	template<typename T> T* create()
+	{
+		// if(available.empty()) { lo << "No available memory pieces" << endl; throw; }
+
+		// Find suitable memory piece
+		size_t needed{sizeof(T)};
+		// lo << "Needed: " << needed << endl;
+
+		std::list<Piece>::iterator suitable{std::end(available)};
+		bool triedUnifying{false};
+
+		while(true)
+		{
+			for(auto itr(std::begin(available)); itr != std::end(available); ++itr)
+			{
+				if(itr->getSize() < needed) continue;
+
+				// lo << "Suitable piece found" << endl;
+				suitable = itr; break;
+			}
+
+			if(suitable == std::end(available))
+			{
+				// lo << "No suitable memory pieces" << endl;
+				if(!triedUnifying)
+				{
+					// lo << "Trying to unify memory" << endl;
+					unifyContiguous();
+					triedUnifying = true;
+				}
+				else
+				{
+					for(const auto& p : available) lo << lt("Piece") << p.getSize() << " " << (void*) p.start << " " << (void*) p.end << endl;
+					throw;
+				}
+			}
+			else break;
+		}
+
+		// lo << "To reclaim: " << suitable->getSize() << endl;
+		// lo << "Splitting piece" << endl;
+
+		//Piece toUse{suitable->start, suitable->start + needed};
+		Piece leftover{suitable->start + needed, suitable->end};
+
+		char* toUse{suitable->start};
+
+		// lo << "To use: " << toUse.getSize() << endl;
+		// lo << "Leftover: " << leftover.getSize() << endl;
+
+		available.erase(suitable);
+		if(leftover.getSize() > 0) available.emplace_front(leftover);
+
+		return new (toUse) T;
+	}
+	template<typename T> void destroy(T* mObject)
+	{
+		// lo << "Destroying an object" << endl;
+
+		mObject->~T();
+		// lo << "Object destructor called" << endl;
+
+		char* objStart{reinterpret_cast<char*>(mObject)};
+		//Piece usedByObj{objStart, objStart + sizeof(T)};
+
+		available.emplace_front(objStart, objStart + sizeof(T));
+	}
+
+	void unifyContiguous()
+	{
+		// lo << "Unifying contiguous available memory" << endl;
+
+		bool repeat{true};
+
+		vector<Piece*> toRemove;
+		vector<Piece> toAdd;
+
+		while(repeat)
+		{
+			repeat = false;
+			toRemove.clear();
+			toAdd.clear();
+
+			available.sort([](const Piece& mA, const Piece& mB){ return mA.start < mB.start; });
+
+			for(auto itr(std::begin(available)); itr != std::end(available); ++itr)
+			{
+				auto itr2 = itr;
+				bool found{false};
+				char* lastEnd = itr->end;
+
+				std::advance(itr2, 1);
+				while(itr2 != std::end(available) && lastEnd == itr2->start)
+				{
+					found = true;
+					lastEnd = itr2->end;
+					std::advance(itr2, 1);
+				}
+				std::advance(itr2, -1);
+
+				if(!found) continue;
+
+				toAdd.emplace_back(itr->start, itr2->end);
+				available.erase(itr, itr2);
+				break;
+			}
+
+			for(const auto& ta : toAdd) available.push_back(ta);
+		}
+
+
+	}
+};
+
+
+
 int main()
 {
+	PreAllocator p;
+
+	startBenchmark();
+	{
+		for(int k = 0; k < 10000; ++k)
+		{
+			vector<TestObj*> objs;
+			vector<TestObjBig*> objsbig;
+
+			for(int n = 0; n < 300; ++n)
+			{
+				for(int i = 0; i < 5; ++i) objs.push_back(p.create<TestObj>());
+				for(int i = 0; i < 5; ++i) p.destroy(objs[i]);
+				objs.clear();
+			}
+
+			for(int n = 0; n < 100; ++n)
+			{
+				for(int i = 0; i < 2; ++i) objsbig.push_back(p.create<TestObjBig>());
+				for(int i = 0; i < 2; ++i) p.destroy(objsbig[i]);
+				objsbig.clear();
+			}
+		}
+	}
+	string b1 = endBenchmark();
+
+
+	startBenchmark();
+	{
+		for(int k = 0; k < 10000; ++k)
+		{
+			vector<TestObj*> objs;
+			vector<TestObjBig*> objsbig;
+
+			for(int n = 0; n < 300; ++n)
+			{
+				for(int i = 0; i < 5; ++i) objs.push_back(new TestObj());
+				for(int i = 0; i < 5; ++i) delete objs[i];
+				objs.clear();
+			}
+
+			for(int n = 0; n < 100; ++n)
+			{
+				for(int i = 0; i < 2; ++i) objsbig.push_back(new TestObjBig());
+				for(int i = 0; i < 2; ++i) delete objsbig[i];
+				objsbig.clear();
+			}
+		}
+	}
+	string b2 = endBenchmark();
+
+
+	lo << b1 << endl;
+	lo << b2 << endl;
+
+
+	return 0;
+
 	if(false)
 	{
 		Value<int> strength{10};
