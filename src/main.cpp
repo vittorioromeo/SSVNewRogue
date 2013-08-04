@@ -234,7 +234,6 @@ struct TestGame
 			world.update(mFrameTime);
 			manager.update(mFrameTime);
 
-
 			if(manager.getEntities().size() <= 0) return;
 
 			startBenchmark();
