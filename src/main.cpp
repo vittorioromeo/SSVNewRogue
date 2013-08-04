@@ -22,168 +22,84 @@ using namespace ssvs;
 using namespace nr;
 using namespace ssvrpg;
 
-struct ObjBase { };
-
-struct TestObj : ObjBase
-{
-	char data[100];
-
-	TestObj()	{ } //lo << "ctor" << endl; }
-	~TestObj()	{ } //lo << "dtor" << endl; }
-};
-
-struct TestObjBig : ObjBase
-{
-	char data[500];
-
-	TestObjBig()	{ } //lo << "ctorbig" << endl; }
-	~TestObjBig()	{ } //lo << "dtorbig" << endl; }
-};
-
-class PreAllocator
-{
-	private:
-		constexpr static unsigned int bufferSize{1000};
-		using MemoryPtr = char*;
-
-		struct Piece
-		{
-			// Piece is a range of memory [begin, end)
-			MemoryPtr begin, end;
-
-			inline Piece(MemoryPtr mStart, MemoryPtr mEnd) : begin{mStart}, end{mEnd} { }
-			inline size_t getSize() const { return sizeof(MemoryPtr) * (end - begin); }
-		};
-
-		char* buffer{new char[bufferSize]};
-		vector<Piece> available;
-
-		inline void unifyFrom(unsigned int mIndex)
-		{
-			auto lastEnd(available[mIndex].end);
-			auto itr(std::begin(available) + mIndex + 1);
-
-			for(; itr != std::end(available); ++itr)
-				if(itr->begin == lastEnd) lastEnd = itr->end;
-				else break;
-
-			available.erase(std::begin(available) + mIndex, itr);
-			available.emplace_back(available[mIndex].begin, lastEnd);
-		}
-
-		inline void unifyContiguous()
-		{
-			std::sort(std::begin(available), std::end(available), [](const Piece& mA, const Piece& mB){ return mA.begin < mB.begin; });
-			for(unsigned int i{0}; i < available.size(); ++i) unifyFrom(i);
-		}
-
-		inline std::vector<Piece>::iterator findSuitableMemory(size_t mRequiredSize)
-		{
-			// Tries to find a memory piece big enough to hold mRequiredSize
-			// If it is not found, contiguous memory pieces are unified
-			// If it is not found again, throws an exception
-
-			assert(!available.empty());
-			for(auto itr(std::begin(available)); itr != std::end(available); ++itr) if(itr->getSize() >= mRequiredSize) return itr;
-			unifyContiguous();
-			for(auto itr(std::begin(available)); itr != std::end(available); ++itr) if(itr->getSize() >= mRequiredSize) return itr;
-			throw;
-		}
-
-	public:
-		PreAllocator()
-		{
-			// Add the whole buffer to the available memory vector
-			available.emplace_back(&buffer[0], &buffer[bufferSize]);
-		}
-		~PreAllocator() { delete[] buffer; }
-
-		template<typename T> inline T* create()
-		{
-			// Creates and returns a T* allocated with "placement new" on an available piece of the buffer
-			// T must be the "real object type" - this method will fail with pointers to bases that store derived instances!
-
-			auto requiredSize(sizeof(T));
-			auto suitable(findSuitableMemory(requiredSize));
-
-			MemoryPtr toUse{suitable->begin};
-			Piece leftover{toUse + requiredSize, suitable->end};
-
-			available.erase(suitable);
-			if(leftover.getSize() > 0) available.push_back(leftover);
-
-			return new (toUse) T;
-		}
-		template<typename T> inline void destroy(T* mObject)
-		{
-			// Destroyes a previously allocated object, calling its destructor and reclaiming its memory piece
-			// T must be the "real object type" - this method will fail with pointers to bases that store derived instances!
-
-			mObject->~T();
-			auto objStart(reinterpret_cast<MemoryPtr>(mObject));
-			available.emplace_back(objStart, objStart + sizeof(T));
-		}
-};
-
+struct ObjBase {  virtual ~ObjBase(){} };
+struct TestObj : ObjBase { char data[100];  virtual ~TestObj(){} };
+struct TestObjBig : ObjBase { char data[500]; virtual ~TestObjBig(){} };
 
 
 int main()
 {
-	PreAllocator p;
+	vector<TestObj*> objs;
+	vector<TestObjBig*> objsbig;
+	PreAllocator p{5000};
 
-	startBenchmark();
+	for(int nnb = 0; nnb < 2; ++nnb)
 	{
-		for(int k = 0; k < 10000; ++k)
+		startBenchmark();
 		{
-			vector<TestObj*> objs;
-			vector<TestObjBig*> objsbig;
-
-			for(int n = 0; n < 300; ++n)
+			for(int k = 0; k < 10000; ++k)
 			{
-				for(int i = 0; i < 5; ++i) objs.push_back(p.create<TestObj>());
-				for(int i = 0; i < 5; ++i) p.destroy(objs[i]);
-				objs.clear();
-			}
+				for(int n = 0; n < 300; ++n)
+				{
+					for(int i = 0; i < 5; ++i) objs.push_back(p.create<TestObj>());
+					for(int i = 0; i < 5; ++i) p.destroy(objs[i]);
+					objs.clear();
+				}
 
-			for(int n = 0; n < 100; ++n)
-			{
-				for(int i = 0; i < 2; ++i) objsbig.push_back(p.create<TestObjBig>());
-				for(int i = 0; i < 2; ++i) p.destroy(objsbig[i]);
-				objsbig.clear();
+				for(int n = 0; n < 100; ++n)
+				{
+					for(int i = 0; i < 2; ++i) objsbig.push_back(p.create<TestObjBig>());
+					for(int i = 0; i < 2; ++i) p.destroy(objsbig[i]);
+					objsbig.clear();
+				}
+
+				for(int n = 0; n < 100; ++n)
+				{
+					for(int i = 0; i < 5; ++i) objs.push_back(p.create<TestObj>());
+					for(int i = 0; i < 5; ++i) p.destroy(objs[i]);
+					for(int i = 0; i < 2; ++i) objsbig.push_back(p.create<TestObjBig>());
+					for(int i = 0; i < 2; ++i) p.destroy(objsbig[i]);
+					objs.clear();
+					objsbig.clear();
+				}
 			}
 		}
-	}
-	string b1 = endBenchmark();
+		string b1 = endBenchmark();
 
-
-	startBenchmark();
-	{
-		for(int k = 0; k < 10000; ++k)
+		startBenchmark();
 		{
-			vector<TestObj*> objs;
-			vector<TestObjBig*> objsbig;
-
-			for(int n = 0; n < 300; ++n)
+			for(int k = 0; k < 10000; ++k)
 			{
-				for(int i = 0; i < 5; ++i) objs.push_back(new TestObj());
-				for(int i = 0; i < 5; ++i) delete objs[i];
-				objs.clear();
-			}
+				for(int n = 0; n < 300; ++n)
+				{
+					for(int i = 0; i < 5; ++i) objs.push_back(new TestObj());
+					for(int i = 0; i < 5; ++i) delete objs[i];
+					objs.clear();
+				}
 
-			for(int n = 0; n < 100; ++n)
-			{
-				for(int i = 0; i < 2; ++i) objsbig.push_back(new TestObjBig());
-				for(int i = 0; i < 2; ++i) delete objsbig[i];
-				objsbig.clear();
+				for(int n = 0; n < 100; ++n)
+				{
+					for(int i = 0; i < 2; ++i) objsbig.push_back(new TestObjBig());
+					for(int i = 0; i < 2; ++i) delete objsbig[i];
+					objsbig.clear();
+				}
+
+				for(int n = 0; n < 100; ++n)
+				{
+					for(int i = 0; i < 5; ++i) objs.push_back(new TestObj());
+					for(int i = 0; i < 5; ++i) delete objs[i];
+					for(int i = 0; i < 2; ++i) objsbig.push_back(new TestObjBig());
+					for(int i = 0; i < 2; ++i) delete objsbig[i];
+					objs.clear();
+					objsbig.clear();
+				}
 			}
 		}
+		string b2 = endBenchmark();
+
+		cout << b1 << endl;
+		cout << b2 << endl;
 	}
-	string b2 = endBenchmark();
-
-
-	lo << b1 << endl;
-	lo << b2 << endl;
-
 
 	return 0;
 
@@ -326,8 +242,8 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
-			lo << lt("creation b") << endBenchmark();
+			for(int iY{0}; iY < 1000; ++iY) for(int iX{0}; iX < 1000; ++iX) create({iX * 1500, iY * 1500}, false);
+			lo << lt("creation b") << endBenchmark() << endl;
 		}
 
 		if(false)
@@ -389,13 +305,20 @@ struct TestGame
 		game.onUpdate += [&](float mFrameTime)
 		{
 			window.setTitle(toStr(window.getFPS()));
-			camera.centerOn(Vec2f(c.body.getPosition()) / 100.f);
+			//camera.centerOn(Vec2f(c.body.getPosition()) / 100.f);
 
 			//for(const auto& e : manager.getComponents<CTest>()) { e->body.applyForce({0, 20});  }
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);
 			manager.update(mFrameTime);
+
+
+			if(manager.getEntities().size() <= 0) return;
+
+			startBenchmark();
+			for(const auto& e : manager.getEntities()) e->destroy();
+			lo << lt("desrtoy b") << endBenchmark() << endl;
 
 			//for(Body* b : player.getComponent<CTest>("test").body.test) { static_cast<CTest*>(b->getUserData())->setColor(Color::Blue); }
 			//c->body.setVelocity({0, 0});
@@ -416,6 +339,6 @@ struct TestGame
 	}
 };
 
-int main() { srand(time(0)); initAssets(); TestGame{}; return 0; }
+int main() { initAssets(); TestGame{}; return 0; }
 
 #endif
