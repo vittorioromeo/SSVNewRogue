@@ -22,87 +22,8 @@ using namespace ssvs;
 using namespace nr;
 using namespace ssvrpg;
 
-struct ObjBase {  virtual ~ObjBase(){} };
-struct TestObj : ObjBase { char data[100];  virtual ~TestObj(){} };
-struct TestObjBig : ObjBase { char data[500]; virtual ~TestObjBig(){} };
-
-
 int main()
 {
-	vector<TestObj*> objs;
-	vector<TestObjBig*> objsbig;
-	PreAllocator p{5000};
-
-	for(int nnb = 0; nnb < 2; ++nnb)
-	{
-		startBenchmark();
-		{
-			for(int k = 0; k < 10000; ++k)
-			{
-				for(int n = 0; n < 300; ++n)
-				{
-					for(int i = 0; i < 5; ++i) objs.push_back(p.create<TestObj>());
-					for(int i = 0; i < 5; ++i) p.destroy(objs[i]);
-					objs.clear();
-				}
-
-				for(int n = 0; n < 100; ++n)
-				{
-					for(int i = 0; i < 2; ++i) objsbig.push_back(p.create<TestObjBig>());
-					for(int i = 0; i < 2; ++i) p.destroy(objsbig[i]);
-					objsbig.clear();
-				}
-
-				for(int n = 0; n < 100; ++n)
-				{
-					for(int i = 0; i < 5; ++i) objs.push_back(p.create<TestObj>());
-					for(int i = 0; i < 5; ++i) p.destroy(objs[i]);
-					for(int i = 0; i < 2; ++i) objsbig.push_back(p.create<TestObjBig>());
-					for(int i = 0; i < 2; ++i) p.destroy(objsbig[i]);
-					objs.clear();
-					objsbig.clear();
-				}
-			}
-		}
-		string b1 = endBenchmark();
-
-		startBenchmark();
-		{
-			for(int k = 0; k < 10000; ++k)
-			{
-				for(int n = 0; n < 300; ++n)
-				{
-					for(int i = 0; i < 5; ++i) objs.push_back(new TestObj());
-					for(int i = 0; i < 5; ++i) delete objs[i];
-					objs.clear();
-				}
-
-				for(int n = 0; n < 100; ++n)
-				{
-					for(int i = 0; i < 2; ++i) objsbig.push_back(new TestObjBig());
-					for(int i = 0; i < 2; ++i) delete objsbig[i];
-					objsbig.clear();
-				}
-
-				for(int n = 0; n < 100; ++n)
-				{
-					for(int i = 0; i < 5; ++i) objs.push_back(new TestObj());
-					for(int i = 0; i < 5; ++i) delete objs[i];
-					for(int i = 0; i < 2; ++i) objsbig.push_back(new TestObjBig());
-					for(int i = 0; i < 2; ++i) delete objsbig[i];
-					objs.clear();
-					objsbig.clear();
-				}
-			}
-		}
-		string b2 = endBenchmark();
-
-		cout << b1 << endl;
-		cout << b2 << endl;
-	}
-
-	return 0;
-
 	if(false)
 	{
 		Value<int> strength{10};
