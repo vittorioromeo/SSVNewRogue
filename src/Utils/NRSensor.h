@@ -21,7 +21,7 @@ namespace nr
 			bool active{false};
 
 		public:
-			ssvu::Delegate<void, sses::Entity&> onDetection;
+			ssvu::Delegate<void(sses::Entity&)> onDetection;
 
 			NRSensor(NRCPhysics& mParent, ssvs::Vec2i mSize);
 			~NRSensor();

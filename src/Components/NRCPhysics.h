@@ -26,8 +26,8 @@ namespace nr
 			ssvs::Vec2f gravityForce{0, 25};
 
 		public:
-			ssvu::Delegate<void, sses::Entity&> onDetection;
-			ssvu::Delegate<void, ssvs::Vec2i> onResolution;
+			ssvu::Delegate<void(sses::Entity&)> onDetection;
+			ssvu::Delegate<void(ssvs::Vec2i)> onResolution;
 
 			NRCPhysics(NRGame& mGame, ssvsc::World& mWorld, bool mIsStatic, ssvs::Vec2i mPosition, ssvs::Vec2i mSize, bool mAffectedByGravity = true);
 			~NRCPhysics();
