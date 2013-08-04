@@ -29,13 +29,15 @@ namespace nr
 
 	Entity& NRFactory::createTrail(Vec2i mA, Vec2i mB, Color mColor)
 	{
-		auto& result(manager.createEntity("trail"));
+		auto& result(manager.createEntity());
+		//result.addGroups({"trail"});
 		result.createComponent<NRCTrail>(game, mA, mB, mColor);
 		return result;
 	}
 	Entity& NRFactory::createWall(Vec2i mPosition)
 	{
-		auto& result(manager.createEntity("wall"));
+		auto& result(manager.createEntity());
+		//result.addGroups({"wall"});
 		auto& cPhysics(result.createComponent<NRCPhysics>(game, world, true, mPosition, Vec2i{1600, 1600}));
 		auto& cRender(result.createComponent<NRCRender>(game, cPhysics.getBody()));
 
@@ -50,7 +52,8 @@ namespace nr
 	}
 	Entity& NRFactory::createHumanoid(Vec2i mPosition)
 	{
-		auto& result(manager.createEntity("humanoid"));
+		auto& result(manager.createEntity());
+		//result.addGroups({"humanoid"});
 		auto& cPhysics(result.createComponent<NRCPhysics>(game, world, false, mPosition, Vec2i{700, 1300}));
 		auto& cHumanoid(result.createComponent<NRCHumanoid>(game, cPhysics));
 		auto& cRender(result.createComponent<NRCRender>(game, cPhysics.getBody()));

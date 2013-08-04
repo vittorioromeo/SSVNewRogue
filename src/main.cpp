@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -143,7 +143,7 @@ struct TestGame
 
 	Entity& create(Vec2i mPosition, bool mStatic = false)
 	{
-		auto& e = manager.createEntity("test");
+		auto& e = manager.createEntity();
 		auto& c = e.createComponent<CTest>(mPosition, vertices, world);
 
 		if(mStatic) { c.body.setStatic(true); c.setColor(Color::White); }
@@ -152,7 +152,7 @@ struct TestGame
 
 	Entity& createPlayer(Vec2i mPosition)
 	{
-		auto& e = manager.createEntity("test");
+		auto& e = manager.createEntity();
 		auto& c = e.createComponent<CTest>(mPosition, vertices, world);
 		c.setColor(Color::Green);
 		return e;
@@ -170,7 +170,7 @@ struct TestGame
 		if(false)
 		{
 			{
-				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{10000, 170000}, vertices, world);
+				auto& e = manager.createEntity(); auto& c = e.createComponent<CTest>(Vec2i{10000, 170000}, vertices, world);
 				c.body.setStatic(true); c.setColor(Color::Blue);
 				c.body.setHalfSize({5000, 5000});
 
@@ -185,7 +185,7 @@ struct TestGame
 			}
 
 			{
-				auto& e = manager.createEntity("test"); auto& c = e.createComponent<CTest>(Vec2i{15000, 170000}, vertices, world);
+				auto& e = manager.createEntity(); auto& c = e.createComponent<CTest>(Vec2i{15000, 170000}, vertices, world);
 				c.body.setStatic(true); c.setColor(Color::Yellow);
 				c.body.setHalfSize({5000, 5000});
 
@@ -201,7 +201,7 @@ struct TestGame
 		}
 
 		{
-			auto& e = manager.createEntity("test");
+			auto& e = manager.createEntity();
 			auto& f = e.createComponent<CTest>(Vec2i{200000, 170000}, vertices, world);
 			f.body.setStatic(true);
 			f.setColor(Color::Magenta);
@@ -247,6 +247,7 @@ struct TestGame
 
 		game.onDraw += [&]
 		{
+			return;
 			camera.apply();
 			manager.draw();
 			VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v);
