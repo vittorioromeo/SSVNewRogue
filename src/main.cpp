@@ -116,6 +116,8 @@ struct CTest : Component
 
 		const AABB& s(body.getShape());
 
+		body.applyForce({0, 20});
+
 		const float left{toPixels(s.getLeft())};
 		const float right{toPixels(s.getRight())};
 		const float top{toPixels(s.getTop())};
@@ -221,8 +223,7 @@ struct TestGame
 		game.onUpdate += [&](float mFrameTime)
 		{
 			window.setTitle(toStr(window.getFPS()));
-			//camera.centerOn(Vec2f(c.body.getPosition()) / 100.f);
-			for(const auto& e : manager.getComponents<CTest>()) { e->body.applyForce({0, 20});  }
+			camera.centerOn(Vec2f(c.body.getPosition()) / 100.f);
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);
