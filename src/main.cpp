@@ -222,8 +222,7 @@ struct TestGame
 		{
 			window.setTitle(toStr(window.getFPS()));
 			//camera.centerOn(Vec2f(c.body.getPosition()) / 100.f);
-
-			//for(const auto& e : manager.getComponents<CTest>()) { e->body.applyForce({0, 20});  }
+			for(const auto& e : manager.getComponents<CTest>()) { e->body.applyForce({0, 20});  }
 
 			tm.update(mFrameTime);
 			world.update(mFrameTime);
@@ -235,9 +234,6 @@ struct TestGame
 			startBenchmark();
 			for(const auto& e : manager.getEntities()) e->destroy();
 			lo << lt("desrtoy b") << endBenchmark() << endl;
-
-			//for(Body* b : player.getComponent<CTest>("test").body.test) { static_cast<CTest*>(b->getUserData())->setColor(Color::Blue); }
-			//c->body.setVelocity({0, 0});
 		};
 
 		game.onDraw += [&]
