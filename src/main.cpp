@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -65,7 +65,9 @@ int main()
 #include <bitset>
 #include <fstream>
 #include "Core/NRDependencies.h"
+#include "Utils/NRUtils.h"
 
+using namespace nr;
 using namespace sf;
 using namespace std;
 using namespace sses;
@@ -79,17 +81,11 @@ using namespace ssvu;
 AssetManager assets;
 void initAssets() { AssetFolder("Data/").loadToManager(assets); }
 
-float toPixels(int mCoords) { return mCoords / 100.f; }
-float toPixels(float mCoords) { return mCoords / 100.f; }
-
-
-
 struct CTest : Component
 {
 	vector<Vertex*>& vertexPtrs;
 	World& world; Body& body;
 	vector<Vertex> myVertices{4};
-
 
 	CTest(Vec2i mPosition, vector<Vertex*>& mVertices, World& mWorld) : vertexPtrs(mVertices), world(mWorld), body(world.create(mPosition, {1500, 1500}, false)) { }
 	~CTest() { body.destroy(); for(const auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
@@ -97,24 +93,21 @@ struct CTest : Component
 	void setColor(const Color& mColor) { for(auto& v : myVertices) v.color = mColor; }
 	void move(const Vec2f& mOffset)
 	{
-		Vec2f v = body.getVelocity();
-		if(mOffset.x != 0) v.x = mOffset.x;
-		if(mOffset.y != 0) v.y = mOffset.y;
-
-		body.setVelocity(v);
+		if(mOffset.x != 0) body.setVelocityX(mOffset.x);
+		if(mOffset.y != 0) body.setVelocityY(mOffset.y);
 	}
 	void init() override
 	{
 		body.setUserData(this);
 
-		//body.addGroup(gTest);
-		//body.addGroupsToCheck(gTest);
-		//body.addGroupsNoResolve({"test"});
+		body.addGroup(0);
+		body.addGroupToCheck(0);
+		//body.addGroupNoResolve(0);
 
 		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
 
-		body.onDetection += [&](const DetectionInfo& di){ if(myVertices[0].color == Color::Green) static_cast<CTest*>(di.body.getUserData())->getEntity().destroy();};
-		body.onOutOfBounds += [&]{ body.setPosition({0,0}); };
+		body.onDetection += [&](const DetectionInfo&){ };
+		body.onOutOfBounds += [&]{ getEntity().destroy(); };
 	}
 	void update(float) override
 	{
@@ -167,7 +160,7 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 1000; ++iY) for(int iX{0}; iX < 1000; ++iX) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
 			lo << lt("creation b") << endBenchmark() << endl;
 		}
 
@@ -210,7 +203,6 @@ struct TestGame
 			f.body.setStatic(true);
 			f.setColor(Color::Magenta);
 			f.body.setHalfSize({400000, 2500});
-			f.body.clearGroups();
 		}
 
 		auto& player = createPlayer({-5000, 0});
@@ -237,6 +229,7 @@ struct TestGame
 			world.update(mFrameTime);
 			manager.update(mFrameTime);
 
+			return;
 			if(manager.getEntities().size() <= 0) return;
 
 			startBenchmark();
@@ -249,7 +242,6 @@ struct TestGame
 
 		game.onDraw += [&]
 		{
-			return;
 			camera.apply();
 			manager.draw();
 			VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v);

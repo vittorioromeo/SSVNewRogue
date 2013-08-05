@@ -19,6 +19,7 @@ namespace nr
 {
 	NRSensor::NRSensor(NRCPhysics& mParent, Vec2i mSize) : parent(mParent), position(parent.getBody().getPosition()), sensor(parent.getWorld().createSensor(position, mSize))
 	{
+		sensor.addGroup(NRGroup::Sensor);
 		sensor.addGroupToCheck(NRGroup::Solid);
 
 		sensor.onPreUpdate += [&]{ active = false; sensor.setPosition(position); };
