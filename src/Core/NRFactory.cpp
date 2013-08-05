@@ -12,6 +12,7 @@
 #include "Components/NRCHumanoid.h"
 #include "Components/NRCTrail.h"
 #include "Components/NRCWanderer.h"
+#include "Core/NRGroups.h"
 
 using namespace std;
 using namespace sf;
@@ -42,8 +43,8 @@ namespace nr
 		auto& cRender(result.createComponent<NRCRender>(game, cPhysics.getBody()));
 
 		Body& body(cPhysics.getBody());
-		body.addGroups({"solid"});
-		body.addGroupsToCheck({"solid"});
+		body.addGroup(NRGroup::Solid);
+		body.addGroupToCheck(NRGroup::Solid);
 
 		cRender.addSprite(Sprite{assets().get<Texture>("wall.png")});
 		cRender.setScaleWithBody(true);
@@ -60,8 +61,9 @@ namespace nr
 		result.createComponent<NRCHumanoidAnimationController>(cRender, cHumanoid);
 
 		Body& body(cPhysics.getBody());
-		body.addGroups({"solid", "humanoid"});
-		body.addGroupsToCheck({"solid"});
+		body.addGroup(NRGroup::Solid);
+		body.addGroup(NRGroup::Humanoid);
+		body.addGroupToCheck(NRGroup::Solid);
 
 		return result;
 	}

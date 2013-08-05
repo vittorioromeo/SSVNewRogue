@@ -41,7 +41,7 @@ namespace nr
 		mLastPos = Vec2i(gridQuery.getLastPos());
 		return result;
 	}
-	Entity* seekEntity(NRGame& mGame, Grid& mGrid, Body& mSeeker, Vec2i mTarget, const string& mTargetGroup, const vector<string>& mIgnoreGroups, Vec2i& mLastPos)
+	Entity* seekEntity(NRGame& mGame, Grid& mGrid, Body& mSeeker, Vec2i mTarget, Group mTargetGroup, const vector<Group>& mIgnoreGroups, Vec2i& mLastPos)
 	{
 		Entity* result{nullptr};
 		const auto& startPosition(mSeeker.getPosition());
@@ -52,10 +52,8 @@ namespace nr
 
 		vector<pair<Vec2i, Vec2i>> testvec;
 
-		auto& world(mSeeker.getWorld());
-		auto targetGroup(world.getGroup(mTargetGroup));
 		Bitset ignoreGroups;
-		for(const auto& l : mIgnoreGroups) ignoreGroups.set(world.getGroup(l));
+		for(const auto& l : mIgnoreGroups) ignoreGroups.set(l);
 
 		Body* body;
 		while((body = gridQuery.next()) != nullptr)
@@ -63,7 +61,7 @@ namespace nr
 			if(body == &mSeeker) continue;
 
 			if((body->hasAnyGroup(ignoreGroups))) continue;
-			if(!body->hasGroup(targetGroup)) break;
+			if(!body->hasGroup(mTargetGroup)) break;
 			Entity* entity{static_cast<Entity*>(body->getUserData())};
 			if(entity == nullptr) continue;
 

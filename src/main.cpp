@@ -82,11 +82,14 @@ void initAssets() { AssetFolder("Data/").loadToManager(assets); }
 float toPixels(int mCoords) { return mCoords / 100.f; }
 float toPixels(float mCoords) { return mCoords / 100.f; }
 
+
+
 struct CTest : Component
 {
 	vector<Vertex*>& vertexPtrs;
 	World& world; Body& body;
 	vector<Vertex> myVertices{4};
+
 
 	CTest(Vec2i mPosition, vector<Vertex*>& mVertices, World& mWorld) : vertexPtrs(mVertices), world(mWorld), body(world.create(mPosition, {1500, 1500}, false)) { }
 	~CTest() { body.destroy(); for(const auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
@@ -104,8 +107,8 @@ struct CTest : Component
 	{
 		body.setUserData(this);
 
-		body.addGroups({"test"});
-		body.addGroupsToCheck({"test", "sup"});
+		//body.addGroup(gTest);
+		//body.addGroupsToCheck(gTest);
 		//body.addGroupsNoResolve({"test"});
 
 		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
@@ -140,6 +143,7 @@ struct TestGame
 
 	World world{createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1500, 400)};
 	Manager manager; vector<Vertex*> vertices; TimelineManager tm;
+
 
 	Entity& create(Vec2i mPosition, bool mStatic = false)
 	{
@@ -207,7 +211,6 @@ struct TestGame
 			f.setColor(Color::Magenta);
 			f.body.setHalfSize({400000, 2500});
 			f.body.clearGroups();
-			f.body.addGroups({"sup"});
 		}
 
 		auto& player = createPlayer({-5000, 0});

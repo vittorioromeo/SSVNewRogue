@@ -7,6 +7,7 @@
 #include "Components/NRCPhysics.h"
 #include "Core/NRGame.h"
 #include "Utils/NRUtils.h"
+#include "Core/NRGroups.h"
 
 using namespace ssvs;
 using namespace ssvs::Utils;
@@ -36,7 +37,7 @@ namespace nr
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 
 		Vec2i out;
-		Entity* enemy{seekEntity(game, grid, body, game.getMousePosition(), "solid", {}, out)};
+		Entity* enemy{seekEntity(game, grid, body, game.getMousePosition(), NRGroup::Solid, {}, out)};
 
 		//game.getFactory().createTrail(body.getPosition(), out, Color::Green);
 

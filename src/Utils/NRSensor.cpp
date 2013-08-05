@@ -6,6 +6,7 @@
 #include "Components/NRCPhysics.h"
 #include "Core/NRGame.h"
 #include "Utils/NRUtils.h"
+#include "Core/NRGroups.h"
 
 using namespace ssvs;
 using namespace sses;
@@ -18,7 +19,7 @@ namespace nr
 {
 	NRSensor::NRSensor(NRCPhysics& mParent, Vec2i mSize) : parent(mParent), position(parent.getBody().getPosition()), sensor(parent.getWorld().createSensor(position, mSize))
 	{
-		sensor.addGroupsToCheck({"solid"});
+		sensor.addGroupToCheck(NRGroup::Solid);
 
 		sensor.onPreUpdate += [&]{ active = false; sensor.setPosition(position); };
 		sensor.onDetection += [&](const DetectionInfo& mDetectionInfo)

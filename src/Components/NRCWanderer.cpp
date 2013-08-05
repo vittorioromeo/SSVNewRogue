@@ -6,6 +6,7 @@
 #include "Components/NRCHumanoid.h"
 #include "Components/NRCPhysics.h"
 #include "Core/NRGame.h"
+#include "Core/NRGroups.h"
 #include "Utils/NRUtils.h"
 
 using namespace ssvs;
@@ -39,7 +40,7 @@ namespace nr
 		auto& body = getEntity().getComponent<NRCPhysics>().getBody();
 		Grid& grid(body.getWorld().getSpatial<Grid>());
 		Vec2i out;
-		Entity* enemy{seekEntity(game, grid, body, body.getPosition() + Vec2i(body.getVelocity()), "humanoid", {"sensor"}, out)};
+		Entity* enemy{seekEntity(game, grid, body, body.getPosition() + Vec2i(body.getVelocity()), NRGroup::Humanoid, {NRGroup::Sensor}, out)};
 
 		game.getFactory().createTrail(body.getPosition(), out, Color::Red);
 

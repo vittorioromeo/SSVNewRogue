@@ -18,7 +18,7 @@ namespace nr
 
 	// TODO: refactor or remove these
 	sses::Entity* seekEntity(NRGame& mGame, ssvsc::Grid& mGrid, ssvsc::Body& mSeeker, ssvs::Vec2i mTarget, ssvs::Vec2i& mLastPos);
-	sses::Entity* seekEntity(NRGame& mGame, ssvsc::Grid& mGrid, ssvsc::Body& mSeeker, ssvs::Vec2i mTarget, const std::string& mTargetGroup, const std::vector<std::string>& mIgnoreGroups, ssvs::Vec2i& mLastPos);
+	sses::Entity* seekEntity(NRGame& mGame, ssvsc::Grid& mGrid, ssvsc::Body& mSeeker, ssvs::Vec2i mTarget, ssvsc::Group mTargetGroup, const std::vector<ssvsc::Group>& mIgnoreGroups, ssvs::Vec2i& mLastPos);
 }
 
 #endif
