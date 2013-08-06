@@ -83,14 +83,13 @@ void initAssets() { AssetFolder("Data/").loadToManager(assets); }
 
 struct CTest : Component
 {
-	vector<Vertex*>& vertexPtrs;
-	World& world; Body& body;
-	vector<Vertex> myVertices{4};
+	World& world; Body& body; GameWindow& window;
+	VertexArray myVertices{PrimitiveType::Quads, 4};
 
-	CTest(Vec2i mPosition, vector<Vertex*>& mVertices, World& mWorld) : vertexPtrs(mVertices), world(mWorld), body(world.create(mPosition, {1500, 1500}, false)) { }
-	~CTest() { body.destroy(); for(const auto& v : myVertices) eraseRemove(vertexPtrs, &v); }
+	CTest(Vec2i mPosition, World& mWorld, GameWindow& mWindow) : world(mWorld), body(world.create(mPosition, {1500, 1500}, false)), window(mWindow) { }
+	~CTest() { body.destroy(); }
 
-	void setColor(const Color& mColor) { for(auto& v : myVertices) v.color = mColor; }
+	void setColor(const Color& mColor) { for(int i{0}; i < 4; ++i) myVertices[i].color = mColor; }
 	void move(const Vec2f& mOffset)
 	{
 		if(mOffset.x != 0) body.setVelocityX(mOffset.x);
@@ -104,8 +103,6 @@ struct CTest : Component
 		body.addGroupToCheck(0);
 		//body.addGroupNoResolve(0);
 
-		for(int i{0}; i < 4; ++i) vertexPtrs.push_back(&myVertices[i]);
-
 		body.onDetection += [&](const DetectionInfo&){ };
 		body.onOutOfBounds += [&]{ getEntity().destroy(); };
 	}
@@ -115,9 +112,6 @@ struct CTest : Component
 		//body.applyForce({0.f, 100.f});
 
 		const AABB& s(body.getShape());
-
-		body.applyForce({0, 20});
-
 		const float left{toPixels(s.getLeft())};
 		const float right{toPixels(s.getRight())};
 		const float top{toPixels(s.getTop())};
@@ -127,7 +121,10 @@ struct CTest : Component
 		myVertices[1].position = {right, top};
 		myVertices[2].position = {right, bottom};
 		myVertices[3].position = {left, bottom};
+
+		body.applyForce({0, 20});
 	}
+	inline void draw() override { window.draw(myVertices); }
 };
 
 struct TestGame
@@ -137,13 +134,13 @@ struct TestGame
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
 	World world{createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1500, 400)};
-	Manager manager; vector<Vertex*> vertices; TimelineManager tm;
+	Manager manager; TimelineManager tm;
 
 
 	Entity& create(Vec2i mPosition, bool mStatic = false)
 	{
 		auto& e = manager.createEntity();
-		auto& c = e.createComponent<CTest>(mPosition, vertices, world);
+		auto& c = e.createComponent<CTest>(mPosition, world, window);
 
 		if(mStatic) { c.body.setStatic(true); c.setColor(Color::White); }
 		return e;
@@ -152,8 +149,8 @@ struct TestGame
 	Entity& createPlayer(Vec2i mPosition)
 	{
 		auto& e = manager.createEntity();
-		auto& c = e.createComponent<CTest>(mPosition, vertices, world);
-		c.setColor(Color::Green);
+		auto& c = e.createComponent<CTest>(mPosition, world, window);
+		c.setColor(Color::Green);;
 		return e;
 	}
 
@@ -166,10 +163,10 @@ struct TestGame
 			lo << lt("creation b") << endBenchmark() << endl;
 		}
 
-		if(false)
+		/*if(false)
 		{
 			{
-				auto& e = manager.createEntity(); auto& c = e.createComponent<CTest>(Vec2i{10000, 170000}, vertices, world);
+				auto& e = manager.createEntity(); auto& c = e.createComponent<CTest>(Vec2i{10000, 170000}, world);
 				c.body.setStatic(true); c.setColor(Color::Blue);
 				c.body.setHalfSize({5000, 5000});
 
@@ -184,7 +181,7 @@ struct TestGame
 			}
 
 			{
-				auto& e = manager.createEntity(); auto& c = e.createComponent<CTest>(Vec2i{15000, 170000}, vertices, world);
+				auto& e = manager.createEntity(); auto& c = e.createComponent<CTest>(Vec2i{15000, 170000}, world);
 				c.body.setStatic(true); c.setColor(Color::Yellow);
 				c.body.setHalfSize({5000, 5000});
 
@@ -197,11 +194,11 @@ struct TestGame
 				t.append<Wait>(1);
 				t.append<Go>(0, -1);
 			}
-		}
+		}*/
 
 		{
 			auto& e = manager.createEntity();
-			auto& f = e.createComponent<CTest>(Vec2i{200000, 170000}, vertices, world);
+			auto& f = e.createComponent<CTest>(Vec2i{200000, 170000}, world, window);
 			f.body.setStatic(true);
 			f.setColor(Color::Magenta);
 			f.body.setHalfSize({400000, 2500});
@@ -241,7 +238,6 @@ struct TestGame
 		{
 			camera.apply();
 			manager.draw();
-			VertexArray v(PrimitiveType::Quads, vertices.size()); for(unsigned int i{0}; i < vertices.size(); i++) v[i] = *(vertices[i]); window.draw(v);
 			camera.unapply();
 		};
 
