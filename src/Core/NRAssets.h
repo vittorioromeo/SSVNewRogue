@@ -18,6 +18,7 @@ namespace nr
 			NRAssets();
 
 			inline ssvs::AssetManager& operator()() { return assetManager; }
+			template<typename T> inline T& get(const std::string& mId) { return assetManager.get<T>(mId); }
 	};
 }
 
