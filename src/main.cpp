@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#define SSVNEWROGUE_BENCHMARK
+//#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -18,12 +18,117 @@
 using namespace std;
 using namespace sf;
 using namespace ssvu;
+using namespace ssvu::PreAlloc;
 using namespace ssvs;
 using namespace nr;
 using namespace ssvrpg;
 
+struct BaseObj
+{
+	BaseObj() { }
+	virtual ~BaseObj() { }
+};
+
+struct SmallObj : BaseObj
+{
+	char data[100];
+	~SmallObj()
+	{
+		//lo << "smallobj dtor" << endl;
+	}
+};
+
+struct BigObj : BaseObj
+{
+	char data[500];
+	~BigObj()
+	{
+		//lo << "bigobj dtor" << endl;
+	}
+};
+
 int main()
 {
+	PreAllocator p{65000};								// << this preallocator is VERY speed-dependent on the allocated space
+	PreAllocatorChunk pc{sizeof(BigObj), 200};			// << this preallocator can hold different objects of different types, as long as (their size <= chunk size)
+	PreAllocatorStatic<BigObj> ps{100};					// << this preallocator can hold only a specific type
+
+	startBenchmark();
+	{
+		vector<BaseObj*> bases;
+
+		for(int k{0}; k < 10000; ++k)
+		{
+			for(int i{0}; i < 100; ++i) bases.push_back(new SmallObj);
+			for(int i{0}; i < 100; ++i) bases.push_back(new BigObj);
+			for(auto& b : bases) delete b;
+			bases.clear();
+		}
+	}
+	lo << lt("new/del") << endBenchmark() << endl;
+
+	startBenchmark();
+	{
+		vector<SmallObj*> sb;
+		vector<BigObj*> bb;
+
+		for(int k{0}; k < 10000; ++k)
+		{
+			for(int i{0}; i < 100; ++i) sb.push_back(p.create<SmallObj>());
+			for(int i{0}; i < 100; ++i) bb.push_back(p.create<BigObj>());
+			for(auto& b : sb) p.destroy<SmallObj>(b);
+			for(auto& b : bb) p.destroy<BigObj>(b);
+			sb.clear();
+			bb.clear();
+		}
+	}
+	lo << lt("prealloc") << endBenchmark() << endl;
+
+	startBenchmark();
+	{
+		vector<SmallObj*> sb;
+		vector<BigObj*> bb;
+
+		for(int k{0}; k < 10000; ++k)
+		{
+			for(int i{0}; i < 100; ++i) sb.push_back(pc.create<SmallObj>());
+			for(int i{0}; i < 100; ++i) bb.push_back(pc.create<BigObj>());
+			for(auto& b : sb) pc.destroy<SmallObj>(b);
+			for(auto& b : bb) pc.destroy<BigObj>(b);
+			sb.clear();
+			bb.clear();
+		}
+	}
+	lo << lt("prealloc chunk") << endBenchmark() << endl;
+
+	startBenchmark();
+	{
+		vector<BigObj*> bb;
+
+		for(int k{0}; k < 10000; ++k)
+		{
+			for(int i{0}; i < 100; ++i) bb.push_back(new BigObj);
+			for(auto& b : bb) delete b;
+			bb.clear();
+		}
+	}
+	lo << lt("new/del static bigobj") << endBenchmark() << endl;
+
+	startBenchmark();
+	{
+		vector<BigObj*> bb;
+
+		for(int k{0}; k < 10000; ++k)
+		{
+			for(int i{0}; i < 100; ++i) bb.push_back(ps.create());
+			for(auto& b : bb) ps.destroy(b);
+			bb.clear();
+		}
+	}
+	lo << lt("prealloc_static static bigobj") << endBenchmark() << endl;
+
+
+
 	if(false)
 	{
 		Value<int> strength{10};
