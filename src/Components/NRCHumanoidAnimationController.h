@@ -19,8 +19,8 @@ namespace nr
 			NRCRender& cRender;
 			NRCHumanoid& cHumanoid;
 
-			ssvs::Tileset tileset{ssvuj::as<ssvs::Tileset>(ssvuj::getRootFromFile("Data/Tilesets/tilesetHuman.json"))};
-			ssvuj::Value animations{ssvuj::getRootFromFile("Data/Animations/animationsHuman.json")};
+			ssvs::Tileset tileset{ssvuj::as<ssvs::Tileset>(ssvuj::readFromFile("Data/Tilesets/tilesetHuman.json"))};
+			ssvuj::Obj animations{ssvuj::readFromFile("Data/Animations/animationsHuman.json")};
 			ssvs::Animation animStand{ssvs::Utils::getAnimationFromJson(tileset, animations["stand"])};
 			ssvs::Animation animJump{ssvs::Utils::getAnimationFromJson(tileset, animations["jump"])};
 			ssvs::Animation animFall{ssvs::Utils::getAnimationFromJson(tileset, animations["fall"])};
