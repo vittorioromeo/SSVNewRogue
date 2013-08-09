@@ -49,9 +49,9 @@ struct BigObj : BaseObj
 
 int main()
 {
-	PreAllocator p{65000};								// << this preallocator is VERY speed-dependent on the allocated space
-	PreAllocatorChunk pc{sizeof(BigObj), 200};			// << this preallocator can hold different objects of different types, as long as (their size <= chunk size)
-	PreAllocatorStatic<BigObj> ps{100};					// << this preallocator can hold only a specific type
+	PreAllocatorDynamic p{65000};				// << this preallocator is VERY speed-dependent on the allocated space
+	PreAllocatorChunk pc{sizeof(BigObj), 200};	// << this preallocator can hold different objects of different types, as long as (their size <= chunk size)
+	PreAllocatorStatic<BigObj> ps{100};			// << this preallocator can hold only a specific type
 
 	startBenchmark();
 	{
