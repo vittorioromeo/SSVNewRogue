@@ -21,6 +21,7 @@ using namespace ssvu;
 using namespace ssvu::PreAlloc;
 using namespace ssvs;
 using namespace nr;
+using namespace sses;
 using namespace ssvrpg;
 
 struct BaseObj
@@ -49,85 +50,97 @@ struct BigObj : BaseObj
 
 int main()
 {
-	PreAllocatorDynamic p{65000};				// << this preallocator is VERY speed-dependent on the allocated space
-	PreAllocatorChunk pc{sizeof(BigObj), 200};	// << this preallocator can hold different objects of different types, as long as (their size <= chunk size)
-	PreAllocatorStatic<BigObj> ps{100};			// << this preallocator can hold only a specific type
-
-	startBenchmark();
+	if(false)
 	{
-		vector<BaseObj*> bases;
+		PreAllocatorDynamic p{65000};				// << this preallocator is VERY speed-dependent on the allocated space
+		PreAllocatorChunk pc{sizeof(BigObj), 200};	// << this preallocator can hold different objects of different types, as long as (their size <= chunk size)
+		PreAllocatorStatic<BigObj> ps{100};			// << this preallocator can hold only a specific type
 
-		for(int k{0}; k < 10000; ++k)
+		Manager manager;
+		startBenchmark();
 		{
-			for(int i{0}; i < 100; ++i) bases.push_back(new SmallObj);
-			for(int i{0}; i < 100; ++i) bases.push_back(new BigObj);
-			for(auto& b : bases) delete b;
-			bases.clear();
+			for(int k{0}; k < 100000; ++k)
+			{
+				for(int i{0}; i < 100; ++i) manager.createEntity();
+				for(auto& e : manager.getEntities()) e->destroy();
+			}
 		}
-	}
-	lo << lt("new/del") << endBenchmark() << endl;
+		lo << lt("manager") << endBenchmark() << endl;
 
-	startBenchmark();
-	{
-		vector<SmallObj*> sb;
-		vector<BigObj*> bb;
-
-		for(int k{0}; k < 10000; ++k)
+		startBenchmark();
 		{
-			for(int i{0}; i < 100; ++i) sb.push_back(p.create<SmallObj>());
-			for(int i{0}; i < 100; ++i) bb.push_back(p.create<BigObj>());
-			for(auto& b : sb) p.destroy<SmallObj>(b);
-			for(auto& b : bb) p.destroy<BigObj>(b);
-			sb.clear();
-			bb.clear();
+			vector<BaseObj*> bases;
+
+			for(int k{0}; k < 10000; ++k)
+			{
+				for(int i{0}; i < 100; ++i) bases.push_back(new SmallObj);
+				for(int i{0}; i < 100; ++i) bases.push_back(new BigObj);
+				for(auto& b : bases) delete b;
+				bases.clear();
+			}
 		}
-	}
-	lo << lt("prealloc") << endBenchmark() << endl;
+		lo << lt("new/del") << endBenchmark() << endl;
 
-	startBenchmark();
-	{
-		vector<SmallObj*> sb;
-		vector<BigObj*> bb;
-
-		for(int k{0}; k < 10000; ++k)
+		startBenchmark();
 		{
-			for(int i{0}; i < 100; ++i) sb.push_back(pc.create<SmallObj>());
-			for(int i{0}; i < 100; ++i) bb.push_back(pc.create<BigObj>());
-			for(auto& b : sb) pc.destroy<SmallObj>(b);
-			for(auto& b : bb) pc.destroy<BigObj>(b);
-			sb.clear();
-			bb.clear();
+			vector<SmallObj*> sb;
+			vector<BigObj*> bb;
+
+			for(int k{0}; k < 10000; ++k)
+			{
+				for(int i{0}; i < 100; ++i) sb.push_back(p.create<SmallObj>());
+				for(int i{0}; i < 100; ++i) bb.push_back(p.create<BigObj>());
+				for(auto& b : sb) p.destroy<SmallObj>(b);
+				for(auto& b : bb) p.destroy<BigObj>(b);
+				sb.clear();
+				bb.clear();
+			}
 		}
-	}
-	lo << lt("prealloc chunk") << endBenchmark() << endl;
+		lo << lt("prealloc dynamic") << endBenchmark() << endl;
 
-	startBenchmark();
-	{
-		vector<BigObj*> bb;
-
-		for(int k{0}; k < 10000; ++k)
+		startBenchmark();
 		{
-			for(int i{0}; i < 100; ++i) bb.push_back(new BigObj);
-			for(auto& b : bb) delete b;
-			bb.clear();
+			vector<SmallObj*> sb;
+			vector<BigObj*> bb;
+
+			for(int k{0}; k < 10000; ++k)
+			{
+				for(int i{0}; i < 100; ++i) sb.push_back(pc.create<SmallObj>());
+				for(int i{0}; i < 100; ++i) bb.push_back(pc.create<BigObj>());
+				for(auto& b : sb) pc.destroy<SmallObj>(b);
+				for(auto& b : bb) pc.destroy<BigObj>(b);
+				sb.clear();
+				bb.clear();
+			}
 		}
-	}
-	lo << lt("new/del static bigobj") << endBenchmark() << endl;
+		lo << lt("prealloc chunk") << endBenchmark() << endl;
 
-	startBenchmark();
-	{
-		vector<BigObj*> bb;
-
-		for(int k{0}; k < 10000; ++k)
+		startBenchmark();
 		{
-			for(int i{0}; i < 100; ++i) bb.push_back(ps.create());
-			for(auto& b : bb) ps.destroy(b);
-			bb.clear();
+			vector<BigObj*> bb;
+
+			for(int k{0}; k < 10000; ++k)
+			{
+				for(int i{0}; i < 100; ++i) bb.push_back(new BigObj);
+				for(auto& b : bb) delete b;
+				bb.clear();
+			}
 		}
+		lo << lt("new/del static bigobj") << endBenchmark() << endl;
+
+		startBenchmark();
+		{
+			vector<BigObj*> bb;
+
+			for(int k{0}; k < 10000; ++k)
+			{
+				for(int i{0}; i < 100; ++i) bb.push_back(ps.create());
+				for(auto& b : bb) ps.destroy(b);
+				bb.clear();
+			}
+		}
+		lo << lt("prealloc_static static bigobj") << endBenchmark() << endl;
 	}
-	lo << lt("prealloc_static static bigobj") << endBenchmark() << endl;
-
-
 
 	if(false)
 	{
