@@ -165,7 +165,13 @@ int main()
 	width = 800; height = 600;
 
 	NRAssets assets;
-	GameWindow gameWindow{"SSVNewRogue", createStaticTimer(gameWindow, 0.5f, 0.5f), width, height, 1, false};
+
+	GameWindow gameWindow;
+	gameWindow.setTitle("SSVNewRogue");
+	gameWindow.setTimer<StaticTimer>(0.5f, 0.5f);
+	gameWindow.setSize(width, height);
+	gameWindow.setFullscreen(false);
+
 	NRGame game{gameWindow, assets};
 
 	gameWindow.setGameState(game.getGameState());
