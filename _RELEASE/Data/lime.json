@@ -1,6 +1,1 @@
-{
-	"cellColumns": 16,
-	"cellWidth": 8,
-	"cellHeight": 11,
-	"cellStart": 3 // Position of character 33 ('!')
-}
+[16, 8, 11, 3]

@@ -1,6 +1,5 @@
 {
-	"tileWidth": 16,
-	"tileHeight": 16,
+	"tileSize": [16, 16],
 
 	"labels": 
 	[
