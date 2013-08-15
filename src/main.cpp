@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -225,7 +225,7 @@ struct CTest : Component
 
 		body.addGroup(0);
 		body.addGroupToCheck(0);
-		//body.addGroupNoResolve(0);
+		body.addGroupNoResolve(0);
 
 		body.onDetection += [&](const DetectionInfo&){ };
 		body.onOutOfBounds += [&]{ getEntity().destroy(); };
@@ -253,13 +253,12 @@ struct CTest : Component
 
 struct TestGame
 {
-	GameWindow window{"", createStaticTimer(window, 0.5f, 0.5f), 1280, 720, 1};
+	GameWindow window;
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
 	World world{createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1500, 400)};
 	Manager manager; TimelineManager tm;
-
 
 	Entity& create(Vec2i mPosition, bool mStatic = false)
 	{
@@ -280,6 +279,11 @@ struct TestGame
 
 	TestGame()
 	{
+		window.setTitle("SSVNewRogue benchmark");
+		window.setTimer<StaticTimer>(0.5f, 0.5f);
+		window.setSize(1280, 720);
+		window.setFullscreen(false);
+
 		if(true)
 		{
 			startBenchmark();
