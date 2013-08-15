@@ -19,7 +19,7 @@ namespace nr
 {
 	using Action = NRCHumanoid::Action;
 
-	NRCHumanoid::NRCHumanoid(NRGame& mGame, NRCPhysics& mCPhysics) :  game(mGame), cPhysics(mCPhysics), unCrouchSensor{cPhysics, Vec2i{700, 1300}},
+	NRCHumanoid::NRCHumanoid(NRCPhysics& mCPhysics) : cPhysics(mCPhysics), unCrouchSensor{cPhysics, Vec2i{700, 1300}},
 		autoCrouchTopSensor{cPhysics, Vec2i(100, 100)}, autoCrouchBottomSensor{cPhysics, Vec2i(100, 100)}, body(cPhysics.getBody()), standingHeight{body.getHeight()} { }
 
 	void NRCHumanoid::init()

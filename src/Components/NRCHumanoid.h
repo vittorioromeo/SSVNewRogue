@@ -19,7 +19,6 @@ namespace nr
 			enum class Action{Walking, Running, Crouching, CrouchWalking, Standing, Jumping, Falling};
 
 		private:
-			NRGame& game;
 			NRCPhysics& cPhysics;
 			NRSensor unCrouchSensor, autoCrouchTopSensor, autoCrouchBottomSensor;
 			ssvsc::Body& body;
@@ -33,7 +32,7 @@ namespace nr
 			ssvrpg::Value<int> additionalSpeed{0}; // TODO: remove, TEST
 			ssvu::MemoryManager<ssvrpg::Modifier<int>> modifierManager; // TODO: remove, TEST
 
-			NRCHumanoid(NRGame& mGame, NRCPhysics& mCPhysics);
+			NRCHumanoid(NRCPhysics& mCPhysics);
 
 			void init() override;
 			void update(float mFrameTime) override;

@@ -16,7 +16,6 @@ namespace nr
 		private:
 			static constexpr int crushedMax{3}, crushedTolerance{1};
 
-			NRGame& game;
 			ssvsc::World& world;
 			ssvsc::Body& body;
 			ssvs::Vec2i lastResolution;
@@ -29,7 +28,7 @@ namespace nr
 			ssvu::Delegate<void(sses::Entity&)> onDetection;
 			ssvu::Delegate<void(ssvs::Vec2i)> onResolution;
 
-			NRCPhysics(NRGame& mGame, ssvsc::World& mWorld, bool mIsStatic, ssvs::Vec2i mPosition, ssvs::Vec2i mSize, bool mAffectedByGravity = true);
+			NRCPhysics(ssvsc::World& mWorld, bool mIsStatic, ssvs::Vec2i mPosition, ssvs::Vec2i mSize, bool mAffectedByGravity = true);
 			~NRCPhysics();
 
 			void init() override;

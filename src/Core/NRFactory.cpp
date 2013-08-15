@@ -39,7 +39,7 @@ namespace nr
 	{
 		auto& result(manager.createEntity());
 		//result.addGroups({"wall"});
-		auto& cPhysics(result.createComponent<NRCPhysics>(game, world, true, mPosition, Vec2i{1600, 1600}));
+		auto& cPhysics(result.createComponent<NRCPhysics>(world, true, mPosition, Vec2i{1600, 1600}));
 		auto& cRender(result.createComponent<NRCRender>(game, cPhysics.getBody()));
 
 		Body& body(cPhysics.getBody());
@@ -55,8 +55,8 @@ namespace nr
 	{
 		auto& result(manager.createEntity());
 		//result.addGroups({"humanoid"});
-		auto& cPhysics(result.createComponent<NRCPhysics>(game, world, false, mPosition, Vec2i{700, 1300}));
-		auto& cHumanoid(result.createComponent<NRCHumanoid>(game, cPhysics));
+		auto& cPhysics(result.createComponent<NRCPhysics>(world, false, mPosition, Vec2i{700, 1300}));
+		auto& cHumanoid(result.createComponent<NRCHumanoid>(cPhysics));
 		auto& cRender(result.createComponent<NRCRender>(game, cPhysics.getBody()));
 		result.createComponent<NRCHumanoidAnimationController>(cRender, cHumanoid);
 
