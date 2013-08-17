@@ -227,7 +227,7 @@ struct CTest : Component
 		body.addGroupToCheck(0);
 		body.addGroupNoResolve(0);
 
-		body.onDetection += [&](const DetectionInfo&){ };
+		//body.onDetection += [&](const DetectionInfo&){ };
 		body.onOutOfBounds += [&]{ getEntity().destroy(); };
 	}
 	void update(float) override
