@@ -42,7 +42,6 @@ namespace nr
 			void move(int mDirection, bool mWalk);
 			void jump();
 
-			// Getters
 			inline bool isFacingLeft()	{ return facingLeft; }
 			inline bool isJumpReady()	{ return jumpReady; }
 			inline bool isInAir()		{ return body.getShape().getY() != body.getOldShape().getY(); }

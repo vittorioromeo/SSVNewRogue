@@ -6,6 +6,8 @@
 #define SSVNR_COMPONENTS_RENDER
 
 #include "Core/NRDependencies.h"
+#include "Core/NRGame.h"
+#include "Utils/NRUtils.h"
 
 namespace nr
 {
@@ -21,19 +23,31 @@ namespace nr
 			ssvs::Vec2f offset;
 
 		public:
-			NRCRender(NRGame& mGame, ssvsc::Body& mBody);
+			NRCRender(NRGame& mGame, ssvsc::Body& mBody) : game(mGame), body(mBody) { }
 
-			void update(float) override;
-			void draw() override;
+			void update(float) override
+			{
+				const auto& position(toPixels(body.getPosition()));
+				for(auto& s : sprites)
+				{
+					const auto& rect(s.getTextureRect());
+					s.setOrigin({rect.width / 2.f, rect.height / 2.f});
+					s.setPosition(position + offset);
+					s.setScale(flippedX ? -1 : 1, flippedY ? -1 : 1);
+
+					if(!scaleWithBody) continue;
+					const auto& size(toPixels(body.getSize()));
+					s.setScale(size.x / 16.f, size.y / 16.f); // TODO: what is 16?
+				}
+			}
+			inline void draw() override { for(const auto& s : sprites) game.render(s); }
 
 			inline void addSprite(const sf::Sprite& mSprite) { sprites.push_back(mSprite); }
 
-			// Getters
 			inline bool isFlippedX() const					{ return flippedY; }
 			inline bool isFlippedY() const					{ return flippedX; }
 			inline std::vector<sf::Sprite>& getSprites()	{ return sprites; }
 
-			// Setters
 			inline void setRotation(float mDegrees)				{ for(auto& s : sprites) s.setRotation(mDegrees); }
 			inline void setFlippedX(bool mFlippedX)				{ flippedX = mFlippedX; }
 			inline void setFlippedY(bool mFlippedY)				{ flippedY = mFlippedY; }

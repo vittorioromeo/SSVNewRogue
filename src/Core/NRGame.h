@@ -50,7 +50,6 @@ namespace nr
 			void setDebugGrid(int mX, int mY);
 			void clearDebugGrid();
 
-			// Getters
 			inline ssvs::GameWindow& getGameWindow()	{ return gameWindow; }
 			inline ssvs::GameState& getGameState()		{ return gameState; }
 			inline sses::Manager& getManager()			{ return manager; }

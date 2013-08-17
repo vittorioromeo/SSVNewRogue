@@ -75,7 +75,7 @@ namespace nr
 			if(body == nullptr) return;
 			auto entity(static_cast<Entity*>(body->getUserData()));
 			if(entity != nullptr) entity->destroy();
-		}, t::Once);
+		});
 	}
 	void NRGame::initLevel()
 	{
@@ -132,8 +132,8 @@ namespace nr
 
 	void NRGame::update(float mFrameTime)
 	{
-		world.update(mFrameTime);
 		manager.update(mFrameTime);
+		world.update(mFrameTime);
 		timelineManager.update(mFrameTime);
 		updateDebugText(mFrameTime);
 		inputShoot = 0;

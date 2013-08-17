@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#define SSVNEWROGUE_BENCHMARK
+//#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -171,6 +171,8 @@ int main()
 	gameWindow.setTimer<StaticTimer>(0.5f, 0.5f);
 	gameWindow.setSize(width, height);
 	gameWindow.setFullscreen(false);
+	//gameWindow.setFPSLimited(true);
+	//gameWindow.setMaxFPS(200);
 
 	NRGame game{gameWindow, assets};
 
@@ -227,7 +229,7 @@ struct CTest : Component
 		body.addGroupToCheck(0);
 		body.addGroupNoResolve(0);
 
-		//body.onDetection += [&](const DetectionInfo&){ };
+		body.onDetection += [&](const DetectionInfo&){ };
 		body.onOutOfBounds += [&]{ getEntity().destroy(); };
 	}
 	void update(float) override
@@ -351,8 +353,8 @@ struct TestGame
 			camera.centerOn(Vec2f(c.body.getPosition()) / 100.f);
 
 			tm.update(mFrameTime);
-			world.update(mFrameTime);
 			manager.update(mFrameTime);
+			world.update(mFrameTime);
 
 			return;
 			if(manager.getEntities().size() <= 0) return;

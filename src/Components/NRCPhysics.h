@@ -34,10 +34,8 @@ namespace nr
 			void init() override;
 			void update(float mFrameTime) override;
 
-			// Setters
 			inline void setAffectedByGravity(bool mAffectedByGravity) { affectedByGravity = mAffectedByGravity; }
 
-			// Getters
 			inline ssvsc::World& getWorld() const			{ return world; }
 			inline ssvsc::Body& getBody() const				{ return body; }
 			inline ssvs::Vec2i getLastResolution() const	{ return lastResolution; }
