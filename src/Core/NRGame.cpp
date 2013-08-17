@@ -69,6 +69,13 @@ namespace nr
 			debugGrid[index.x + grid.getOffset()][index.y + grid.getOffset()] = 1;
 		}, t::Once);
 		gameState.addInput({{k::Num5}}, [&](float){ clearDebugGrid(); }, t::Once);
+		gameState.addInput({{k::Num6}}, [&](float)
+		{
+			auto body(grid.getQuery<GridQueryTypes::Point>(getMousePosition()).next());
+			if(body == nullptr) return;
+			auto entity(static_cast<Entity*>(body->getUserData()));
+			if(entity != nullptr) entity->destroy();
+		}, t::Once);
 	}
 	void NRGame::initLevel()
 	{
