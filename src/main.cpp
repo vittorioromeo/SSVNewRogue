@@ -227,15 +227,15 @@ struct CTest : Component
 
 		body.addGroup(0);
 		body.addGroupToCheck(0);
-		body.addGroupNoResolve(0);
+		//body.addGroupNoResolve(0);
 
 		body.onDetection += [&](const DetectionInfo&){ };
 		body.onOutOfBounds += [&]{ getEntity().destroy(); };
 	}
 	void update(float) override
 	{
-		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
-		//body.applyForce({0.f, 100.f});
+		//if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
+		body.applyForce({0.f, 100.f});
 
 		const AABB& s(body.getShape());
 		const float left{toPixels(s.getLeft())};
