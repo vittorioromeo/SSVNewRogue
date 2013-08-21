@@ -234,7 +234,7 @@ struct CTest : Component
 	}
 	void update(float) override
 	{
-		//if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
+		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
 		body.applyForce({0.f, 100.f});
 
 		const AABB& s(body.getShape());
