@@ -17,8 +17,8 @@ namespace nr
 	template<typename T> inline ssvs::Vec2i toCoords(ssvs::Vec2<T> mValue)	{ return {toCoords(mValue.x), toCoords(mValue.y)}; }
 
 	// TODO: refactor or remove these
-	sses::Entity* seekEntity(NRGame& mGame, ssvsc::Grid& mGrid, ssvsc::Body& mSeeker, ssvs::Vec2i mTarget, ssvs::Vec2i& mLastPos);
-	sses::Entity* seekEntity(NRGame& mGame, ssvsc::Grid& mGrid, ssvsc::Body& mSeeker, ssvs::Vec2i mTarget, ssvsc::Group mTargetGroup, const std::vector<ssvsc::Group>& mIgnoreGroups, ssvs::Vec2i& mLastPos);
+	sses::Entity* seekEntity(NRGame& mGame, ssvsc::Body& mSeeker, ssvs::Vec2i mTarget, ssvs::Vec2i& mLastPos);
+	sses::Entity* seekEntity(NRGame& mGame, ssvsc::Body& mSeeker, ssvs::Vec2i mTarget, ssvsc::Group mTargetGroup, const std::vector<ssvsc::Group>& mIgnoreGroups, ssvs::Vec2i& mLastPos);
 }
 
 #endif

@@ -71,7 +71,7 @@ namespace nr
 		gameState.addInput({{k::Num5}}, [&](float){ clearDebugGrid(); }, t::Once);
 		gameState.addInput({{k::Num6}}, [&](float)
 		{
-			auto body(grid.getQuery<GridQueryTypes::Point>(getMousePosition()).next());
+			auto body(world.getQuery<Grid, QueryType::Point>(getMousePosition()).next());
 			if(body == nullptr) return;
 			auto entity(static_cast<Entity*>(body->getUserData()));
 			if(entity != nullptr) entity->destroy();

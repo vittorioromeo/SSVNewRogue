@@ -34,16 +34,15 @@ namespace nr
 		if(game.getInputShoot() == 0) return;
 
 		auto& body = getEntity().getComponent<NRCPhysics>().getBody();
-		Grid& grid(body.getWorld().getSpatial<Grid>());
 
 		Vec2i out;
-		Entity* enemy{seekEntity(game, grid, body, game.getMousePosition(), NRGroup::Solid, {}, out)};
+		Entity* enemy{seekEntity(game, body, game.getMousePosition(), NRGroup::Solid, {}, out)};
 
 		//game.getFactory().createTrail(body.getPosition(), out, Color::Green);
 
 		if(enemy != nullptr)
 		{
-			//NRCPhysics& cPhysics(enemy->getComponent<NRCPhysics>("physics"));
+			//NRCPhysics& cPhysics(enemy->getComponent<NRCPhysics>());
 			//log("pew pew!");
 			enemy->destroy();
 			//cPhysics.getBody().setStatic(false);

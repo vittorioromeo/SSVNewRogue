@@ -17,14 +17,14 @@ using namespace sses;
 
 namespace nr
 {
-	Entity* seekEntity(NRGame&, Grid& mGrid, Body& mSeeker, Vec2i mTarget, Vec2i& mLastPos)
+	Entity* seekEntity(NRGame& mGame, Body& mSeeker, Vec2i mTarget, Vec2i& mLastPos)
 	{
 		Entity* result{nullptr};
 		const auto& startPosition(mSeeker.getPosition());
 		Vec2f direction(mTarget - startPosition);
 		if(direction.x == 0 && direction.y == 0) return result;
 
-		auto gridQuery(mGrid.getQuery<GridQueryTypes::RayCast>(startPosition, direction));
+		auto gridQuery(mGame.getWorld().getQuery<Grid, QueryType::RayCast>(startPosition, direction));
 
 		Body* body;
 		while((body = gridQuery.next()) != nullptr)
@@ -41,14 +41,14 @@ namespace nr
 		mLastPos = Vec2i(gridQuery.getLastPos());
 		return result;
 	}
-	Entity* seekEntity(NRGame& mGame, Grid& mGrid, Body& mSeeker, Vec2i mTarget, Group mTargetGroup, const vector<Group>& mIgnoreGroups, Vec2i& mLastPos)
+	Entity* seekEntity(NRGame& mGame, Body& mSeeker, Vec2i mTarget, Group mTargetGroup, const vector<Group>& mIgnoreGroups, Vec2i& mLastPos)
 	{
 		Entity* result{nullptr};
 		const auto& startPosition(mSeeker.getPosition());
 		Vec2f direction(mTarget - startPosition);
 		if(direction.x == 0 && direction.y == 0) return result;
 
-		auto gridQuery(mGrid.getQuery<GridQueryTypes::Distance>(startPosition, 5000));
+		auto gridQuery(mGame.getWorld().getQuery<Grid, QueryType::Distance>(startPosition, 5000));
 
 		vector<pair<Vec2i, Vec2i>> testvec;
 
