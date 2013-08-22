@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#define SSVNEWROGUE_BENCHMARK
+//#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -364,12 +364,12 @@ struct TestGame
 			lo << lt("desrtoy b") << endBenchmark() << endl;
 		};
 
-		/*game.onDraw += [&]
+		game.onDraw += [&]
 		{
 			camera.apply();
 			manager.draw();
 			camera.unapply();
-		};*/
+		};
 
 		camera.zoom(2.7f);
 		window.setVsync(false);

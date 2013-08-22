@@ -56,7 +56,6 @@ target_link_libraries(${PROJECT_NAME} ${SFML_SYSTEM_LIBRARY})
 target_link_libraries(${PROJECT_NAME} ${SFML_NETWORK_LIBRARY})
 target_link_libraries(${PROJECT_NAME} ${SSVJSONCPP_LIBRARY})
 target_link_libraries(${PROJECT_NAME} ${SSVUTILS_LIBRARY})
-target_link_libraries(${PROJECT_NAME} ${SSVSTART_LIBRARY})
 target_link_libraries(${PROJECT_NAME} ${SSVRPGSYSTEM_LIBRARY})
 
 if(UNIX)
