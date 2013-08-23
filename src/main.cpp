@@ -172,13 +172,17 @@ int main()
 
 		startBenchmark();
 		{
-			vector<BigObj*> bb;
+			PAMMDynamic<BigObj> mm;
 
 			for(int k{0}; k < 10000; ++k)
 			{
-				for(int i{0}; i < 100; ++i) bb.push_back(ps.create());
-				for(auto& b : bb) ps.destroy(b);
-				bb.clear();
+				for(int i{0}; i < 100; ++i) mm.create<BigObj>();
+				mm.refresh();
+
+				for(auto& b : mm) mm.del(b);
+				mm.refresh();
+
+
 			}
 		}
 		lo << lt("prealloc_dyn mm") << endBenchmark() << endl;
