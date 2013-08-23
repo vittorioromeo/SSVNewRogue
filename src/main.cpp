@@ -50,11 +50,12 @@ struct BigObj : BaseObj
 
 int main()
 {
-	if(false)
+	if(true)
 	{
 		PreAllocatorDynamic p{65000};				// << this preallocator is VERY speed-dependent on the allocated space
 		PreAllocatorChunk pc{sizeof(BigObj), 200};	// << this preallocator can hold different objects of different types, as long as (their size <= chunk size)
 		PreAllocatorStatic<BigObj> ps{100};			// << this preallocator can hold only a specific type
+		PreAllocatorStatic<SmallObj> pss{100};		// << this preallocator can hold only a specific type
 
 		Manager manager;
 		startBenchmark();
@@ -62,7 +63,9 @@ int main()
 			for(int k{0}; k < 100000; ++k)
 			{
 				for(int i{0}; i < 100; ++i) manager.createEntity();
+				manager.update(1);
 				for(auto& e : manager.getEntities()) e->destroy();
+				manager.update(1);
 			}
 		}
 		lo << lt("manager") << endBenchmark() << endl;
@@ -117,6 +120,32 @@ int main()
 
 		startBenchmark();
 		{
+			vector<SmallObj*> sb;
+
+			for(int k{0}; k < 10000; ++k)
+			{
+				for(int i{0}; i < 100; ++i) sb.push_back(new SmallObj);
+				for(auto& b : sb) delete b;
+				sb.clear();
+			}
+		}
+		lo << lt("new/del static smallobj") << endBenchmark() << endl;
+
+		startBenchmark();
+		{
+			vector<SmallObj*> sb;
+
+			for(int k{0}; k < 10000; ++k)
+			{
+				for(int i{0}; i < 100; ++i) sb.push_back(pss.create());
+				for(auto& b : sb) pss.destroy(b);
+				sb.clear();
+			}
+		}
+		lo << lt("prealloc_static static smallobj") << endBenchmark() << endl;
+
+		startBenchmark();
+		{
 			vector<BigObj*> bb;
 
 			for(int k{0}; k < 10000; ++k)
@@ -141,6 +170,8 @@ int main()
 		}
 		lo << lt("prealloc_static static bigobj") << endBenchmark() << endl;
 	}
+
+	return 0;
 
 	if(false)
 	{
