@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -172,7 +172,7 @@ int main()
 
 		startBenchmark();
 		{
-			PAMMDynamic<BigObj> mm(p);
+			PAMMDyn<BigObj> mm(p);
 
 			for(int k{0}; k < 10000; ++k)
 			{
