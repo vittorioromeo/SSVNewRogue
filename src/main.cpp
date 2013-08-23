@@ -169,6 +169,19 @@ int main()
 			}
 		}
 		lo << lt("prealloc_static static bigobj") << endBenchmark() << endl;
+
+		startBenchmark();
+		{
+			vector<BigObj*> bb;
+
+			for(int k{0}; k < 10000; ++k)
+			{
+				for(int i{0}; i < 100; ++i) bb.push_back(ps.create());
+				for(auto& b : bb) ps.destroy(b);
+				bb.clear();
+			}
+		}
+		lo << lt("prealloc_dyn mm") << endBenchmark() << endl;
 	}
 
 	return 0;
