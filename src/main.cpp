@@ -24,7 +24,7 @@ using namespace nr;
 using namespace sses;
 using namespace ssvrpg;
 
-struct BaseObj
+struct BaseObj : MemoryManageable
 {
 	BaseObj() { }
 	virtual ~BaseObj() { }
@@ -52,10 +52,10 @@ int main()
 {
 	if(true)
 	{
-		PreAllocatorDynamic p{65000};				// << this preallocator is VERY speed-dependent on the allocated space
-		PreAllocatorChunk pc{sizeof(BigObj), 200};	// << this preallocator can hold different objects of different types, as long as (their size <= chunk size)
-		PreAllocatorStatic<BigObj> ps{100};			// << this preallocator can hold only a specific type
-		PreAllocatorStatic<SmallObj> pss{100};		// << this preallocator can hold only a specific type
+		PreAllocDyn p{65000};				// << this preallocator is VERY speed-dependent on the allocated space
+		PreAllocChunk pc{sizeof(BigObj), 200};	// << this preallocator can hold different objects of different types, as long as (their size <= chunk size)
+		PreAllocStatic<BigObj> ps{100};			// << this preallocator can hold only a specific type
+		PreAllocStatic<SmallObj> pss{100};		// << this preallocator can hold only a specific type
 
 		Manager manager;
 		startBenchmark();
@@ -172,14 +172,14 @@ int main()
 
 		startBenchmark();
 		{
-			PAMMDynamic<BigObj> mm;
+			PAMMDynamic<BigObj> mm(p);
 
 			for(int k{0}; k < 10000; ++k)
 			{
 				for(int i{0}; i < 100; ++i) mm.create<BigObj>();
 				mm.refresh();
 
-				for(auto& b : mm) mm.del(b);
+				for(auto& b : mm) mm.del(*b);
 				mm.refresh();
 
 
