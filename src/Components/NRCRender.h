@@ -37,7 +37,7 @@ namespace nr
 
 					if(!scaleWithBody) continue;
 					const auto& size(toPixels(body.getSize()));
-					s.setScale(size.x / 16.f, size.y / 16.f); // TODO: what is 16?
+					s.setScale(size.x / rect.width, size.y / rect.height);
 				}
 			}
 			inline void draw() override { for(const auto& s : sprites) game.render(s); }
