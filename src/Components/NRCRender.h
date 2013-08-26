@@ -45,7 +45,7 @@ namespace nr
 			inline void addSprite(const sf::Sprite& mSprite) { sprites.push_back(mSprite); }
 
 			inline bool isFlippedX() const					{ return flippedY; }
-			inline bool isFlippedY() const					{ return flippedX; }
+			inline bool isFlippedY() const					{ return flippedY; }
 			inline std::vector<sf::Sprite>& getSprites()	{ return sprites; }
 
 			inline void setRotation(float mDegrees)				{ for(auto& s : sprites) s.setRotation(mDegrees); }
