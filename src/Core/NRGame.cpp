@@ -18,7 +18,6 @@ using namespace ssvu;
 using namespace ssvuj;
 using namespace sses;
 using namespace ssvs;
-using namespace ssvs::Utils;
 using namespace ssvsc;
 using namespace ssvsc::Utils;
 
@@ -43,12 +42,12 @@ namespace nr
 
 		gameState.addInput({{k::Escape}}, [&](float){ gameWindow.stop(); });
 
-		gameState.addInput({{k::A}}, [=](float mFrameTime){ camera.move(Vec2f{-10, 0} * mFrameTime); });
-		gameState.addInput({{k::D}}, [=](float mFrameTime){ camera.move(Vec2f{10, 0} * mFrameTime); });
-		gameState.addInput({{k::W}}, [=](float mFrameTime){ camera.move(Vec2f{0, -10} * mFrameTime); });
-		gameState.addInput({{k::S}}, [=](float mFrameTime){ camera.move(Vec2f{0, 10} * mFrameTime); });
-		gameState.addInput({{k::Q}}, [=](float mFrameTime){ camera.zoom(pow(1.1f, mFrameTime)); });
-		gameState.addInput({{k::E}}, [=](float mFrameTime){ camera.zoom(pow(0.9f, mFrameTime)); });
+		gameState.addInput({{k::A}}, [=](float){ camera.pan(-10, 0); });
+		gameState.addInput({{k::D}}, [=](float){ camera.pan(10, 0); });
+		gameState.addInput({{k::W}}, [=](float){ camera.pan(0, -10); });
+		gameState.addInput({{k::S}}, [=](float){ camera.pan(0, 10); });
+		gameState.addInput({{k::Q}}, [=](float){ camera.zoomOut(1.1f); });
+		gameState.addInput({{k::E}}, [=](float){ camera.zoomIn(1.1f); });
 
 		add2StateInput(gameState, {{k::X}}, inputJump);
 		add2StateInput(gameState, {{k::LShift}}, inputWalk);
@@ -132,6 +131,7 @@ namespace nr
 
 	void NRGame::update(float mFrameTime)
 	{
+		camera.update(mFrameTime);
 		manager.update(mFrameTime);
 		world.update(mFrameTime);
 		timelineManager.update(mFrameTime);
