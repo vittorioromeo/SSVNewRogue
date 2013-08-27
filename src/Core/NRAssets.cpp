@@ -8,7 +8,6 @@ using namespace std;
 using namespace sf;
 using namespace ssvu::FileSystem;
 using namespace ssvs;
-using namespace ssvs::Utils;
 using namespace ssvuj;
 
 namespace nr
