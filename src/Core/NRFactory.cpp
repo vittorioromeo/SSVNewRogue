@@ -28,14 +28,14 @@ namespace nr
 	NRFactory::NRFactory(NRAssets& mAssets, NRGame& mGame, Manager& mManager, World& mWorld) : assets(mAssets), game(mGame),
 		manager(mManager), world(mWorld) { }
 
-	Entity& NRFactory::createTrail(Vec2i mA, Vec2i mB, Color mColor)
+	Entity& NRFactory::createTrail(const Vec2i& mA, const Vec2i& mB, Color mColor)
 	{
 		auto& result(manager.createEntity());
 		//result.addGroups({"trail"});
 		result.createComponent<NRCTrail>(game, mA, mB, mColor);
 		return result;
 	}
-	Entity& NRFactory::createWall(Vec2i mPosition)
+	Entity& NRFactory::createWall(const Vec2i& mPosition)
 	{
 		auto& result(manager.createEntity());
 		//result.addGroups({"wall"});
@@ -51,7 +51,7 @@ namespace nr
 
 		return result;
 	}
-	Entity& NRFactory::createHumanoid(Vec2i mPosition)
+	Entity& NRFactory::createHumanoid(const Vec2i& mPosition)
 	{
 		auto& result(manager.createEntity());
 		//result.addGroups({"humanoid"});
@@ -67,7 +67,7 @@ namespace nr
 
 		return result;
 	}
-	Entity& NRFactory::createPlayer(Vec2i mPosition)
+	Entity& NRFactory::createPlayer(const Vec2i& mPosition)
 	{
 		auto& result(createHumanoid(mPosition));
 		result.createComponent<NRCPlayer>(game, result.getComponent<NRCHumanoid>());
@@ -81,7 +81,7 @@ namespace nr
 
 		return result;
 	}
-	Entity& NRFactory::createWanderer(Vec2i mPosition)
+	Entity& NRFactory::createWanderer(const Vec2i& mPosition)
 	{
 		auto& result(createHumanoid(mPosition));
 		result.createComponent<NRCWanderer>(game, result.getComponent<NRCHumanoid>());

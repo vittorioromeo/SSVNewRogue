@@ -47,7 +47,7 @@ namespace nr
 			autoCrouchTopSensor.setPosition({atcsX, atcsY});
 			autoCrouchBottomSensor.setPosition({abcsX, abcsY});
 		};
-		cPhysics.onResolution += [&](Vec2i mMinIntersection) { if(mMinIntersection.y < 0) jumpReady = true; };
+		cPhysics.onResolution += [&](const Vec2i& mMinIntersection) { if(mMinIntersection.y < 0) jumpReady = true; };
 	}
 
 	void NRCHumanoid::update(float)

@@ -52,7 +52,7 @@ namespace nr
 			inline void setFlippedX(bool mFlippedX)				{ flippedX = mFlippedX; }
 			inline void setFlippedY(bool mFlippedY)				{ flippedY = mFlippedY; }
 			inline void setScaleWithBody(bool mScaleWithBody)	{ scaleWithBody = mScaleWithBody; }
-			inline void setOffset(ssvs::Vec2f mOffset)			{ offset = mOffset; }
+			inline void setOffset(const ssvs::Vec2f& mOffset)	{ offset = mOffset; }
 	};
 
 	// TODO: find a way to add sprites with individual offsets, and still have a global offset (RenderData struct?)

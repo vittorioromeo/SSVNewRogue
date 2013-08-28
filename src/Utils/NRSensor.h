@@ -23,11 +23,11 @@ namespace nr
 		public:
 			ssvu::Delegate<void(sses::Entity&)> onDetection;
 
-			NRSensor(NRCPhysics& mParent, ssvs::Vec2i mSize);
+			NRSensor(NRCPhysics& mParent, const ssvs::Vec2i& mSize);
 			~NRSensor();
 
 			// Setters
-			void setPosition(ssvs::Vec2i mPosition) { position = mPosition; }
+			void setPosition(const ssvs::Vec2i& mPosition) { position = mPosition; }
 
 			// Getters
 			inline ssvsc::Sensor& getSensor() { return sensor; }

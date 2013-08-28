@@ -15,7 +15,7 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCTrail::NRCTrail(NRGame& mGame, Vec2i mA, Vec2i mB, Color mColor) : game(mGame), a{mA}, b{mB}, color{mColor}, vertices{PrimitiveType::Lines, 2} { }
+	NRCTrail::NRCTrail(NRGame& mGame, const Vec2i& mA, const Vec2i& mB, Color mColor) : game(mGame), a{mA}, b{mB}, color{mColor}, vertices{PrimitiveType::Lines, 2} { }
 
 	void NRCTrail::update(float mFrameTime)
 	{

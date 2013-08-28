@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -259,7 +259,7 @@ struct CTest : Component
 	World& world; Body& body; GameWindow& window;
 	VertexArray myVertices{PrimitiveType::Quads, 4};
 
-	CTest(Vec2i mPosition, World& mWorld, GameWindow& mWindow) : world(mWorld), body(world.create(mPosition, {1500, 1500}, false)), window(mWindow) { }
+	CTest(const Vec2i& mPosition, World& mWorld, GameWindow& mWindow) : world(mWorld), body(world.create(mPosition, {1500, 1500}, false)), window(mWindow) { }
 	~CTest() { body.destroy(); }
 
 	void setColor(const Color& mColor) { for(int i{0}; i < 4; ++i) myVertices[i].color = mColor; }
@@ -309,7 +309,7 @@ struct TestGame
 	World world{createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1500, 400)};
 	Manager manager; TimelineManager tm;
 
-	Entity& create(Vec2i mPosition, bool mStatic = false)
+	Entity& create(const Vec2i& mPosition, bool mStatic = false)
 	{
 		auto& e = manager.createEntity();
 		auto& c = e.createComponent<CTest>(mPosition, world, window);
@@ -318,7 +318,7 @@ struct TestGame
 		return e;
 	}
 
-	Entity& createPlayer(Vec2i mPosition)
+	Entity& createPlayer(const Vec2i& mPosition)
 	{
 		auto& e = manager.createEntity();
 		auto& c = e.createComponent<CTest>(mPosition, world, window);
@@ -383,7 +383,7 @@ struct TestGame
 
 		auto& player = createPlayer({-5000, 0});
 		auto& c = player.getComponent<CTest>();
-		auto move = [&](Vec2f mOffset){ c.move(mOffset); };
+		auto move = [&](const Vec2f& mOffset){ c.move(mOffset); };
 		float spd = 610.f;
 
 		using k = Keyboard::Key;

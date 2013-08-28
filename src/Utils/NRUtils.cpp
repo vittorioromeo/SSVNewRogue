@@ -16,7 +16,7 @@ using namespace sses;
 
 namespace nr
 {
-	Entity* seekEntity(NRGame& mGame, Body& mSeeker, Vec2i mTarget, Vec2i& mLastPos)
+	Entity* seekEntity(NRGame& mGame, Body& mSeeker, const Vec2i& mTarget, Vec2i& mLastPos)
 	{
 		Entity* result{nullptr};
 		const auto& startPosition(mSeeker.getPosition());
@@ -40,7 +40,7 @@ namespace nr
 		mLastPos = Vec2i(gridQuery.getLastPos());
 		return result;
 	}
-	Entity* seekEntity(NRGame& mGame, Body& mSeeker, Vec2i mTarget, Group mTargetGroup, const vector<Group>& mIgnoreGroups, Vec2i& mLastPos)
+	Entity* seekEntity(NRGame& mGame, Body& mSeeker, const Vec2i& mTarget, Group mTargetGroup, const vector<Group>& mIgnoreGroups, Vec2i& mLastPos)
 	{
 		Entity* result{nullptr};
 		const auto& startPosition(mSeeker.getPosition());

@@ -17,7 +17,7 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRSensor::NRSensor(NRCPhysics& mParent, Vec2i mSize) : parent(mParent), position(parent.getBody().getPosition()), sensor(parent.getWorld().createSensor(position, mSize))
+	NRSensor::NRSensor(NRCPhysics& mParent, const Vec2i& mSize) : parent(mParent), position(parent.getBody().getPosition()), sensor(parent.getWorld().createSensor(position, mSize))
 	{
 		sensor.addGroup(NRGroup::Sensor);
 		sensor.addGroupToCheck(NRGroup::Solid);
