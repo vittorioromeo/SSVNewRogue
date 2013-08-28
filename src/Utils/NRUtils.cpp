@@ -23,7 +23,7 @@ namespace nr
 		Vec2f direction(mTarget - startPosition);
 		if(direction.x == 0 && direction.y == 0) return result;
 
-		auto gridQuery(mGame.getWorld().getQuery<Grid, QueryType::RayCast>(startPosition, direction));
+		auto gridQuery(mGame.getWorld().getQuery<HashGrid, QueryType::RayCast>(startPosition, direction));
 
 		Body* body;
 		while((body = gridQuery.next()) != nullptr)
@@ -47,7 +47,7 @@ namespace nr
 		Vec2f direction(mTarget - startPosition);
 		if(direction.x == 0 && direction.y == 0) return result;
 
-		auto gridQuery(mGame.getWorld().getQuery<Grid, QueryType::Distance>(startPosition, 5000));
+		auto gridQuery(mGame.getWorld().getQuery<HashGrid, QueryType::Distance>(startPosition, 5000));
 
 		vector<pair<Vec2i, Vec2i>> testvec;
 

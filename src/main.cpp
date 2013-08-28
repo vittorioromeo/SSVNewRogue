@@ -50,9 +50,9 @@ struct BigObj : BaseObj
 
 int main()
 {
-	if(true)
+	if(false)
 	{
-		PreAllocDyn p{65000};				// << this preallocator is VERY speed-dependent on the allocated space
+		PreAllocDyn p{65000};					// << this preallocator is VERY speed-dependent on the allocated space
 		PreAllocChunk pc{sizeof(BigObj), 200};	// << this preallocator can hold different objects of different types, as long as (their size <= chunk size)
 		PreAllocStatic<BigObj> ps{100};			// << this preallocator can hold only a specific type
 		PreAllocStatic<SmallObj> pss{100};		// << this preallocator can hold only a specific type
@@ -306,7 +306,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1500, 400)};
+	World world{createResolver<Retro>(), createSpatial<HashGrid>(1000, 1000, 1500, 400)};
 	Manager manager; TimelineManager tm;
 
 	Entity& create(const Vec2i& mPosition, bool mStatic = false)
