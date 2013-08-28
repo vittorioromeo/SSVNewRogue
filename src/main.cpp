@@ -91,10 +91,10 @@ int main()
 
 			for(int k{0}; k < 10000; ++k)
 			{
-				for(int i{0}; i < 100; ++i) sb.push_back(p.create<SmallObj>());
-				for(int i{0}; i < 100; ++i) bb.push_back(p.create<BigObj>());
-				for(auto& b : sb) p.destroy<SmallObj>(b);
-				for(auto& b : bb) p.destroy<BigObj>(b);
+				for(int i{0}; i < 100; ++i) sb.push_back(p.create<smallobj>());
+				for(int i{0}; i < 100; ++i) bb.push_back(p.create<bigobj>());
+				for(auto& b : sb) p.destroy<smallobj>(b);
+				for(auto& b : bb) p.destroy<bigobj>(b);
 				sb.clear();
 				bb.clear();
 			}
