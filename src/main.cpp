@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -391,17 +391,18 @@ struct TestGame
 		game.addInput({{k::Right}}, [=](float){ move({spd, 0}); });
 		game.addInput({{k::Up}}, 	[=](float){ move({0, -spd}); });
 		game.addInput({{k::Down}}, 	[=](float){ move({0, spd}); });
-		game.addInput({{k::Z}}, 	[=](float mFrameTime){ camera.zoom(pow(1.1f, mFrameTime)); });
-		game.addInput({{k::X}}, 	[=](float mFrameTime){ camera.zoom(pow(0.9f, mFrameTime)); });
+		game.addInput({{k::Q}}, 	[=](float){ camera.zoomOut(1.1f); });
+		game.addInput({{k::E}}, 	[=](float){ camera.zoomIn(1.1f); });
 
 		game.onUpdate += [&](float mFrameTime)
 		{
 			window.setTitle(toStr(window.getFPS()));
-			camera.centerOn(Vec2f(c.body.getPosition()) / 100.f);
+			camera.setCenter(Vec2f(c.body.getPosition()) / 100.f);
 
 			tm.update(mFrameTime);
 			manager.update(mFrameTime);
 			world.update(mFrameTime);
+			camera.update(mFrameTime);
 
 			return;
 			if(manager.getEntities().size() <= 0) return;
@@ -418,7 +419,7 @@ struct TestGame
 			camera.unapply();
 		};
 
-		camera.zoom(2.7f);
+		camera.setNextZoomFactor(2.7f);
 		window.setVsync(false);
 		window.setGameState(game);
 		window.run();
