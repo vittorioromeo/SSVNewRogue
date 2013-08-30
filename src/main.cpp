@@ -272,17 +272,20 @@ struct CTest : Component
 	{
 		body.setUserData(this);
 
+		body.setRestitutionX(0.2f);
+		body.setRestitutionY(0.2f);
+
 		body.addGroup(0);
 		body.addGroupToCheck(0);
-		body.addGroupNoResolve(0);
+		//body.addGroupNoResolve(0);
 
 		body.onDetection += [&](const DetectionInfo&){ };
 		body.onOutOfBounds += [&]{ getEntity().destroy(); };
 	}
 	void update(float) override
 	{
-		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
-		//body.applyForce({0.f, 100.f});
+		//if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
+		body.applyForce({0.f, 20.f});
 
 		const AABB& s(body.getShape());
 		const float left{toPixels(s.getLeft())};
@@ -306,7 +309,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {{0, 0}, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<HashGrid>(1000, 1000, 1500, 400)};
+	World world{createResolver<Impulse>(), createSpatial<Grid>(1000, 1000, 1500, 400)};
 	Manager manager; TimelineManager tm;
 
 	Entity& create(const Vec2i& mPosition, bool mStatic = false)
@@ -336,7 +339,7 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 50; ++iX) create({iX * 1500, iY * 1500}, false);
 			lo << lt("creation b") << endBenchmark() << endl;
 		}
 
