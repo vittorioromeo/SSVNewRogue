@@ -55,12 +55,12 @@ namespace nr
 			inline sses::Manager& getManager()			{ return manager; }
 			inline ssvsc::World& getWorld()				{ return world; }
 			inline NRFactory& getFactory()				{ return factory; }
-			inline ssvs::Vec2i getMousePosition()		{ return toCoords(camera.getMousePosition()); }
-			inline int getInputX()						{ return inputX; }
-			inline int getInputY()						{ return inputY; }
-			inline int getInputShoot()					{ return inputShoot; }
-			inline bool getInputJump()					{ return inputJump; }
-			inline bool getInputWalk()					{ return inputWalk; }
+			inline ssvs::Vec2i getMousePosition() const	{ return toCoords(camera.getMousePosition()); }
+			inline int getInputX() const				{ return inputX; }
+			inline int getInputY() const				{ return inputY; }
+			inline int getInputShoot() const			{ return inputShoot; }
+			inline bool getInputJump() const			{ return inputJump; }
+			inline bool getInputWalk() const			{ return inputWalk; }
 	};
 }
 
