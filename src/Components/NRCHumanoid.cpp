@@ -29,7 +29,7 @@ namespace nr
 		const auto& actsShape(autoCrouchTopSensor.getSensor().getShape());
 		const auto& acbsShape(autoCrouchBottomSensor.getSensor().getShape());
 
-		body.onPreUpdate += [&]{ jumpReady = false; };
+		body.onPreUpdate += [this]{ jumpReady = false; };
 		body.onPostUpdate += [&]
 		{
 			unCrouchSensor.setPosition({s.getX(), s.getBottom() - ucsShape.getHalfHeight()});

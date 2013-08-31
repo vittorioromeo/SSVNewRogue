@@ -13,5 +13,9 @@
 		"wall.png",
 		"lime.png",
 		"limeStroked.png"
-	]
+	],
+	"bitmapFonts":
+	{
+		"limeStroked": ["limeStroked.png", "lime.json"]
+	}
 }

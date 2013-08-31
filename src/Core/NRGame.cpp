@@ -28,8 +28,8 @@ namespace nr
 	{
 		debugText.setTracking(-3);
 
-		gameState.onUpdate += [&](float mFrameTime){ update(mFrameTime); };
-		gameState.onDraw += [&]{ draw(); };
+		gameState.onUpdate += [this](float mFrameTime){ update(mFrameTime); };
+		gameState.onDraw += [this]{ draw(); };
 
 		initInput(); initLevel(); initDebugGrid();
 	}
@@ -40,7 +40,7 @@ namespace nr
 		using b = Mouse::Button;
 		using t = Input::Trigger::Type;
 
-		gameState.addInput({{k::Escape}}, [&](float){ gameWindow.stop(); });
+		gameState.addInput({{k::Escape}}, [this](float){ gameWindow.stop(); });
 
 		gameState.addInput({{k::A}}, [=](float){ camera.pan(-10, 0); });
 		gameState.addInput({{k::D}}, [=](float){ camera.pan(10, 0); });
@@ -55,20 +55,20 @@ namespace nr
 		add3StateInput(gameState, {{k::Left}}, {{k::Right}}, inputX);
 		add3StateInput(gameState, {{k::Up}}, {{k::Down}}, inputY);
 
-		gameState.addInput({{k::Z}, {b::Left}},	[&](float){ inputShoot = 1; }, t::Once);
+		gameState.addInput({{k::Z}, {b::Left}},	[this](float){ inputShoot = 1; }, t::Once);
 
-		gameState.addInput({{k::Num1}}, [&](float){ factory.createWall(getMousePosition()); }, t::Once);
-		gameState.addInput({{k::Num2}}, [&](float){ factory.createWanderer(getMousePosition()); });
-		gameState.addInput({{k::Num3}}, [&](float){ factory.createPlayer(getMousePosition()); }, t::Once);
-		gameState.addInput({{k::Num4}}, [&](float)
+		gameState.addInput({{k::Num1}}, [this](float){ factory.createWall(getMousePosition()); }, t::Once);
+		gameState.addInput({{k::Num2}}, [this](float){ factory.createWanderer(getMousePosition()); });
+		gameState.addInput({{k::Num3}}, [this](float){ factory.createPlayer(getMousePosition()); }, t::Once);
+		gameState.addInput({{k::Num4}}, [this](float)
 		{
 			auto index(grid.getIndex(getMousePosition()));
 			auto count(grid.getCell(index.x, index.y).getBodies().size());
 			lo << index.x << " " << index.y << "  :: " << count << endl;
 			//debugGrid[index.x + grid.getOffset()][index.y + grid.getOffset()] = 1;
 		}, t::Once);
-		gameState.addInput({{k::Num5}}, [&](float){ clearDebugGrid(); }, t::Once);
-		gameState.addInput({{k::Num6}}, [&](float)
+		gameState.addInput({{k::Num5}}, [this](float){ clearDebugGrid(); }, t::Once);
+		gameState.addInput({{k::Num6}}, [this](float)
 		{
 			auto body(world.getQuery<HashGrid, QueryType::Point>(getMousePosition()).next());
 			if(body == nullptr) return;
