@@ -24,7 +24,7 @@ using namespace ssvsc::Utils;
 namespace nr
 {
 	NRGame::NRGame(GameWindow& mGameWindow, NRAssets& mAssets) : gameWindow(mGameWindow), assets(mAssets), factory{assets, *this, manager, world},
-		world(createResolver<Retro>(), createSpatial<HashGrid>(1000, 1000, 1000, 500)), grid(world.getSpatial<Grid>()), debugText{assets.get<BitmapFont>("limeStroked")}
+		world(createResolver<Retro>(), createSpatial<HashGrid>(1000, 1000, 1000, 500)), grid(world.getSpatial<HashGrid>()), debugText{assets.get<BitmapFont>("limeStroked")}
 	{
 		debugText.setTracking(-3);
 
@@ -65,12 +65,12 @@ namespace nr
 			auto index(grid.getIndex(getMousePosition()));
 			auto count(grid.getCell(index.x, index.y).getBodies().size());
 			lo << index.x << " " << index.y << "  :: " << count << endl;
-			debugGrid[index.x + grid.getOffset()][index.y + grid.getOffset()] = 1;
+			//debugGrid[index.x + grid.getOffset()][index.y + grid.getOffset()] = 1;
 		}, t::Once);
 		gameState.addInput({{k::Num5}}, [&](float){ clearDebugGrid(); }, t::Once);
 		gameState.addInput({{k::Num6}}, [&](float)
 		{
-			auto body(world.getQuery<Grid, QueryType::Point>(getMousePosition()).next());
+			auto body(world.getQuery<HashGrid, QueryType::Point>(getMousePosition()).next());
 			if(body == nullptr) return;
 			auto entity(static_cast<Entity*>(body->getUserData()));
 			if(entity != nullptr) entity->destroy();

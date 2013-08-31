@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#define SSVNEWROGUE_BENCHMARK
+//#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -326,6 +326,7 @@ struct TestGame
 		auto& e = manager.createEntity();
 		auto& c = e.createComponent<CTest>(mPosition, world, window);
 		c.setColor(Color::Green);;
+		e.getComponent<CTest>().body.setMass(1000.f);
 		return e;
 	}
 
@@ -339,7 +340,7 @@ struct TestGame
 		if(true)
 		{
 			startBenchmark();
-			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 50; ++iX) create({iX * 1500, iY * 1500}, false);
+			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 5; ++iX) create({iX * 1500, iY * 1500}, false);
 			lo << lt("creation b") << endBenchmark() << endl;
 		}
 

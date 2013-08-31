@@ -22,7 +22,7 @@ namespace nr
 			NRFactory factory;
 			ssvs::GameState gameState;
 			ssvsc::World world; // BUG: world must be destroyed after manager, find a way to make this not required!
-			ssvsc::Grid& grid;
+			ssvsc::HashGrid& grid;
 			sses::Manager manager;
 
 			ssvs::BitmapText debugText;
