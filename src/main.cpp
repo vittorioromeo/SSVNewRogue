@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-//#define SSVNEWROGUE_BENCHMARK
+#define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.h"
@@ -272,11 +272,12 @@ struct CTest : Component
 	{
 		body.setUserData(this);
 
-		body.setRestitutionX(0.2f);
-		body.setRestitutionY(0.2f);
+		body.setRestitutionX(0.8f);
+		body.setRestitutionY(0.8f);
 
 		body.addGroup(0);
 		body.addGroupToCheck(0);
+		body.setVelTransferMultX(0.0001f);
 		//body.addGroupNoResolve(0);
 
 		body.onDetection += [&](const DetectionInfo&){ };
@@ -383,6 +384,7 @@ struct TestGame
 			f.body.setStatic(true);
 			f.setColor(Color::Magenta);
 			f.body.setHalfSize({400000, 2500});
+			f.body.setVelTransferMultX(2.f);
 		}
 
 		auto& player = createPlayer({-5000, 0});
