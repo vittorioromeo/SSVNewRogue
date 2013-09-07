@@ -26,7 +26,7 @@ namespace nr
 
 		public:
 			ssvu::Delegate<void(sses::Entity&)> onDetection;
-			ssvu::Delegate<void(ssvs::Vec2i)> onResolution;
+			ssvu::Delegate<void(const ssvs::Vec2i&)> onResolution;
 
 			NRCPhysics(ssvsc::World& mWorld, bool mIsStatic, const ssvs::Vec2i& mPosition, const ssvs::Vec2i& mSize, bool mAffectedByGravity = true);
 			~NRCPhysics();
