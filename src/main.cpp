@@ -50,7 +50,7 @@ struct BigObj : BaseObj
 
 int main()
 {
-	if(false)
+	if(true)
 	{
 		PreAllocDyn p{65000};					// << this preallocator is VERY speed-dependent on the allocated space
 		PreAllocChunk pc{sizeof(BigObj), 200};	// << this preallocator can hold different objects of different types, as long as (their size <= chunk size)
@@ -280,7 +280,7 @@ struct CTest : Component
 		//body.setVelTransferMultX(0.0001f);
 		body.addGroupNoResolve(0);
 
-		body.onDetection += [&](const DetectionInfo&){ };
+		body.onDetection += [&](const DetectionInfo&){ /*getEntity().destroy();*/ };
 		body.onOutOfBounds += [&]{ getEntity().destroy(); };
 	}
 	void update(float) override
@@ -378,7 +378,7 @@ struct TestGame
 			}
 		}*/
 
-		{
+		if(false){
 			auto& e = manager.createEntity();
 			auto& f = e.createComponent<CTest>(Vec2i{200000, 170000}, world, window);
 			f.body.setStatic(true);
