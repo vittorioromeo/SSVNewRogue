@@ -68,7 +68,7 @@ int main()
 				manager.update(1);
 			}
 		}
-		lo << lt("manager") << endBenchmark() << endl;
+		lo("manager") << endBenchmark() << endl;
 
 		startBenchmark();
 		{
@@ -82,7 +82,7 @@ int main()
 				bases.clear();
 			}
 		}
-		lo << lt("new/del") << endBenchmark() << endl;
+		lo("new/del") << endBenchmark() << endl;
 
 		startBenchmark();
 		{
@@ -99,7 +99,7 @@ int main()
 				bb.clear();
 			}
 		}
-		lo << lt("prealloc dynamic") << endBenchmark() << endl;
+		lo("prealloc dynamic") << endBenchmark() << endl;
 
 		startBenchmark();
 		{
@@ -116,7 +116,7 @@ int main()
 				bb.clear();
 			}
 		}
-		lo << lt("prealloc chunk") << endBenchmark() << endl;
+		lo("prealloc chunk") << endBenchmark() << endl;
 
 		startBenchmark();
 		{
@@ -129,7 +129,7 @@ int main()
 				sb.clear();
 			}
 		}
-		lo << lt("new/del static smallobj") << endBenchmark() << endl;
+		lo("new/del static smallobj") << endBenchmark() << endl;
 
 		startBenchmark();
 		{
@@ -142,7 +142,7 @@ int main()
 				sb.clear();
 			}
 		}
-		lo << lt("prealloc_static static smallobj") << endBenchmark() << endl;
+		lo("prealloc_static static smallobj") << endBenchmark() << endl;
 
 		startBenchmark();
 		{
@@ -155,7 +155,7 @@ int main()
 				bb.clear();
 			}
 		}
-		lo << lt("new/del static bigobj") << endBenchmark() << endl;
+		lo("new/del static bigobj") << endBenchmark() << endl;
 
 		startBenchmark();
 		{
@@ -168,7 +168,7 @@ int main()
 				bb.clear();
 			}
 		}
-		lo << lt("prealloc_static static bigobj") << endBenchmark() << endl;
+		lo("prealloc_static static bigobj") << endBenchmark() << endl;
 
 		startBenchmark();
 		{
@@ -185,7 +185,7 @@ int main()
 
 			}
 		}
-		lo << lt("prealloc_dyn mm") << endBenchmark() << endl;
+		lo("prealloc_dyn mm") << endBenchmark() << endl;
 	}
 
 	//return 0;
@@ -342,7 +342,7 @@ struct TestGame
 		{
 			startBenchmark();
 			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
-			lo << lt("creation b") << endBenchmark() << endl;
+			lo("creation b") << endBenchmark() << endl;
 		}
 
 		/*if(false)
@@ -415,7 +415,7 @@ struct TestGame
 
 			startBenchmark();
 			for(const auto& e : manager.getEntities()) e->destroy();
-			lo << lt("desrtoy b") << endBenchmark() << endl;
+			lo("desrtoy b") << endBenchmark() << endl;
 		};
 
 		game.onDraw += [&]
