@@ -20,7 +20,7 @@ namespace nr
 
 	NRCHumanoidAnimationController::NRCHumanoidAnimationController(NRCRender& mCRender, NRCHumanoid& mCHumanoid) : cRender(mCRender), cHumanoid(mCHumanoid) { }
 
-	void NRCHumanoidAnimationController::update(float mFrameTime)
+	void NRCHumanoidAnimationController::update(float mFT)
 	{
 		cRender.setFlippedX(cHumanoid.isFacingLeft());
 		cRender.setOffset({0, -1});
@@ -37,7 +37,7 @@ namespace nr
 		}
 
 		if(currentAnim == nullptr) return;
-		currentAnim->update(mFrameTime);
+		currentAnim->update(mFT);
 		const auto& rect(tileset(currentAnim->getTileIndex()));
 		for(auto& s : cRender.getSprites()) s.setTextureRect(rect);
 	}

@@ -35,7 +35,7 @@ namespace nr
 			NRCHumanoid(NRCPhysics& mCPhysics);
 
 			void init() override;
-			void update(float mFrameTime) override;
+			void update(float mFT) override;
 
 			void unCrouch();
 			void crouch(bool mForce = false);

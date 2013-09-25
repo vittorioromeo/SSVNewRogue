@@ -28,7 +28,7 @@ namespace nr
 	{
 		debugText.setTracking(-3);
 
-		gameState.onUpdate += [this](float mFrameTime){ update(mFrameTime); };
+		gameState.onUpdate += [this](float mFT){ update(mFT); };
 		gameState.onDraw += [this]{ draw(); };
 
 		initInput(); initLevel(); initDebugGrid();
@@ -129,16 +129,16 @@ namespace nr
 		}
 	}
 
-	void NRGame::update(float mFrameTime)
+	void NRGame::update(float mFT)
 	{
-		camera.update(mFrameTime);
-		manager.update(mFrameTime);
-		world.update(mFrameTime);
-		timelineManager.update(mFrameTime);
-		updateDebugText(mFrameTime);
+		camera.update(mFT);
+		manager.update(mFT);
+		world.update(mFT);
+		timelineManager.update(mFT);
+		updateDebugText(mFT);
 		inputShoot = 0;
 	}
-	void NRGame::updateDebugText(float mFrameTime)
+	void NRGame::updateDebugText(float mFT)
 	{
 		ostringstream s;
 		const auto& entities(manager.getEntities());
@@ -148,7 +148,7 @@ namespace nr
 		for(const auto& b : bodies) if(!b->isStatic()) ++dynamicBodiesCount;
 
 		s << "FPS: "				<< gameWindow.getFPS() << "\n";
-		s << "FrameTime: "			<< mFrameTime << "\n";
+		s << "FrameTime: "			<< mFT << "\n";
 		s << "Bodies(all): "		<< bodies.size() << "\n";
 		s << "Bodies(static): "		<< bodies.size() - dynamicBodiesCount << "\n";
 		s << "Bodies(dynamic): "	<< dynamicBodiesCount << "\n";

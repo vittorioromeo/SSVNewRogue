@@ -32,7 +32,7 @@ namespace nr
 			~NRCPhysics();
 
 			void init() override;
-			void update(float mFrameTime) override;
+			void update(float mFT) override;
 
 			inline void setAffectedByGravity(bool mAffectedByGravity) { affectedByGravity = mAffectedByGravity; }
 

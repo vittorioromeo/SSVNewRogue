@@ -33,7 +33,7 @@ namespace nr
 		public:
 			NRCHumanoidAnimationController(NRCRender& mCRender, NRCHumanoid& mCHumanoid);
 
-			void update(float mFrameTime) override;
+			void update(float mFT) override;
 	};
 }
 

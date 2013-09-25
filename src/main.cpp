@@ -400,15 +400,15 @@ struct TestGame
 		game.addInput({{k::Q}}, 	[=](float){ camera.zoomOut(1.1f); });
 		game.addInput({{k::E}}, 	[=](float){ camera.zoomIn(1.1f); });
 
-		game.onUpdate += [&](float mFrameTime)
+		game.onUpdate += [&](float mFT)
 		{
 			window.setTitle(toStr(window.getFPS()));
 			camera.setCenter(Vec2f(c.body.getPosition()) / 100.f);
 
-			tm.update(mFrameTime);
-			manager.update(mFrameTime);
-			world.update(mFrameTime);
-			camera.update(mFrameTime);
+			tm.update(mFT);
+			manager.update(mFT);
+			world.update(mFT);
+			camera.update(mFT);
 
 			return;
 			if(manager.getEntities().size() <= 0) return;

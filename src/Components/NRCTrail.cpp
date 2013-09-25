@@ -17,9 +17,9 @@ namespace nr
 {
 	NRCTrail::NRCTrail(NRGame& mGame, const Vec2i& mA, const Vec2i& mB, Color mColor) : game(mGame), a{mA}, b{mB}, color{mColor}, vertices{PrimitiveType::Lines, 2} { }
 
-	void NRCTrail::update(float mFrameTime)
+	void NRCTrail::update(float mFT)
 	{
-		life -= mFrameTime;
+		life -= mFT;
 		if(life <= 0) getEntity().destroy();
 		color.a = life * (255 / 100);
 		vertices[0].color = vertices[1].color = color;

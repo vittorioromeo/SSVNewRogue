@@ -41,8 +41,8 @@ namespace nr
 		public:
 			NRGame(ssvs::GameWindow& mGameWindow, NRAssets& mAssets);
 
-			void update(float mFrameTime);
-			void updateDebugText(float mFrameTime);
+			void update(float mFT);
+			void updateDebugText(float mFT);
 			void drawDebugGrid();
 			void draw();
 

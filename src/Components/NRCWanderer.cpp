@@ -20,9 +20,9 @@ namespace nr
 {
 	NRCWanderer::NRCWanderer(NRGame& mGame, NRCHumanoid& mCHumanoid) : game(mGame), cHumanoid(mCHumanoid) { }
 
-	void NRCWanderer::update(float mFrameTime)
+	void NRCWanderer::update(float mFT)
 	{
-		time -= mFrameTime * 2.2f;
+		time -= mFT * 2.2f;
 		if(time <= 0)
 		{
 			time = 100 + getRnd(0, 100);
