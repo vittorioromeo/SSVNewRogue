@@ -54,8 +54,6 @@ namespace nr
 			inline void setScaleWithBody(bool mScaleWithBody)	{ scaleWithBody = mScaleWithBody; }
 			inline void setOffset(const ssvs::Vec2f& mOffset)	{ offset = mOffset; }
 	};
-
-	// TODO: find a way to add sprites with individual offsets, and still have a global offset (RenderData struct?)
 }
 
 #endif
