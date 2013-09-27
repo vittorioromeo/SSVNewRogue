@@ -40,7 +40,7 @@ namespace nr
 		};
 		body.onPreUpdate += [&]
 		{
-			lastResolution = {0, 0};
+			lastResolution = ssvs::zeroVec2i;
 			if(crushedLeft > 0) --crushedLeft;
 			if(crushedRight > 0) --crushedRight;
 			if(crushedTop > 0) --crushedTop;

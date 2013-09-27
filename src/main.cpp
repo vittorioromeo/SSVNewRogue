@@ -308,7 +308,7 @@ struct TestGame
 {
 	GameWindow window;
 	GameState game;
-	Camera camera{window, {{0, 0}, {1280, 720}}};
+	Camera camera{window, {ssvs::zeroVec2f, {1280, 720}}};
 
 	World world{createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1500, 400)};
 	Manager manager; TimelineManager tm;
