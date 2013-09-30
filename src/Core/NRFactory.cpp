@@ -61,8 +61,7 @@ namespace nr
 		result.createComponent<NRCHumanoidAnimationController>(cRender, cHumanoid);
 
 		Body& body(cPhysics.getBody());
-		body.addGroup(NRGroup::Solid);
-		body.addGroup(NRGroup::Humanoid);
+		body.addGroups(NRGroup::Solid, NRGroup::Humanoid);
 		body.addGroupToCheck(NRGroup::Solid);
 
 		return result;
