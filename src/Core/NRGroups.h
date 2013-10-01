@@ -13,7 +13,7 @@ namespace nr
 	{
 		Solid = 0,
 		Humanoid,
-		Sensor
+		GSensor
 	};
 }
 

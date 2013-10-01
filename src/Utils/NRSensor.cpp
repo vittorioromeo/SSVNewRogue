@@ -12,14 +12,13 @@ using namespace ssvs;
 using namespace sses;
 using namespace std;
 using namespace sf;
-using namespace ssvsc;
 using namespace ssvu;
 
 namespace nr
 {
 	NRSensor::NRSensor(NRCPhysics& mParent, const Vec2i& mSize) : parent(mParent), position(parent.getBody().getPosition()), sensor(parent.getWorld().createSensor(position, mSize))
 	{
-		sensor.addGroup(NRGroup::Sensor);
+		sensor.addGroup(NRGroup::GSensor);
 		sensor.addGroupToCheck(NRGroup::Solid);
 
 		sensor.onPreUpdate += [this]{ active = false; sensor.setPosition(position); };

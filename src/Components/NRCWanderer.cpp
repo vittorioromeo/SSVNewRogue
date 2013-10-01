@@ -13,7 +13,6 @@ using namespace ssvs;
 using namespace sses;
 using namespace std;
 using namespace sf;
-using namespace ssvsc;
 using namespace ssvu;
 
 namespace nr
@@ -38,7 +37,7 @@ namespace nr
 
 		auto& body = getEntity().getComponent<NRCPhysics>().getBody();
 		Vec2i out;
-		Entity* enemy{seekEntity(game, body, body.getPosition() + Vec2i(body.getVelocity()), NRGroup::Humanoid, {NRGroup::Sensor}, out)};
+		Entity* enemy{seekEntity(game, body, body.getPosition() + Vec2i(body.getVelocity()), NRGroup::Humanoid, {NRGroup::GSensor}, out)};
 
 		game.getFactory().createTrail(body.getPosition(), out, Color::Red);
 

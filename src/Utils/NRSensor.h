@@ -17,7 +17,7 @@ namespace nr
 		private:
 			NRCPhysics& parent;
 			ssvs::Vec2i position;
-			ssvsc::Sensor& sensor;
+			Sensor& sensor;
 			bool active{false};
 
 		public:
@@ -30,7 +30,7 @@ namespace nr
 			void setPosition(const ssvs::Vec2i& mPosition) { position = mPosition; }
 
 			// Getters
-			inline ssvsc::Sensor& getSensor() { return sensor; }
+			inline Sensor& getSensor() { return sensor; }
 			inline bool isActive() const { return active; }
 	};
 }

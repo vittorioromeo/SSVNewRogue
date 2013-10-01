@@ -16,8 +16,8 @@ namespace nr
 		private:
 			static constexpr int crushedMax{3}, crushedTolerance{1};
 
-			ssvsc::World& world;
-			ssvsc::Body& body;
+			World& world;
+			Body& body;
 			ssvs::Vec2i lastResolution;
 			bool affectedByGravity{true};
 			int crushedLeft{0}, crushedRight{0}, crushedTop{0}, crushedBottom{0};
@@ -28,7 +28,7 @@ namespace nr
 			ssvu::Delegate<void(sses::Entity&)> onDetection;
 			ssvu::Delegate<void(const ssvs::Vec2i&)> onResolution;
 
-			NRCPhysics(ssvsc::World& mWorld, bool mIsStatic, const ssvs::Vec2i& mPosition, const ssvs::Vec2i& mSize, bool mAffectedByGravity = true);
+			NRCPhysics(World& mWorld, bool mIsStatic, const ssvs::Vec2i& mPosition, const ssvs::Vec2i& mSize, bool mAffectedByGravity = true);
 			~NRCPhysics();
 
 			void init() override;
@@ -36,8 +36,8 @@ namespace nr
 
 			inline void setAffectedByGravity(bool mAffectedByGravity) { affectedByGravity = mAffectedByGravity; }
 
-			inline ssvsc::World& getWorld() const					{ return world; }
-			inline ssvsc::Body& getBody() const						{ return body; }
+			inline World& getWorld() const					{ return world; }
+			inline Body& getBody() const						{ return body; }
 			inline const ssvs::Vec2i& getLastResolution() const		{ return lastResolution; }
 			inline bool isAffectedByGravity() const					{ return affectedByGravity; }
 			inline bool isCrushedLeft() const						{ return crushedLeft > crushedTolerance; }

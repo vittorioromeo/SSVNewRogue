@@ -247,7 +247,6 @@ using namespace std;
 using namespace sses;
 using namespace ssvs;
 using namespace ssvu::FileSystem;
-using namespace ssvsc;
 using namespace ssvsc::Utils;
 using namespace ssvu;
 
@@ -288,7 +287,7 @@ struct CTest : Component
 		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
 		//body.applyForce({0.f, 20.f});
 
-		const AABB& s(body.getShape());
+		const auto& s(body.getShape());
 		const float left{toPixels(s.getLeft())};
 		const float right{toPixels(s.getRight())};
 		const float top{toPixels(s.getTop())};
@@ -310,7 +309,7 @@ struct TestGame
 	GameState game;
 	Camera camera{window, {ssvs::zeroVec2f, {1280, 720}}};
 
-	World world{createResolver<Retro>(), createSpatial<Grid>(1000, 1000, 1500, 400)};
+	World world{1000, 1000, 1500, 400};
 	Manager manager; TimelineManager tm;
 
 	Entity& create(const Vec2i& mPosition, bool mStatic = false)

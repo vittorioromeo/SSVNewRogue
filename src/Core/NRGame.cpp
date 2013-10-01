@@ -24,7 +24,7 @@ using namespace ssvsc::Utils;
 namespace nr
 {
 	NRGame::NRGame(GameWindow& mGameWindow, NRAssets& mAssets) : gameWindow(mGameWindow), assets(mAssets), factory{assets, *this, manager, world},
-		world(createResolver<Retro>(), createSpatial<HashGrid>(1000, 1000, 1000, 500)), grid(world.getSpatial<HashGrid>()), debugText{assets.get<BitmapFont>("limeStroked")}
+		world(1000, 1000, 1000, 500), grid(world.getSpatial()), debugText{assets.get<BitmapFont>("limeStroked")}
 	{
 		debugText.setTracking(-3);
 
@@ -70,7 +70,7 @@ namespace nr
 		gameState.addInput({{k::Num5}}, [this](float){ clearDebugGrid(); }, t::Once);
 		gameState.addInput({{k::Num6}}, [this](float)
 		{
-			auto body(world.getQuery<HashGrid, QueryType::Point>(getMousePosition()).next());
+			auto body(world.getQuery<QueryType::Point>(getMousePosition()).next());
 			if(body == nullptr) return;
 			auto entity(static_cast<Entity*>(body->getUserData()));
 			if(entity != nullptr) entity->destroy();

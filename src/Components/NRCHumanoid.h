@@ -21,7 +21,7 @@ namespace nr
 		private:
 			NRCPhysics& cPhysics;
 			NRSensor unCrouchSensor, autoCrouchTopSensor, autoCrouchBottomSensor;
-			ssvsc::Body& body;
+			Body& body;
 			int standingHeight;
 			Action action;
 			bool facingLeft{false}, jumpReady{false}, crouching{false}, autoCrouching{false};

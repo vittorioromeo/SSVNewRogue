@@ -17,13 +17,13 @@ namespace nr
 	{
 		private:
 			NRGame& game;
-			ssvsc::Body& body;
+			Body& body;
 			std::vector<sf::Sprite> sprites;
 			bool flippedX{false}, flippedY{false}, scaleWithBody{false};
 			ssvs::Vec2f offset;
 
 		public:
-			NRCRender(NRGame& mGame, ssvsc::Body& mBody) : game(mGame), body(mBody) { }
+			NRCRender(NRGame& mGame, Body& mBody) : game(mGame), body(mBody) { }
 
 			void update(float) override
 			{

@@ -18,10 +18,10 @@ namespace nr
 			NRAssets& assets;
 			NRGame& game;
 			sses::Manager& manager;
-			ssvsc::World& world;
+			World& world;
 
 		public:
-			NRFactory(NRAssets& mAssets, NRGame& mGame, sses::Manager& mManager, ssvsc::World& mWorld);
+			NRFactory(NRAssets& mAssets, NRGame& mGame, sses::Manager& mManager, World& mWorld);
 
 			sses::Entity& createTrail(const ssvs::Vec2i& mA, const ssvs::Vec2i& mB, sf::Color mColor);
 			sses::Entity& createWall(const ssvs::Vec2i& mPosition);

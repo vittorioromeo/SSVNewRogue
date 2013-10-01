@@ -21,8 +21,8 @@ namespace nr
 			NRAssets& assets;
 			NRFactory factory;
 			ssvs::GameState gameState;
-			ssvsc::World world; // BUG: world must be destroyed after manager, find a way to make this not required!
-			ssvsc::HashGrid& grid;
+			World world; // BUG: world must be destroyed after manager, find a way to make this not required!
+			const typename World::SpatialType& grid;
 			sses::Manager manager;
 
 			ssvs::BitmapText debugText;
@@ -53,7 +53,7 @@ namespace nr
 			inline ssvs::GameWindow& getGameWindow()	{ return gameWindow; }
 			inline ssvs::GameState& getGameState()		{ return gameState; }
 			inline sses::Manager& getManager()			{ return manager; }
-			inline ssvsc::World& getWorld()				{ return world; }
+			inline World& getWorld()					{ return world; }
 			inline NRFactory& getFactory()				{ return factory; }
 			inline ssvs::Vec2i getMousePosition() const	{ return toCoords(camera.getMousePosition()); }
 			inline int getInputX() const				{ return inputX; }
