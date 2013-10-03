@@ -62,7 +62,7 @@ namespace nr
 		gameState.addInput({{k::Num3}}, [this](float){ factory.createPlayer(getMousePosition()); }, t::Once);
 		gameState.addInput({{k::Num4}}, [this](float)
 		{
-			auto index(grid.getIndex(getMousePosition()));
+			auto index(grid.getIdx(getMousePosition()));
 			auto count(grid.getCell(index.x, index.y).getBodies().size());
 			lo << index.x << " " << index.y << "  :: " << count << endl;
 			//debugGrid[index.x + grid.getOffset()][index.y + grid.getOffset()] = 1;
@@ -79,8 +79,8 @@ namespace nr
 	void NRGame::initLevel()
 	{
 		int tilesX{320 / 16}, tilesY{240 / 16};
-		// tilesX = 50; // world.getSpatial<Grid>().getIndexXMax() / 4;
-		// tilesY = 50; // world.getSpatial<Grid>().getIndexYMax() / 4;
+		// tilesX = 50; // world.getSpatial<Grid>().getIdxXMax() / 4;
+		// tilesY = 50; // world.getSpatial<Grid>().getIdxYMax() / 4;
 
 		for(int iY{0}; iY < tilesY; ++iY)
 			for(int iX{0}; iX < tilesX; ++iX)
