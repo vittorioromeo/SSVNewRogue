@@ -32,7 +32,7 @@ namespace nr
 			int inputX{0}, inputY{0}, inputShoot{0};
 			bool inputJump{false}, inputWalk{false};
 			std::vector<std::vector<int>> debugGrid;
-			sf::VertexArray debugGridVertices{sf::PrimitiveType::Quads};
+			ssvs::VertexVector<sf::PrimitiveType::Quads> debugGridVertices;
 
 			void initInput();
 			void initLevel();

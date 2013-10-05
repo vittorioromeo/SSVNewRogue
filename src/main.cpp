@@ -256,7 +256,7 @@ void initAssets() { AssetFolder("Data/").loadToManager(assets); }
 struct CTest : Component
 {
 	World& world; Body& body; GameWindow& window;
-	VertexArray myVertices{PrimitiveType::Quads, 4};
+	ssvs::VertexVector<sf::PrimitiveType::Quads> myVertices{4};
 
 	CTest(const Vec2i& mPosition, World& mWorld, GameWindow& mWindow) : world(mWorld), body(world.create(mPosition, {1500, 1500}, false)), window(mWindow) { }
 	~CTest() { body.destroy(); }
@@ -325,7 +325,7 @@ struct TestGame
 	{
 		auto& e = manager.createEntity();
 		auto& c = e.createComponent<CTest>(mPosition, world, window);
-		c.setColor(Color::Green);;
+		c.setColor(Color::Green);
 		e.getComponent<CTest>().body.setMass(1000.f);
 		return e;
 	}

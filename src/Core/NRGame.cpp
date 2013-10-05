@@ -196,10 +196,10 @@ namespace nr
 				Vec2i b{grid.getCellSize() * (oIX + 1), grid.getCellSize() * oIY};
 				Vec2i c{grid.getCellSize() * (oIX + 1), grid.getCellSize() * (oIY + 1)};
 				Vec2i d{grid.getCellSize() * oIX, grid.getCellSize() * (oIY + 1)};
-				debugGridVertices.append({toPixels(a), color});
-				debugGridVertices.append({toPixels(b), color});
-				debugGridVertices.append({toPixels(c), color});
-				debugGridVertices.append({toPixels(d), color});
+				debugGridVertices.emplace_back(toPixels(a), color);
+				debugGridVertices.emplace_back(toPixels(b), color);
+				debugGridVertices.emplace_back(toPixels(c), color);
+				debugGridVertices.emplace_back(toPixels(d), color);
 			}
 		render(debugGridVertices);
 	}

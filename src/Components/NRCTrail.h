@@ -19,7 +19,7 @@ namespace nr
 			float life{75};
 			ssvs::Vec2i a, b;
 			sf::Color color;
-			sf::VertexArray vertices;
+			ssvs::VertexVector<sf::PrimitiveType::Lines> vertices;
 
 		public:
 			NRCTrail(NRGame& mGame, const ssvs::Vec2i& mA, const ssvs::Vec2i& mB, sf::Color mColor);
