@@ -19,7 +19,7 @@
 
 namespace nr
 {
-	using World = ssvsc::World<ssvsc::HashGrid, ssvsc::Impulse>;
+	using World = ssvsc::World<ssvsc::Grid, ssvsc::Retro>;
 	using Body = World::BodyType;
 	using Sensor = World::SensorType;
 	using DetectionInfo = World::DetectionInfoType;

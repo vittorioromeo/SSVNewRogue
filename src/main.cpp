@@ -383,7 +383,7 @@ struct TestGame
 			f.body.setStatic(true);
 			f.setColor(Color::Magenta);
 			f.body.setHalfSize({400000, 2500});
-			f.body.setVelTransferMultX(2.f);
+			//f.body.setVelTransferMultX(2.f);
 		}
 
 		auto& player = createPlayer({-5000, 0});
