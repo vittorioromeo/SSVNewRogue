@@ -46,7 +46,7 @@ namespace nr
 		body.addGroup(NRGroup::Solid);
 		body.addGroupToCheck(NRGroup::Solid);
 
-		cRender.addSprite(Sprite{assets.get<Texture>("wall.png")});
+		cRender.pushSprite(Sprite{assets.get<Texture>("wall.png")});
 		cRender.setScaleWithBody(true);
 
 		return result;
@@ -72,10 +72,10 @@ namespace nr
 		result.createComponent<NRCPlayer>(game, result.getComponent<NRCHumanoid>());
 
 		auto& cRender = result.getComponent<NRCRender>();
-		cRender.addSprite(Sprite{assets.get<Texture>("legs.png")});
-		cRender.addSprite(Sprite{assets.get<Texture>("body.png")});
-		cRender.addSprite(Sprite{assets.get<Texture>("arms.png")});
-		cRender.addSprite(Sprite{assets.get<Texture>("head.png")});
+		cRender.pushSprite(Sprite{assets.get<Texture>("legs.png")});
+		cRender.pushSprite(Sprite{assets.get<Texture>("body.png")});
+		cRender.pushSprite(Sprite{assets.get<Texture>("arms.png")});
+		cRender.pushSprite(Sprite{assets.get<Texture>("head.png")});
 		for(auto& s : cRender.getSprites()) s.setTextureRect({0, 0, 16, 16});
 
 		return result;
@@ -86,10 +86,10 @@ namespace nr
 		result.createComponent<NRCWanderer>(game, result.getComponent<NRCHumanoid>());
 
 		auto& cRender = result.getComponent<NRCRender>();
-		cRender.addSprite(Sprite{assets.get<Texture>("legs.png")});
-		cRender.addSprite(Sprite{assets.get<Texture>("body2.png")});
-		cRender.addSprite(Sprite{assets.get<Texture>("arms.png")});
-		cRender.addSprite(Sprite{assets.get<Texture>("head.png")});
+		cRender.pushSprite(Sprite{assets.get<Texture>("legs.png")});
+		cRender.pushSprite(Sprite{assets.get<Texture>("body2.png")});
+		cRender.pushSprite(Sprite{assets.get<Texture>("arms.png")});
+		cRender.pushSprite(Sprite{assets.get<Texture>("head.png")});
 
 		for(auto& s : cRender.getSprites()) s.setTextureRect({0, 0, 16, 16});
 
