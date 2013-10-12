@@ -51,7 +51,7 @@ namespace nr
 
 		vector<pair<Vec2i, Vec2i>> testvec;
 
-		Bitset ignoreGroups;
+		GroupBitset ignoreGroups;
 		for(const auto& l : mIgnoreGroups) ignoreGroups.set(l);
 
 		Body* body;
