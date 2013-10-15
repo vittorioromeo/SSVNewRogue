@@ -401,13 +401,13 @@ struct TestGame
 
 		game.onUpdate += [&](float mFT)
 		{
-			window.setTitle(toStr(window.getFPS()));
-			camera.setCenter(Vec2f(c.body.getPosition()) / 100.f);
+			window.setTitle("up: " + toStr(window.getMsUpdate()) + "\t dw: " + toStr(window.getMsDraw()));
+			//camera.setCenter(Vec2f(c.body.getPosition()) / 100.f);
 
-			tm.update(mFT);
+			//tm.update(mFT);
 			manager.update(mFT);
 			world.update(mFT);
-			camera.update(mFT);
+			//camera.update(mFT);
 
 			return;
 			if(manager.getEntities().size() <= 0) return;
