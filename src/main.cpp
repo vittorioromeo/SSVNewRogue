@@ -274,10 +274,10 @@ struct CTest : Component
 		body.setRestitutionX(0.8f);
 		body.setRestitutionY(0.8f);
 
-		body.addGroup(0);
-		body.addGroupToCheck(0);
+		body.addGroups(0);
+		body.addGroupsToCheck(0);
 		//body.setVelTransferMultX(0.0001f);
-		body.addGroupNoResolve(0);
+		body.addGroupsNoResolve(0);
 
 		body.onDetection += [&](const DetectionInfo&){ /*getEntity().destroy();*/ };
 		body.onOutOfBounds += [&]{ getEntity().destroy(); };

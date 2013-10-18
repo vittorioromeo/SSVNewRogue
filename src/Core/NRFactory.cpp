@@ -43,8 +43,8 @@ namespace nr
 		auto& cRender(result.createComponent<NRCRender>(game, cPhysics.getBody()));
 
 		Body& body(cPhysics.getBody());
-		body.addGroup(NRGroup::Solid);
-		body.addGroupToCheck(NRGroup::Solid);
+		body.addGroups(NRGroup::Solid);
+		body.addGroupsToCheck(NRGroup::Solid);
 
 		cRender.pushSprite(Sprite{assets.get<Texture>("wall.png")});
 		cRender.setScaleWithBody(true);
@@ -62,7 +62,7 @@ namespace nr
 
 		Body& body(cPhysics.getBody());
 		body.addGroups(NRGroup::Solid, NRGroup::Humanoid);
-		body.addGroupToCheck(NRGroup::Solid);
+		body.addGroupsToCheck(NRGroup::Solid);
 
 		return result;
 	}
