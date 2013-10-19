@@ -36,8 +36,8 @@ namespace nr
 
 	void NRGame::initInput()
 	{
-		using k = Keyboard::Key;
-		using b = Mouse::Button;
+		using k = KKey;
+		using b = MBtn;
 		using t = Input::Trigger::Type;
 
 		gameState.addInput({{k::Escape}}, [this](float){ gameWindow.stop(); });
@@ -163,7 +163,7 @@ namespace nr
 	void NRGame::draw()
 	{
 		camera.apply();
-		//if(getGameWindow().isKeyPressed(Keyboard::Key::F))
+		//if(getGameWindow().isKeyPressed(KKey::F))
 		manager.draw();
 		//drawDebugGrid();
 		camera.unapply();

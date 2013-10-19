@@ -391,7 +391,7 @@ struct TestGame
 		auto move = [&](const Vec2f& mOffset){ c.move(mOffset); };
 		float spd = 610.f;
 
-		using k = Keyboard::Key;
+		using k = KKey;
 		game.addInput({{k::Left}}, 	[=](float){ move({-spd, 0}); });
 		game.addInput({{k::Right}}, [=](float){ move({spd, 0}); });
 		game.addInput({{k::Up}}, 	[=](float){ move({0, -spd}); });
