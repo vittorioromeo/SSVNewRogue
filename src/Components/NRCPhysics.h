@@ -31,7 +31,7 @@ namespace nr
 			NRCPhysics(World& mWorld, bool mIsStatic, const ssvs::Vec2i& mPosition, const ssvs::Vec2i& mSize, bool mAffectedByGravity = true);
 			~NRCPhysics();
 
-			void init() override;
+			void init();
 			void update(float mFT) override;
 
 			inline void setAffectedByGravity(bool mAffectedByGravity) { affectedByGravity = mAffectedByGravity; }

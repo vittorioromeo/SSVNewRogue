@@ -267,7 +267,7 @@ struct CTest : Component
 		if(mOffset.x != 0) body.setVelocityX(mOffset.x);
 		if(mOffset.y != 0) body.setVelocityY(mOffset.y);
 	}
-	void init() override
+	void init()
 	{
 		body.setUserData(this);
 
