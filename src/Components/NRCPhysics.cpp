@@ -21,21 +21,21 @@ namespace nr
 	{
 		body.setUserData(&getEntity());
 
-		body.onDetection += [&](const DetectionInfo& mDetectionInfo)
+		body.onDetection += [&](const DetectionInfo& mDI)
 		{
-			if(mDetectionInfo.userData == nullptr) return;
-			Entity* entity(static_cast<Entity*>(mDetectionInfo.userData));
+			if(mDI.userData == nullptr) return;
+			Entity* entity(static_cast<Entity*>(mDI.userData));
 			onDetection(*entity);
 		};
-		body.onResolution += [&](const ResolutionInfo& mResolutionInfo)
+		body.onResolution += [&](const ResolutionInfo& mRI)
 		{
-			onResolution(mResolutionInfo.resolution);
+			onResolution(mRI.resolution);
 
-			lastResolution = mResolutionInfo.resolution;
-			if(mResolutionInfo.resolution.x > 0) crushedLeft = crushedMax;
-			else if(mResolutionInfo.resolution.x < 0) crushedRight = crushedMax;
-			if(mResolutionInfo.resolution.y > 0) crushedTop = crushedMax;
-			else if(mResolutionInfo.resolution.y < 0) crushedBottom = crushedMax;
+			lastResolution = mRI.resolution;
+			if(mRI.resolution.x > 0) crushedLeft = crushedMax;
+			else if(mRI.resolution.x < 0) crushedRight = crushedMax;
+			if(mRI.resolution.y > 0) crushedTop = crushedMax;
+			else if(mRI.resolution.y < 0) crushedBottom = crushedMax;
 		};
 		body.onPreUpdate += [&]
 		{

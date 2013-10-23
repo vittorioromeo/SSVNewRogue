@@ -22,10 +22,10 @@ namespace nr
 		sensor.addGroupsToCheck(NRGroup::Solid);
 
 		sensor.onPreUpdate += [this]{ active = false; sensor.setPosition(position); };
-		sensor.onDetection += [this](const DetectionInfo& mDetectionInfo)
+		sensor.onDetection += [this](const DetectionInfo& mDI)
 		{
-			if(mDetectionInfo.userData == nullptr) return;
-			Entity* entity(static_cast<Entity*>(mDetectionInfo.userData));
+			if(mDI.userData == nullptr) return;
+			Entity* entity(static_cast<Entity*>(mDI.userData));
 			if(entity != &(parent.getEntity())) active = true;
 		};
 	}
