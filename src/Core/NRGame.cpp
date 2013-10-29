@@ -38,7 +38,7 @@ namespace nr
 	{
 		using k = KKey;
 		using b = MBtn;
-		using t = Input::TriggerType;
+		using t = Input::Type;
 
 		gameState.addInput({{k::Escape}}, [this](float){ gameWindow.stop(); });
 
