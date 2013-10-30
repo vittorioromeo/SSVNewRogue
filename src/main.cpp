@@ -216,7 +216,7 @@ int main()
 
 	GameWindow gameWindow;
 	gameWindow.setTitle("SSVNewRogue");
-	gameWindow.setTimer<StaticTimer>(0.5f, 0.5f);
+	gameWindow.setTimer<TimerStatic>(0.5f, 0.5f);
 	gameWindow.setSize(width, height);
 	gameWindow.setFullscreen(false);
 	//gameWindow.setFPSLimited(true);
@@ -333,7 +333,7 @@ struct TestGame
 	TestGame()
 	{
 		window.setTitle("SSVNewRogue benchmark");
-		window.setTimer<StaticTimer>(0.5f, 0.5f);
+		window.setTimer<TimerStatic>(0.5f, 0.5f);
 		window.setSize(1280, 720);
 		window.setFullscreen(false);
 
