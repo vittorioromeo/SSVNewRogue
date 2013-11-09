@@ -261,7 +261,7 @@ struct CTest : Component
 	CTest(const Vec2i& mPosition, World& mWorld, GameWindow& mWindow) : world(mWorld), body(world.create(mPosition, {1500, 1500}, false)), window(mWindow) { }
 	~CTest() { body.destroy(); }
 
-	void setColor(const Color& mColor) { for(int i{0}; i < 4; ++i) myVertices[i].color = mColor; }
+	void setColor(Color mColor) { for(int i{0}; i < 4; ++i) myVertices[i].color = std::move(mColor); }
 	void move(const Vec2f& mOffset)
 	{
 		if(mOffset.x != 0) body.setVelocityX(mOffset.x);
