@@ -285,7 +285,7 @@ struct CTest : Component
 	void update(float) override
 	{
 		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
-		//body.applyForce({0.f, 20.f});
+		//body.applyAccel({0.f, 20.f});
 
 		const auto& s(body.getShape());
 		const float left{toPixels(s.getLeft())};
@@ -298,7 +298,7 @@ struct CTest : Component
 		myVertices[2].position = {right, bottom};
 		myVertices[3].position = {left, bottom};
 
-		//body.applyForce({0, 20});
+		//body.applyAccel({0, 20});
 	}
 	inline void draw() override { window.draw(myVertices); }
 };
