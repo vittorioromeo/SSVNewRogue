@@ -5,8 +5,8 @@
 #ifndef SSVNR_COMPONENTS_ANIMATIONCONTROLLER
 #define SSVNR_COMPONENTS_ANIMATIONCONTROLLER
 
-#include "Core/NRDependencies.h"
-#include "Utils/NRUtils.h"
+#include "Core/NRDependencies.hpp"
+#include "Utils/NRUtils.hpp"
 
 namespace nr
 {

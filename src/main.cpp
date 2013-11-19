@@ -5,10 +5,10 @@
 #define SSVNEWROGUE_BENCHMARK
 #ifndef SSVNEWROGUE_BENCHMARK
 
-#include "Core/NRDependencies.h"
-#include "Core/NRAssets.h"
-#include "Core/NRGame.h"
-#include "Components/NRCPlayer.h"
+#include "Core/NRDependencies.hpp"
+#include "Core/NRAssets.hpp"
+#include "Core/NRGame.hpp"
+#include "Components/NRCPlayer.hpp"
 
 #include <unordered_set>
 #include <string>
@@ -238,8 +238,8 @@ int main()
 #include <random>
 #include <bitset>
 #include <fstream>
-#include "Core/NRDependencies.h"
-#include "Utils/NRUtils.h"
+#include "Core/NRDependencies.hpp"
+#include "Utils/NRUtils.hpp"
 
 using namespace nr;
 using namespace sf;

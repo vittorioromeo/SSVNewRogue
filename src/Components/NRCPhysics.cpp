@@ -2,8 +2,8 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#include "Core/NRGame.h"
-#include "Components/NRCPhysics.h"
+#include "Core/NRGame.hpp"
+#include "Components/NRCPhysics.hpp"
 
 using namespace ssvs;
 using namespace sses;

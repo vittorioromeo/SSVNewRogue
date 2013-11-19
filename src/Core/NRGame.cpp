@@ -4,13 +4,13 @@
 
 #include <sstream>
 #include <string>
-#include "Core/NRDependencies.h"
-#include "Core/NRAssets.h"
-#include "Core/NRGame.h"
+#include "Core/NRDependencies.hpp"
+#include "Core/NRAssets.hpp"
+#include "Core/NRGame.hpp"
 
 
-#include "Components/NRCHumanoid.h"
-#include "Components/NRCTrail.h"
+#include "Components/NRCHumanoid.hpp"
+#include "Components/NRCTrail.hpp"
 
 using namespace std;
 using namespace sf;

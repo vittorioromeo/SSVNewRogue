@@ -5,9 +5,9 @@
 #ifndef SSVNR_CORE_GAME
 #define SSVNR_CORE_GAME
 
-#include "Core/NRDependencies.h"
-#include "Core/NRFactory.h"
-#include "Utils/NRUtils.h"
+#include "Core/NRDependencies.hpp"
+#include "Core/NRFactory.hpp"
+#include "Utils/NRUtils.hpp"
 
 namespace nr
 {

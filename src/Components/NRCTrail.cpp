@@ -2,9 +2,9 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#include "Components/NRCTrail.h"
-#include "Core/NRGame.h"
-#include "Utils/NRUtils.h"
+#include "Components/NRCTrail.hpp"
+#include "Core/NRGame.hpp"
+#include "Utils/NRUtils.hpp"
 
 using namespace ssvs;
 using namespace sses;

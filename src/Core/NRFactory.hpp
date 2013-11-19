@@ -5,7 +5,7 @@
 #ifndef SSVNR_CORE_FACTORY
 #define SSVNR_CORE_FACTORY
 
-#include "Core/NRDependencies.h"
+#include "Core/NRDependencies.hpp"
 
 namespace nr
 {

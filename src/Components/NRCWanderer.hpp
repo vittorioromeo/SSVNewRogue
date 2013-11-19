@@ -5,7 +5,7 @@
 #ifndef SSVNR_COMPONENTS_WANDERER
 #define SSVNR_COMPONENTS_WANDERER
 
-#include "Core/NRDependencies.h"
+#include "Core/NRDependencies.hpp"
 
 namespace nr
 {

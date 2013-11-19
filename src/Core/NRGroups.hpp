@@ -5,7 +5,7 @@
 #ifndef SSVNR_CORE_GROUPS
 #define SSVNR_CORE_GROUPS
 
-#include "Core/NRDependencies.h"
+#include "Core/NRDependencies.hpp"
 
 namespace nr
 {

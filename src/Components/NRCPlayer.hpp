@@ -5,7 +5,7 @@
 #ifndef SSVNR_COMPONENTS_PLAYER
 #define SSVNR_COMPONENTS_PLAYER
 
-#include "Core/NRDependencies.h"
+#include "Core/NRDependencies.hpp"
 
 namespace nr
 {

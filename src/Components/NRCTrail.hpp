@@ -5,7 +5,7 @@
 #ifndef SSVNR_COMPONENTS_TRAIL
 #define SSVNR_COMPONENTS_TRAIL
 
-#include "Core/NRDependencies.h"
+#include "Core/NRDependencies.hpp"
 
 namespace nr
 {

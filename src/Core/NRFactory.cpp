@@ -2,17 +2,17 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#include "Core/NRFactory.h"
-#include "Core/NRAssets.h"
-#include "Core/NRGame.h"
-#include "Components/NRCPhysics.h"
-#include "Components/NRCRender.h"
-#include "Components/NRCPlayer.h"
-#include "Components/NRCHumanoidAnimationController.h"
-#include "Components/NRCHumanoid.h"
-#include "Components/NRCTrail.h"
-#include "Components/NRCWanderer.h"
-#include "Core/NRGroups.h"
+#include "Core/NRFactory.hpp"
+#include "Core/NRAssets.hpp"
+#include "Core/NRGame.hpp"
+#include "Components/NRCPhysics.hpp"
+#include "Components/NRCRender.hpp"
+#include "Components/NRCPlayer.hpp"
+#include "Components/NRCHumanoidAnimationController.hpp"
+#include "Components/NRCHumanoid.hpp"
+#include "Components/NRCTrail.hpp"
+#include "Components/NRCWanderer.hpp"
+#include "Core/NRGroups.hpp"
 
 using namespace std;
 using namespace sf;

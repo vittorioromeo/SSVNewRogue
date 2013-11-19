@@ -5,7 +5,7 @@
 #ifndef SSVNR_COMPONENTS_PHYSICS
 #define SSVNR_COMPONENTS_PHYSICS
 
-#include "Core/NRDependencies.h"
+#include "Core/NRDependencies.hpp"
 
 namespace nr
 {

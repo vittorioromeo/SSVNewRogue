@@ -5,7 +5,7 @@
 #ifndef SSVNR_CORE_ASSETS
 #define SSVNR_CORE_ASSETS
 
-#include "Core/NRDependencies.h"
+#include "Core/NRDependencies.hpp"
 
 namespace nr
 {

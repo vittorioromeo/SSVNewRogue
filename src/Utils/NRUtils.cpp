@@ -2,8 +2,8 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#include "Utils/NRUtils.h"
-#include "Core/NRGame.h"
+#include "Utils/NRUtils.hpp"
+#include "Core/NRGame.hpp"
 
 using namespace std;
 using namespace sf;

@@ -5,7 +5,7 @@
 #ifndef SSVNR_COMPONENTS_SENSOR
 #define SSVNR_COMPONENTS_SENSOR
 
-#include "Core/NRDependencies.h"
+#include "Core/NRDependencies.hpp"
 
 namespace nr
 {

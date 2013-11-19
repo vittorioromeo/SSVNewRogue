@@ -5,7 +5,7 @@
 #ifndef SSVNR_UTILS_UTILS
 #define SSVNR_UTILS_UTILS
 
-#include "Core/NRDependencies.h"
+#include "Core/NRDependencies.hpp"
 
 namespace nr
 {

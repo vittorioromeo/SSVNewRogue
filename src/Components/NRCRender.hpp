@@ -5,9 +5,9 @@
 #ifndef SSVNR_COMPONENTS_RENDER
 #define SSVNR_COMPONENTS_RENDER
 
-#include "Core/NRDependencies.h"
-#include "Core/NRGame.h"
-#include "Utils/NRUtils.h"
+#include "Core/NRDependencies.hpp"
+#include "Core/NRGame.hpp"
+#include "Utils/NRUtils.hpp"
 
 namespace nr
 {

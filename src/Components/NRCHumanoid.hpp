@@ -5,8 +5,8 @@
 #ifndef SSVNR_COMPONENTS_HUMANOID
 #define SSVNR_COMPONENTS_HUMANOID
 
-#include "Core/NRDependencies.h"
-#include "Utils/NRSensor.h"
+#include "Core/NRDependencies.hpp"
+#include "Utils/NRSensor.hpp"
 
 namespace nr
 {
