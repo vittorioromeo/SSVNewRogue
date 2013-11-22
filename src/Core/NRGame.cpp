@@ -142,8 +142,8 @@ namespace nr
 	{
 		ostringstream s;
 		const auto& entities(manager.getEntities());
-		const auto& bodies(world.getBodies().getItems());
-		const auto& sensors(world.getSensors().getItems());
+		const auto& bodies(world.getBodies());
+		const auto& sensors(world.getSensors());
 		int componentCount{0}, dynamicBodiesCount{0};
 		for(const auto& e : entities) componentCount += e->getComponents().size();
 		for(const auto& b : bodies) if(!b->isStatic()) ++dynamicBodiesCount;
