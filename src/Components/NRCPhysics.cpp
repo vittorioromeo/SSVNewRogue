@@ -47,7 +47,7 @@ namespace nr
 		};
 	}
 
-	void NRCPhysics::update(float)
+	void NRCPhysics::update(FT)
 	{
 		if(affectedByGravity && body.getVelocity().y < maxVelocityY) body.applyAccel(gravityForce);
 	}

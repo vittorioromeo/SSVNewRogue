@@ -24,7 +24,7 @@ namespace nr
 		public:
 			NRCTrail(NRGame& mGame, const ssvs::Vec2i& mA, const ssvs::Vec2i& mB, sf::Color mColor);
 
-			void update(float mFT) override;
+			void update(FT mFT) override;
 			void draw() override;
 	};
 }

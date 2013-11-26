@@ -19,7 +19,7 @@ namespace nr
 {
 	NRCPlayer::NRCPlayer(NRGame& mGame, NRCHumanoid& mCHumanoid) : game(mGame), cHumanoid(mCHumanoid) { }
 
-	void NRCPlayer::update(float)
+	void NRCPlayer::update(FT)
 	{
 		if(game.getInputY() == 0) cHumanoid.unCrouch();
 		else if(game.getInputY() == 1) cHumanoid.crouch();

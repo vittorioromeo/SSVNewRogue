@@ -49,7 +49,7 @@ namespace nr
 		cPhysics.onResolution += [&](const Vec2i& mMinIntersection) { if(mMinIntersection.y < 0) jumpReady = true; };
 	}
 
-	void NRCHumanoid::update(float)
+	void NRCHumanoid::update(FT)
 	{
 		const auto& velocity(body.getVelocity());
 		if(!isInAir() && autoCrouchTopSensor.isActive() && !autoCrouchBottomSensor.isActive())

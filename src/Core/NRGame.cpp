@@ -28,7 +28,7 @@ namespace nr
 	{
 		debugText.setTracking(-3);
 
-		gameState.onUpdate += [this](float mFT){ update(mFT); };
+		gameState.onUpdate += [this](FT mFT){ update(mFT); };
 		gameState.onDraw += [this]{ draw(); };
 
 		initInput(); initLevel(); initDebugGrid();
@@ -40,14 +40,14 @@ namespace nr
 		using b = MBtn;
 		using t = Input::Type;
 
-		gameState.addInput({{k::Escape}}, [this](float){ gameWindow.stop(); });
+		gameState.addInput({{k::Escape}}, [this](FT){ gameWindow.stop(); });
 
-		gameState.addInput({{k::A}}, [=](float){ camera.pan(-10, 0); });
-		gameState.addInput({{k::D}}, [=](float){ camera.pan(10, 0); });
-		gameState.addInput({{k::W}}, [=](float){ camera.pan(0, -10); });
-		gameState.addInput({{k::S}}, [=](float){ camera.pan(0, 10); });
-		gameState.addInput({{k::Q}}, [=](float){ camera.zoomOut(1.1f); });
-		gameState.addInput({{k::E}}, [=](float){ camera.zoomIn(1.1f); });
+		gameState.addInput({{k::A}}, [=](FT){ camera.pan(-10, 0); });
+		gameState.addInput({{k::D}}, [=](FT){ camera.pan(10, 0); });
+		gameState.addInput({{k::W}}, [=](FT){ camera.pan(0, -10); });
+		gameState.addInput({{k::S}}, [=](FT){ camera.pan(0, 10); });
+		gameState.addInput({{k::Q}}, [=](FT){ camera.zoomOut(1.1f); });
+		gameState.addInput({{k::E}}, [=](FT){ camera.zoomIn(1.1f); });
 
 		add2StateInput(gameState, {{k::X}}, inputJump);
 		add2StateInput(gameState, {{k::LShift}}, inputWalk);
@@ -55,20 +55,20 @@ namespace nr
 		add3StateInput(gameState, {{k::Left}}, {{k::Right}}, inputX);
 		add3StateInput(gameState, {{k::Up}}, {{k::Down}}, inputY);
 
-		gameState.addInput({{k::Z}, {b::Left}},	[this](float){ inputShoot = 1; }, t::Once);
+		gameState.addInput({{k::Z}, {b::Left}},	[this](FT){ inputShoot = 1; }, t::Once);
 
-		gameState.addInput({{k::Num1}}, [this](float){ factory.createWall(getMousePosition()); }, t::Once);
-		gameState.addInput({{k::Num2}}, [this](float){ factory.createWanderer(getMousePosition()); });
-		gameState.addInput({{k::Num3}}, [this](float){ factory.createPlayer(getMousePosition()); }, t::Once);
-		gameState.addInput({{k::Num4}}, [this](float)
+		gameState.addInput({{k::Num1}}, [this](FT){ factory.createWall(getMousePosition()); }, t::Once);
+		gameState.addInput({{k::Num2}}, [this](FT){ factory.createWanderer(getMousePosition()); });
+		gameState.addInput({{k::Num3}}, [this](FT){ factory.createPlayer(getMousePosition()); }, t::Once);
+		gameState.addInput({{k::Num4}}, [this](FT)
 		{
 			auto index(grid.getIdx(getMousePosition()));
 			auto count(grid.getCell(index.x, index.y).getBodies().size());
 			lo << index.x << " " << index.y << "  :: " << count << endl;
 			//debugGrid[index.x + grid.getOffset()][index.y + grid.getOffset()] = 1;
 		}, t::Once);
-		gameState.addInput({{k::Num5}}, [this](float){ clearDebugGrid(); }, t::Once);
-		gameState.addInput({{k::Num6}}, [this](float)
+		gameState.addInput({{k::Num5}}, [this](FT){ clearDebugGrid(); }, t::Once);
+		gameState.addInput({{k::Num6}}, [this](FT)
 		{
 			auto body(world.getQuery<QueryType::Point>(getMousePosition()).next());
 			if(body == nullptr) return;
@@ -129,7 +129,7 @@ namespace nr
 		}
 	}
 
-	void NRGame::update(float mFT)
+	void NRGame::update(FT mFT)
 	{
 		camera.update(mFT);
 		manager.update(mFT);
@@ -138,7 +138,7 @@ namespace nr
 		updateDebugText(mFT);
 		inputShoot = 0;
 	}
-	void NRGame::updateDebugText(float mFT)
+	void NRGame::updateDebugText(FT mFT)
 	{
 		ostringstream s;
 		const auto& entities(manager.getEntities());

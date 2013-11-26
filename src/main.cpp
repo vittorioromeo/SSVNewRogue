@@ -282,7 +282,7 @@ struct CTest : Component
 		body.onDetection += [&](const DetectionInfo&){ /*getEntity().destroy();*/ };
 		body.onOutOfBounds += [&]{ getEntity().destroy(); };
 	}
-	void update(float) override
+	void update(FT) override
 	{
 		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
 		//body.applyAccel({0.f, 20.f});
@@ -392,14 +392,14 @@ struct TestGame
 		float spd = 610.f;
 
 		using k = KKey;
-		game.addInput({{k::Left}}, 	[=](float){ move({-spd, 0}); });
-		game.addInput({{k::Right}}, [=](float){ move({spd, 0}); });
-		game.addInput({{k::Up}}, 	[=](float){ move({0, -spd}); });
-		game.addInput({{k::Down}}, 	[=](float){ move({0, spd}); });
-		game.addInput({{k::Q}}, 	[=](float){ camera.zoomOut(1.1f); });
-		game.addInput({{k::E}}, 	[=](float){ camera.zoomIn(1.1f); });
+		game.addInput({{k::Left}}, 	[=](FT){ move({-spd, 0}); });
+		game.addInput({{k::Right}}, [=](FT){ move({spd, 0}); });
+		game.addInput({{k::Up}}, 	[=](FT){ move({0, -spd}); });
+		game.addInput({{k::Down}}, 	[=](FT){ move({0, spd}); });
+		game.addInput({{k::Q}}, 	[=](FT){ camera.zoomOut(1.1f); });
+		game.addInput({{k::E}}, 	[=](FT){ camera.zoomIn(1.1f); });
 
-		game.onUpdate += [&](float mFT)
+		game.onUpdate += [&](FT mFT)
 		{
 			window.setTitle("up: " + toStr(window.getMsUpdate()) + "\t dw: " + toStr(window.getMsDraw()));
 			//camera.setCenter(Vec2f(c.body.getPosition()) / 100.f);

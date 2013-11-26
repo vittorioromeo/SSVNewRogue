@@ -24,6 +24,7 @@ namespace nr
 	using Sensor = World::SensorType;
 	using DetectionInfo = World::DetectionInfoType;
 	using ResolutionInfo = World::ResolutionInfoType;
+	using FT = ssvu::FT;
 }
 
 #endif

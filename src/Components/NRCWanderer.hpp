@@ -24,7 +24,7 @@ namespace nr
 		public:
 			NRCWanderer(NRGame& mGame, NRCHumanoid& mCHumanoid);
 
-			void update(float mFT) override;
+			void update(FT mFT) override;
 	};
 }
 

@@ -19,7 +19,7 @@ namespace nr
 
 	NRCHumanoidAnimationController::NRCHumanoidAnimationController(NRCRender& mCRender, NRCHumanoid& mCHumanoid) : cRender(mCRender), cHumanoid(mCHumanoid) { }
 
-	void NRCHumanoidAnimationController::update(float mFT)
+	void NRCHumanoidAnimationController::update(FT mFT)
 	{
 		cRender.setFlippedX(cHumanoid.isFacingLeft());
 		cRender.setOffset({0, -1});

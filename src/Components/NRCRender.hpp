@@ -25,7 +25,7 @@ namespace nr
 		public:
 			NRCRender(NRGame& mGame, Body& mBody) : game(mGame), body(mBody) { }
 
-			void update(float) override
+			void update(FT) override
 			{
 				const auto& position(toPixels(body.getPosition()));
 				for(auto& s : sprites)

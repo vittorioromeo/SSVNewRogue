@@ -21,7 +21,7 @@ namespace nr
 		public:
 			NRCPlayer(NRGame& mGame, NRCHumanoid& mCHumanoid);
 
-			void update(float) override;
+			void update(FT) override;
 	};
 }
 
