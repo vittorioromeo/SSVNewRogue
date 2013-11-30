@@ -35,7 +35,7 @@ struct SmallObj : BaseObj
 	char data[100];
 	~SmallObj()
 	{
-		//lo << "smallobj dtor" << endl;
+		//lo() << "smallobj dtor" << endl;
 	}
 };
 
@@ -44,7 +44,7 @@ struct BigObj : BaseObj
 	char data[500];
 	~BigObj()
 	{
-		//lo << "bigobj dtor" << endl;
+		//lo() << "bigobj dtor" << endl;
 	}
 };
 
@@ -204,9 +204,9 @@ int main()
 		maxHealth.addDependency(endurance);
 		maxHealth.addModifier(enduranceHealthModifier);
 
-		lo << maxHealth.getComputed() << endl;
+		lo() << maxHealth.getComputed() << endl;
 		endurance.setBase(15);
-		lo << maxHealth.getComputed() << endl;
+		lo() << maxHealth.getComputed() << endl;
 	}
 
 	unsigned int width{VideoMode::getDesktopMode().width}, height{VideoMode::getDesktopMode().height};
