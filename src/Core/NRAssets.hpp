@@ -15,7 +15,7 @@ namespace nr
 			ssvs::AssetManager assetManager;
 
 		public:
-			NRAssets() { ssvs::loadAssetsFromJson(assetManager, "Data/", ssvuj::readFromFile("Data/assets.json")); }
+			NRAssets() { ssvs::loadAssetsFromJson(assetManager, "Data/", ssvuj::getFromFile("Data/assets.json")); }
 
 			inline ssvs::AssetManager& operator()() { return assetManager; }
 			template<typename T> inline T& get(const std::string& mId) { return assetManager.get<T>(mId); }
