@@ -3,7 +3,7 @@
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
 #define SSVNEWROGUE_BENCHMARK
-#ifndef SSVNEWROGUE_BENCHMARK
+#ifdef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.hpp"
 #include "Core/NRAssets.hpp"
@@ -60,7 +60,7 @@ int main()
 		Manager manager;
 		startBenchmark();
 		{
-			for(int k{0}; k < 100000; ++k)
+			for(int k{0}; k < 10000; ++k)
 			{
 				for(int i{0}; i < 100; ++i) manager.createEntity();
 				manager.update(1);
