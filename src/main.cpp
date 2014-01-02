@@ -24,9 +24,12 @@ using namespace nr;
 using namespace sses;
 using namespace ssvrpg;
 
+volatile bool state{false};
+
 struct BaseObj : MemoryManageable
 {
 	BaseObj() { }
+	void exec() { state = !state; }
 	virtual ~BaseObj() { }
 };
 
@@ -84,6 +87,23 @@ int main()
 		}
 		lo("new/del") << endBenchmark() << endl;
 
+		{
+			vector<BaseObj*> bases;
+
+			{
+				for(int i{0}; i < 100; ++i) bases.push_back(new SmallObj);
+				for(int i{0}; i < 100; ++i) bases.push_back(new BigObj);
+
+				// TODO: stack based benchamrks
+				startBenchmark();
+				for(int i{0}; i < 25000; ++i) for(auto& b : bases) b->exec();
+				lo("new/del iteration") << endBenchmark() << endl;
+
+				for(auto& b : bases) delete b;
+				bases.clear();
+			}
+		}
+
 		startBenchmark();
 		{
 			vector<SmallObj*> sb;
@@ -101,6 +121,29 @@ int main()
 		}
 		lo("prealloc dynamic") << endBenchmark() << endl;
 
+
+		{
+			vector<SmallObj*> sb;
+			vector<BigObj*> bb;
+
+			{
+				for(int i{0}; i < 100; ++i) sb.push_back(p.create<SmallObj>());
+				for(int i{0}; i < 100; ++i) bb.push_back(p.create<BigObj>());
+
+				startBenchmark();
+				for(int i{0}; i < 25000; ++i) for(auto& b : sb) b->exec();
+				for(int i{0}; i < 25000; ++i) for(auto& b : bb) b->exec();
+				lo("prealloc dynamic iteration") << endBenchmark() << endl;
+
+				for(auto& b : sb) p.destroy<SmallObj>(b);
+				for(auto& b : bb) p.destroy<BigObj>(b);
+				sb.clear();
+				bb.clear();
+			}
+		}
+
+
+
 		startBenchmark();
 		{
 			vector<SmallObj*> sb;
@@ -117,6 +160,27 @@ int main()
 			}
 		}
 		lo("prealloc chunk") << endBenchmark() << endl;
+
+		{
+			vector<SmallObj*> sb;
+			vector<BigObj*> bb;
+
+			{
+				for(int i{0}; i < 100; ++i) sb.push_back(pc.create<SmallObj>());
+				for(int i{0}; i < 100; ++i) bb.push_back(pc.create<BigObj>());
+
+				startBenchmark();
+				for(int i{0}; i < 25000; ++i) for(auto& b : sb) b->exec();
+				for(int i{0}; i < 25000; ++i) for(auto& b : bb) b->exec();
+				lo("prealloc chunk iteration") << endBenchmark() << endl;
+
+				for(auto& b : sb) pc.destroy<SmallObj>(b);
+				for(auto& b : bb) pc.destroy<BigObj>(b);
+				sb.clear();
+				bb.clear();
+			}
+		}
+
 
 		startBenchmark();
 		{
@@ -382,7 +446,7 @@ struct TestGame
 			auto& f = e.createComponent<CTest>(Vec2i{200000, 170000}, world, window);
 			f.body.setStatic(true);
 			f.setColor(Color::Magenta);
-			f.body.setHalfSize({400000, 2500});
+			f.body.setHalfSize({400000, 25000});
 			//f.body.setVelTransferMultX(2.f);
 		}
 
