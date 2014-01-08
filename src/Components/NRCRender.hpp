@@ -42,7 +42,7 @@ namespace nr
 			}
 			inline void draw() override { for(const auto& s : sprites) game.render(s); }
 
-			inline void pushSprite(const sf::Sprite& mSprite) { sprites.push_back(mSprite); }
+			template<typename... TArgs> inline void emplaceSprite(TArgs&&... mArgs) { sprites.emplace_back(std::forward<TArgs>(mArgs)...); }
 
 			inline bool isFlippedX() const					{ return flippedY; }
 			inline bool isFlippedY() const					{ return flippedY; }

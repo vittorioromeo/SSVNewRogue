@@ -2,7 +2,7 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#define SSVNEWROGUE_BENCHMARK
+//#define SSVNEWROGUE_BENCHMARK
 #ifdef SSVNEWROGUE_BENCHMARK
 
 #include "Core/NRDependencies.hpp"
@@ -79,8 +79,8 @@ int main()
 
 			for(int k{0}; k < 10000; ++k)
 			{
-				for(int i{0}; i < 100; ++i) bases.push_back(new SmallObj);
-				for(int i{0}; i < 100; ++i) bases.push_back(new BigObj);
+				for(int i{0}; i < 100; ++i) bases.emplace_back(new SmallObj);
+				for(int i{0}; i < 100; ++i) bases.emplace_back(new BigObj);
 				for(auto& b : bases) delete b;
 				bases.clear();
 			}
@@ -91,8 +91,8 @@ int main()
 			vector<BaseObj*> bases;
 
 			{
-				for(int i{0}; i < 100; ++i) bases.push_back(new SmallObj);
-				for(int i{0}; i < 100; ++i) bases.push_back(new BigObj);
+				for(int i{0}; i < 100; ++i) bases.emplace_back(new SmallObj);
+				for(int i{0}; i < 100; ++i) bases.emplace_back(new BigObj);
 
 				// TODO: stack based benchamrks
 				startBenchmark();
@@ -111,8 +111,8 @@ int main()
 
 			for(int k{0}; k < 10000; ++k)
 			{
-				for(int i{0}; i < 100; ++i) sb.push_back(p.create<SmallObj>());
-				for(int i{0}; i < 100; ++i) bb.push_back(p.create<BigObj>());
+				for(int i{0}; i < 100; ++i) sb.emplace_back(p.create<SmallObj>());
+				for(int i{0}; i < 100; ++i) bb.emplace_back(p.create<BigObj>());
 				for(auto& b : sb) p.destroy<SmallObj>(b);
 				for(auto& b : bb) p.destroy<BigObj>(b);
 				sb.clear();
@@ -127,8 +127,8 @@ int main()
 			vector<BigObj*> bb;
 
 			{
-				for(int i{0}; i < 100; ++i) sb.push_back(p.create<SmallObj>());
-				for(int i{0}; i < 100; ++i) bb.push_back(p.create<BigObj>());
+				for(int i{0}; i < 100; ++i) sb.emplace_back(p.create<SmallObj>());
+				for(int i{0}; i < 100; ++i) bb.emplace_back(p.create<BigObj>());
 
 				startBenchmark();
 				for(int i{0}; i < 25000; ++i) for(auto& b : sb) b->exec();
@@ -151,8 +151,8 @@ int main()
 
 			for(int k{0}; k < 10000; ++k)
 			{
-				for(int i{0}; i < 100; ++i) sb.push_back(pc.create<SmallObj>());
-				for(int i{0}; i < 100; ++i) bb.push_back(pc.create<BigObj>());
+				for(int i{0}; i < 100; ++i) sb.emplace_back(pc.create<SmallObj>());
+				for(int i{0}; i < 100; ++i) bb.emplace_back(pc.create<BigObj>());
 				for(auto& b : sb) pc.destroy<SmallObj>(b);
 				for(auto& b : bb) pc.destroy<BigObj>(b);
 				sb.clear();
@@ -166,8 +166,8 @@ int main()
 			vector<BigObj*> bb;
 
 			{
-				for(int i{0}; i < 100; ++i) sb.push_back(pc.create<SmallObj>());
-				for(int i{0}; i < 100; ++i) bb.push_back(pc.create<BigObj>());
+				for(int i{0}; i < 100; ++i) sb.emplace_back(pc.create<SmallObj>());
+				for(int i{0}; i < 100; ++i) bb.emplace_back(pc.create<BigObj>());
 
 				startBenchmark();
 				for(int i{0}; i < 25000; ++i) for(auto& b : sb) b->exec();
@@ -188,7 +188,7 @@ int main()
 
 			for(int k{0}; k < 10000; ++k)
 			{
-				for(int i{0}; i < 100; ++i) sb.push_back(new SmallObj);
+				for(int i{0}; i < 100; ++i) sb.emplace_back(new SmallObj);
 				for(auto& b : sb) delete b;
 				sb.clear();
 			}
@@ -201,7 +201,7 @@ int main()
 
 			for(int k{0}; k < 10000; ++k)
 			{
-				for(int i{0}; i < 100; ++i) sb.push_back(pss.create());
+				for(int i{0}; i < 100; ++i) sb.emplace_back(pss.create());
 				for(auto& b : sb) pss.destroy(b);
 				sb.clear();
 			}
@@ -214,7 +214,7 @@ int main()
 
 			for(int k{0}; k < 10000; ++k)
 			{
-				for(int i{0}; i < 100; ++i) bb.push_back(new BigObj);
+				for(int i{0}; i < 100; ++i) bb.emplace_back(new BigObj);
 				for(auto& b : bb) delete b;
 				bb.clear();
 			}
@@ -227,7 +227,7 @@ int main()
 
 			for(int k{0}; k < 10000; ++k)
 			{
-				for(int i{0}; i < 100; ++i) bb.push_back(ps.create());
+				for(int i{0}; i < 100; ++i) bb.emplace_back(ps.create());
 				for(auto& b : bb) ps.destroy(b);
 				bb.clear();
 			}

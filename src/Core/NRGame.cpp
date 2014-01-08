@@ -208,7 +208,7 @@ namespace nr
 	{
 		for(int iX{0}; iX < grid.getColumns(); ++iX)
 		{
-			debugGrid.push_back(vector<int>(grid.getRows()));
+			debugGrid.emplace_back(vector<int>(grid.getRows()));
 			for(int iY{0}; iY < grid.getRows(); ++iY) debugGrid[iX][iY] = 0;
 		}
 	}
