@@ -32,7 +32,7 @@ namespace nr
 		cHumanoid.move(dir, false);
 		if(!tired) cHumanoid.unCrouch(); else cHumanoid.crouch();
 
-		if((int)time % 90 == 0) cHumanoid.jump();
+		if(static_cast<int>(time) % 90 == 0) cHumanoid.jump();
 		return;
 
 		auto& body = getEntity().getComponent<NRCPhysics>().getBody();
