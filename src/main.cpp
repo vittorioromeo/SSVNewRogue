@@ -94,7 +94,6 @@ int main()
 				for(int i{0}; i < 100; ++i) bases.emplace_back(new SmallObj);
 				for(int i{0}; i < 100; ++i) bases.emplace_back(new BigObj);
 
-				// TODO: stack based benchamrks
 				startBenchmark();
 				for(int i{0}; i < 25000; ++i) for(auto& b : bases) b->exec();
 				lo("new/del iteration") << endBenchmark() << endl;
