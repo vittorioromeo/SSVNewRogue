@@ -440,14 +440,14 @@ struct TestGame
 			}
 		}*/
 
-		if(false){
+		/*if(false){
 			auto& e = manager.createEntity();
 			auto& f = e.createComponent<CTest>(Vec2i{200000, 170000}, world, window);
 			f.body.setStatic(true);
 			f.setColor(Color::Magenta);
 			f.body.setHalfSize({400000, 25000});
 			//f.body.setVelTransferMultX(2.f);
-		}
+		}*/
 
 		auto& player = createPlayer({-5000, 0});
 		auto& c = player.getComponent<CTest>();
@@ -473,11 +473,11 @@ struct TestGame
 			//camera.update(mFT);
 
 			return;
-			if(manager.getEntities().size() <= 0) return;
+		/*	if(manager.getEntities().size() <= 0) return;
 
 			startBenchmark();
 			for(const auto& e : manager.getEntities()) e->destroy();
-			lo("desrtoy b") << endBenchmark() << endl;
+			lo("desrtoy b") << endBenchmark() << endl;*/
 		};
 
 		game.onDraw += [&]

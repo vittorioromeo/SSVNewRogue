@@ -34,7 +34,7 @@ namespace nr
 
 		if(static_cast<int>(time) % 90 == 0) cHumanoid.jump();
 		return;
-
+/*
 		auto& body = getEntity().getComponent<NRCPhysics>().getBody();
 		Vec2i out;
 		Entity* enemy{seekEntity(game, body, body.getPosition() + Vec2i(body.getVelocity()), NRGroup::Humanoid, {NRGroup::GSensor}, out)};
@@ -45,5 +45,6 @@ namespace nr
 		{
 			//enemy->destroy();
 		}
+		*/
 	}
 }

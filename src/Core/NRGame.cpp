@@ -85,11 +85,11 @@ namespace nr
 		for(int iY{0}; iY < tilesY; ++iY)
 			for(int iX{0}; iX < tilesX; ++iX)
 				if(iX == 0 || iY == 0 || iX == tilesX - 1 || iY == tilesY - 1) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
-				else if(false)
+/*				else if(false)
 				{
 					if(getRnd(0, 100) > 90) factory.createWanderer({1600 * iX + 800, 1600 * iY + 800});
 					else if(getRnd(0, 100) > 90) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
-				}
+				}*/
 
 		factory.createWall({1600 * 7 + 800, 1600 * 7 + 800});
 		factory.createWall({1600 * 8 + 800, 1600 * 7 + 800});
