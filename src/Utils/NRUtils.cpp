@@ -23,7 +23,7 @@ namespace nr
 		Vec2f direction(mTarget - startPosition);
 		if(direction.x == 0 && direction.y == 0) return result;
 
-		auto gridQuery(mGame.getWorld().getQuery<QueryType::RayCast>(startPosition, direction));
+		auto gridQuery(mGame.getWorld().getQuery<QueryType::RayCast>(startPosition, ssvs::getNormalized(direction)));
 
 		Body* body;
 		while((body = gridQuery.next()) != nullptr)
