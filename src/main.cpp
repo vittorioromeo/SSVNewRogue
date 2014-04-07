@@ -61,7 +61,7 @@ int main()
 		PreAllocStatic<SmallObj> pss{100};		// << this preallocator can hold only a specific type
 
 		Manager manager;
-		startBenchmark();
+		Benchmark::start();
 		{
 			for(int k{0}; k < 10000; ++k)
 			{
@@ -71,9 +71,9 @@ int main()
 				manager.update(1);
 			}
 		}
-		lo("manager") << endBenchmark() << endl;
+		lo("manager") << Benchmark::getEndString() << endl;
 
-		startBenchmark();
+		Benchmark::start();
 		{
 			vector<BaseObj*> bases;
 
@@ -85,7 +85,7 @@ int main()
 				bases.clear();
 			}
 		}
-		lo("new/del") << endBenchmark() << endl;
+		lo("new/del") << Benchmark::getEndString() << endl;
 
 		{
 			vector<BaseObj*> bases;
@@ -94,16 +94,16 @@ int main()
 				for(int i{0}; i < 100; ++i) bases.emplace_back(new SmallObj);
 				for(int i{0}; i < 100; ++i) bases.emplace_back(new BigObj);
 
-				startBenchmark();
+				Benchmark::start();
 				for(int i{0}; i < 25000; ++i) for(auto& b : bases) b->exec();
-				lo("new/del iteration") << endBenchmark() << endl;
+				lo("new/del iteration") << Benchmark::getEndString() << endl;
 
 				for(auto& b : bases) delete b;
 				bases.clear();
 			}
 		}
 
-		startBenchmark();
+		Benchmark::start();
 		{
 			vector<SmallObj*> sb;
 			vector<BigObj*> bb;
@@ -118,7 +118,7 @@ int main()
 				bb.clear();
 			}
 		}
-		lo("prealloc dynamic") << endBenchmark() << endl;
+		lo("prealloc dynamic") << Benchmark::getEndString() << endl;
 
 
 		{
@@ -129,10 +129,10 @@ int main()
 				for(int i{0}; i < 100; ++i) sb.emplace_back(p.create<SmallObj>());
 				for(int i{0}; i < 100; ++i) bb.emplace_back(p.create<BigObj>());
 
-				startBenchmark();
+				Benchmark::start();
 				for(int i{0}; i < 25000; ++i) for(auto& b : sb) b->exec();
 				for(int i{0}; i < 25000; ++i) for(auto& b : bb) b->exec();
-				lo("prealloc dynamic iteration") << endBenchmark() << endl;
+				lo("prealloc dynamic iteration") << Benchmark::getEndString() << endl;
 
 				for(auto& b : sb) p.destroy<SmallObj>(b);
 				for(auto& b : bb) p.destroy<BigObj>(b);
@@ -143,7 +143,7 @@ int main()
 
 
 
-		startBenchmark();
+		Benchmark::start();
 		{
 			vector<SmallObj*> sb;
 			vector<BigObj*> bb;
@@ -158,7 +158,7 @@ int main()
 				bb.clear();
 			}
 		}
-		lo("prealloc chunk") << endBenchmark() << endl;
+		lo("prealloc chunk") << Benchmark::getEndString() << endl;
 
 		{
 			vector<SmallObj*> sb;
@@ -168,10 +168,10 @@ int main()
 				for(int i{0}; i < 100; ++i) sb.emplace_back(pc.create<SmallObj>());
 				for(int i{0}; i < 100; ++i) bb.emplace_back(pc.create<BigObj>());
 
-				startBenchmark();
+				Benchmark::start();
 				for(int i{0}; i < 25000; ++i) for(auto& b : sb) b->exec();
 				for(int i{0}; i < 25000; ++i) for(auto& b : bb) b->exec();
-				lo("prealloc chunk iteration") << endBenchmark() << endl;
+				lo("prealloc chunk iteration") << Benchmark::getEndString() << endl;
 
 				for(auto& b : sb) pc.destroy<SmallObj>(b);
 				for(auto& b : bb) pc.destroy<BigObj>(b);
@@ -181,7 +181,7 @@ int main()
 		}
 
 
-		startBenchmark();
+		Benchmark::start();
 		{
 			vector<SmallObj*> sb;
 
@@ -192,9 +192,9 @@ int main()
 				sb.clear();
 			}
 		}
-		lo("new/del static smallobj") << endBenchmark() << endl;
+		lo("new/del static smallobj") << Benchmark::getEndString() << endl;
 
-		startBenchmark();
+		Benchmark::start();
 		{
 			vector<SmallObj*> sb;
 
@@ -205,9 +205,9 @@ int main()
 				sb.clear();
 			}
 		}
-		lo("prealloc_static static smallobj") << endBenchmark() << endl;
+		lo("prealloc_static static smallobj") << Benchmark::getEndString() << endl;
 
-		startBenchmark();
+		Benchmark::start();
 		{
 			vector<BigObj*> bb;
 
@@ -218,9 +218,9 @@ int main()
 				bb.clear();
 			}
 		}
-		lo("new/del static bigobj") << endBenchmark() << endl;
+		lo("new/del static bigobj") << Benchmark::getEndString() << endl;
 
-		startBenchmark();
+		Benchmark::start();
 		{
 			vector<BigObj*> bb;
 
@@ -231,9 +231,9 @@ int main()
 				bb.clear();
 			}
 		}
-		lo("prealloc_static static bigobj") << endBenchmark() << endl;
+		lo("prealloc_static static bigobj") << Benchmark::getEndString() << endl;
 
-		startBenchmark();
+		Benchmark::start();
 		{
 			PAMMDyn<BigObj> mm(p);
 
@@ -248,7 +248,7 @@ int main()
 
 			}
 		}
-		lo("prealloc_dyn mm") << endBenchmark() << endl;
+		lo("prealloc_dyn mm") << Benchmark::getEndString() << endl;
 	}
 
 	//return 0;
@@ -402,9 +402,9 @@ struct TestGame
 
 		if(true)
 		{
-			startBenchmark();
+			Benchmark::start("Creation");
 			for(int iY{0}; iY < 100; ++iY) for(int iX{0}; iX < 100; ++iX) create({iX * 1500, iY * 1500}, false);
-			lo("creation b") << endBenchmark() << endl;
+			Benchmark::endLo();
 		}
 
 		/*if(false)
@@ -475,9 +475,9 @@ struct TestGame
 			return;
 		/*	if(manager.getEntities().size() <= 0) return;
 
-			startBenchmark();
+			Benchmark::start();
 			for(const auto& e : manager.getEntities()) e->destroy();
-			lo("desrtoy b") << endBenchmark() << endl;*/
+			lo("desrtoy b") << Benchmark::getEndString() << endl;*/
 		};
 
 		game.onDraw += [&]
