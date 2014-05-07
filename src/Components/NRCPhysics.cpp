@@ -24,8 +24,8 @@ namespace nr
 		body.onDetection += [&](const DetectionInfo& mDI)
 		{
 			if(mDI.userData == nullptr) return;
-			Entity* entity(static_cast<Entity*>(mDI.userData));
-			onDetection(*entity);
+			Entity* e(static_cast<Entity*>(mDI.userData));
+			onDetection(*e);
 		};
 		body.onResolution += [&](const ResolutionInfo& mRI)
 		{
