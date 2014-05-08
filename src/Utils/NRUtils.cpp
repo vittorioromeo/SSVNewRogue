@@ -21,9 +21,10 @@ namespace nr
 		Entity* result{nullptr};
 		const auto& startPosition(mSeeker.getPosition());
 		Vec2f direction(mTarget - startPosition);
-		if(direction.x == 0 && direction.y == 0) return result;
+		auto mag(ssvs::getMag(direction));
+		if(mag == 0) return result;
 
-		auto gridQuery(mGame.getWorld().getQuery<QueryType::RayCast>(startPosition, ssvs::getNormalized(direction)));
+		auto gridQuery(mGame.getWorld().getQuery<QueryType::RayCast>(startPosition, ssvs::getNormalizedUnsafe(direction, mag)));
 
 		Body* body;
 		while((body = gridQuery.next()) != nullptr)
