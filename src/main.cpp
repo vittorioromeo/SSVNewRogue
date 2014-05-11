@@ -464,7 +464,7 @@ struct TestGame
 
 		game.onUpdate += [&](FT mFT)
 		{
-//			window.setTitle("up: " + toStr(window.getMsUpdate()) + "\t dw: " + toStr(window.getMsDraw()));
+			window.setTitle("up: " + toStr(window.getMsUpdate()) + "\t dw: " + toStr(window.getMsDraw()));
 			//camera.setCenter(Vec2f(c.body.getPosition()) / 100.f);
 
 			//tm.update(mFT);
