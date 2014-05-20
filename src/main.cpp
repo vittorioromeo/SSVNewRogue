@@ -13,7 +13,6 @@
 #include <unordered_set>
 #include <string>
 #include <memory>
-#include <cassert>
 
 using namespace std;
 using namespace sf;
