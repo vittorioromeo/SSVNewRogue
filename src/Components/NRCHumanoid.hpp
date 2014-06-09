@@ -31,7 +31,7 @@ namespace nr
 		public:
 			// TODO: remove, TEST
 			ssvrpg::Value<int> additionalSpeed{0};
-			ssvu::MemoryManager<ssvrpg::Modifier<int>> modifierManager;
+			ssvu::MonoManager<ssvrpg::Modifier<int>> modifierManager;
 
 			NRCHumanoid(NRCPhysics& mCPhysics);
 
