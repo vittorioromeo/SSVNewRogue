@@ -2,6 +2,47 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
+#ifndef SSVNEWROGUE_BENCH
+
+#include "Core/NRDependencies.hpp"
+#include "Core/NRAssets.hpp"
+#include "Core/NRGroups.hpp"
+#include "Core/NRFactory.hpp"
+#include "Core/NRGame.hpp"
+
+using namespace nr;
+using namespace std;
+using namespace sf;
+using namespace ssvu;
+using namespace ssvu::FileSystem;
+using namespace ssvs;
+
+int main()
+{
+	unsigned int width{VideoMode::getDesktopMode().width}, height{VideoMode::getDesktopMode().height};
+	width = 800; height = 600;
+
+	NRAssets assets;
+
+	GameWindow gameWindow;
+	gameWindow.setTitle("SSVNewRogue test");
+	gameWindow.setTimer<TimerStatic>(0.5f, 0.5f);
+	gameWindow.setSize(width, height);
+	gameWindow.setFullscreen(false);
+	gameWindow.setFPSLimited(true);
+	gameWindow.setMaxFPS(200);
+
+	NRGame game{gameWindow, assets};
+
+	gameWindow.setGameState(game.getGameState());
+	gameWindow.run();
+
+	return 0;
+}
+
+
+#else
+
 #include <vector>
 #include <string>
 #include <iostream>
@@ -162,12 +203,12 @@ struct TestGame
 		float spd = 610.f;
 
 		using k = KKey;
-		game.addInput({{k::Left}}, 	[=](FT){ move({-spd, 0}); });
+		game.addInput({{k::Left}},	[=](FT){ move({-spd, 0}); });
 		game.addInput({{k::Right}}, [=](FT){ move({spd, 0}); });
-		game.addInput({{k::Up}}, 	[=](FT){ move({0, -spd}); });
-		game.addInput({{k::Down}}, 	[=](FT){ move({0, spd}); });
-		game.addInput({{k::Q}}, 	[=](FT){ camera.zoomOut(1.1f); });
-		game.addInput({{k::E}}, 	[=](FT){ camera.zoomIn(1.1f); });
+		game.addInput({{k::Up}},	[=](FT){ move({0, -spd}); });
+		game.addInput({{k::Down}},	[=](FT){ move({0, spd}); });
+		game.addInput({{k::Q}},	[=](FT){ camera.zoomOut(1.1f); });
+		game.addInput({{k::E}},	[=](FT){ camera.zoomIn(1.1f); });
 
 		game.onUpdate += [&](FT mFT)
 		{
@@ -203,3 +244,4 @@ struct TestGame
 
 int main() { initAssets(); TestGame{}; return 0; }
 
+#endif
