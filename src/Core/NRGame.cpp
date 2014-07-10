@@ -162,7 +162,7 @@ namespace nr
 		s << "Bodies(dynamic): "	<< dynamicBodiesCount << "\n";
 		s << "Sensors: "			<< sensors.size() << "\n";
 		s << "Entities: "			<< entities.size() << "\n";
-		s << "Components: "			<< componentCount << endl;
+		s << "Components: "			<< componentCount << "\n";
 
 		debugText.setString(s.str());
 	}
