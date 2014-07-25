@@ -29,7 +29,6 @@ namespace nr
 			int crouchingHeight{900};
 
 		public:
-			// TODO: remove, TEST
 			ssvrpg::Value<int> additionalSpeed{0};
 			ssvu::MonoManager<ssvrpg::Modifier<int>> modifierManager;
 
