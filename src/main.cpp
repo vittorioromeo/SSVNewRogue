@@ -225,7 +225,7 @@ struct TestGame
 
 			Benchmark::start();
 			for(const auto& e : manager.getEntities()) e->destroy();
-			lo("desrtoy b") << Benchmark::getEndString() << endl;*/
+			lo("desrtoy b") << Benchmark::getEndString() << "\n";*/
 		};
 
 		game.onDraw += [&]
