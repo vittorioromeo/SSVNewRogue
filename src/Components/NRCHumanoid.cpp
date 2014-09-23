@@ -102,7 +102,7 @@ namespace nr
 	void NRCHumanoid::move(int mDirection, bool mWalk)
 	{
 		float speed{mWalk ? walkSpeed : runSpeed};
-		speed += additionalSpeed.getComputed();
+		//speed += additionalSpeed.getComputed();
 		if(crouching) speed = crouchSpeed;
 		body.setVelocityX(speed * mDirection);
 	}

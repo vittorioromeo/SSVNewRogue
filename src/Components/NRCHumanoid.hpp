@@ -29,8 +29,8 @@ namespace nr
 			int crouchingHeight{900};
 
 		public:
-			ssvrpg::Value<int> additionalSpeed{0};
-			ssvu::MonoManager<ssvrpg::Modifier<int>> modifierManager;
+			//ssvrpg::Value<int> additionalSpeed{0};
+			//ssvu::MonoManager<ssvrpg::Modifier<int>> modifierManager;
 
 			NRCHumanoid(NRCPhysics& mCPhysics);
 

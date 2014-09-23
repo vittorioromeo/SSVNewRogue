@@ -110,7 +110,7 @@ namespace nr
 
 		auto& player = factory.createPlayer({1600 * 4, 1600 * 5});
 		NRCHumanoid& playerCHumanoid = player.getComponent<NRCHumanoid>();
-		{
+		/*{
 			ssvrpg::Modifier<int>& b = playerCHumanoid.modifierManager.create();
 			Timeline& buff = timelineManager.create();
 			buff.append<Do>([&]{ b.onCompute += [&](ssvrpg::Value<int>&, int& mCurrent){ mCurrent += 200; }; playerCHumanoid.additionalSpeed.addModifier(b); });
@@ -133,7 +133,7 @@ namespace nr
 			buff.append<Wait>(300);
 			buff.append<Do>([&]{ playerCHumanoid.additionalSpeed.removeModifier(b); playerCHumanoid.modifierManager.del(b); playerCHumanoid.modifierManager.refresh(); });
 			playerCHumanoid.modifierManager.refresh();
-		}
+		}*/
 	}
 
 	void NRGame::update(FT mFT)
