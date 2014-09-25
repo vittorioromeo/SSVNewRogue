@@ -15,7 +15,6 @@
 #include <SSVStart/SSVStart.hpp>
 #include <SSVEntitySystem/SSVEntitySystem.hpp>
 #include <SSVSCollision/SSVSCollision.hpp>
-#include <SSVRPGSystem/SSVRPGSystem.hpp>
 
 namespace nr
 {
