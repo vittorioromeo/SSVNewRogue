@@ -8,7 +8,6 @@
 using namespace std;
 using namespace sf;
 using namespace ssvu;
-using namespace ssvuj;
 using namespace ssvs;
 using namespace ssvsc;
 using namespace ssvsc::Utils;

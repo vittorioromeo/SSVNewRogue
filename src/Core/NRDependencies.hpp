@@ -11,7 +11,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Network.hpp>
 #include <SSVUtils/SSVUtils.hpp>
-#include <SSVUtilsJson/SSVUtilsJson.hpp>
 #include <SSVStart/SSVStart.hpp>
 #include <SSVEntitySystem/SSVEntitySystem.hpp>
 #include <SSVSCollision/SSVSCollision.hpp>

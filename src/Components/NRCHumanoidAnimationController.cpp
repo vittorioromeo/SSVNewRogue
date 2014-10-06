@@ -11,7 +11,6 @@ using namespace sses;
 using namespace std;
 using namespace sf;
 using namespace ssvu;
-using namespace ssvuj;
 
 namespace nr
 {
