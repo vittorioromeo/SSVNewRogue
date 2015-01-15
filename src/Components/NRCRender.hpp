@@ -23,7 +23,7 @@ namespace nr
 			ssvs::Vec2f offset;
 
 		public:
-			NRCRender(NRGame& mGame, Body& mBody) : game(mGame), body(mBody) { }
+			NRCRender(sses::Entity& mE, NRGame& mGame, Body& mBody) : sses::Component{mE}, game(mGame), body(mBody) { }
 
 			void update(FT) override
 			{

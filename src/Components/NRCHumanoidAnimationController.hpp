@@ -31,7 +31,7 @@ namespace nr
 			ssvs::Animation* currentAnim{nullptr};
 
 		public:
-			NRCHumanoidAnimationController(NRCRender& mCRender, NRCHumanoid& mCHumanoid);
+			NRCHumanoidAnimationController(sses::Entity& mE, NRCRender& mCRender, NRCHumanoid& mCHumanoid);
 
 			void update(FT mFT) override;
 	};

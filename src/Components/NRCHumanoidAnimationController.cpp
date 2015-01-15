@@ -16,7 +16,8 @@ namespace nr
 {
 	using Action = NRCHumanoid::Action;
 
-	NRCHumanoidAnimationController::NRCHumanoidAnimationController(NRCRender& mCRender, NRCHumanoid& mCHumanoid) : cRender(mCRender), cHumanoid(mCHumanoid) { }
+	NRCHumanoidAnimationController::NRCHumanoidAnimationController(sses::Entity& mE, NRCRender& mCRender, NRCHumanoid& mCHumanoid)
+		: sses::Component{mE}, cRender(mCRender), cHumanoid(mCHumanoid) { }
 
 	void NRCHumanoidAnimationController::update(FT mFT)
 	{

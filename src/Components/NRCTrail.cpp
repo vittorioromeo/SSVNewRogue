@@ -14,7 +14,8 @@ using namespace ssvu;
 
 namespace nr
 {
-	NRCTrail::NRCTrail(NRGame& mGame, const Vec2i& mA, const Vec2i& mB, Color mColor) : game(mGame), a{mA}, b{mB}, color{mColor}, vertices{2} { }
+	NRCTrail::NRCTrail(sses::Entity& mE, NRGame& mGame, const Vec2i& mA, const Vec2i& mB, Color mColor)
+		: sses::Component{mE}, game(mGame), a{mA}, b{mB}, color{mColor}, vertices{2} { }
 
 	void NRCTrail::update(FT mFT)
 	{

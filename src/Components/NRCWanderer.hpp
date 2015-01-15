@@ -22,7 +22,7 @@ namespace nr
 			bool tired{false};
 
 		public:
-			NRCWanderer(NRGame& mGame, NRCHumanoid& mCHumanoid);
+			NRCWanderer(sses::Entity& mE, NRGame& mGame, NRCHumanoid& mCHumanoid);
 
 			void update(FT mFT) override;
 	};

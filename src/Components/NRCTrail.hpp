@@ -22,7 +22,7 @@ namespace nr
 			ssvs::VertexVector<sf::PrimitiveType::Lines> vertices;
 
 		public:
-			NRCTrail(NRGame& mGame, const ssvs::Vec2i& mA, const ssvs::Vec2i& mB, sf::Color mColor);
+			NRCTrail(sses::Entity& mE, NRGame& mGame, const ssvs::Vec2i& mA, const ssvs::Vec2i& mB, sf::Color mColor);
 
 			void update(FT mFT) override;
 			void draw() override;

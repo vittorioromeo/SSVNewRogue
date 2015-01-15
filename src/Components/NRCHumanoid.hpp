@@ -32,7 +32,7 @@ namespace nr
 			//ssvrpg::Value<int> additionalSpeed{0};
 			//ssvu::MonoManager<ssvrpg::Modifier<int>> modifierManager;
 
-			NRCHumanoid(NRCPhysics& mCPhysics);
+			NRCHumanoid(sses::Entity& mE, NRCPhysics& mCPhysics);
 
 			void init();
 			void update(FT mFT) override;
