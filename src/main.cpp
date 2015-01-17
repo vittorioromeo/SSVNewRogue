@@ -2,6 +2,8 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
+#define SSVNEWROGUE_BENCH
+
 #ifndef SSVNEWROGUE_BENCH
 
 #include "Core/NRDependencies.hpp"
@@ -66,13 +68,22 @@ void initAssets() { AssetFolder("Data/").loadToManager(assets); }
 
 struct CTest : Component
 {
-	World& world; Body& body; GameWindow& window;
-	ssvs::VertexVector<sf::PrimitiveType::Quads> myVertices{4};
+	World& world; Body& body;
+	//GameWindow& window;
+	//ssvs::VertexVector<sf::PrimitiveType::Quads> myVertices{4};
 
-	CTest(const Vec2i& mPosition, World& mWorld, GameWindow& mWindow) : world(mWorld), body(world.create(mPosition, {1500, 1500}, false)), window(mWindow) { }
+	CTest(Entity& mE, const Vec2i& mPosition, World& mWorld, GameWindow& mWindow)
+		: Component{mE}, world(mWorld), body(world.create(mPosition, {1500, 1500}, false))/*, window(mWindow)*/
+	{
+
+	}
+
 	~CTest() { body.destroy(); }
 
-	void setColor(Color mColor) { for(int i{0}; i < 4; ++i) myVertices[i].color = mColor; }
+	void setColor(Color mColor)
+	{
+		// for(int i{0}; i < 4; ++i) myVertices[i].color = mColor;
+	}
 	void move(const Vec2f& mOffset)
 	{
 		if(mOffset.x != 0) body.setVelocityX(mOffset.x);
@@ -97,7 +108,7 @@ struct CTest : Component
 	{
 		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
 		//body.applyAccel({0.f, 20.f});
-
+/*
 		const auto& s(body.getShape());
 		const float left{toPixels(s.getLeft())};
 		const float right{toPixels(s.getRight())};
@@ -108,10 +119,13 @@ struct CTest : Component
 		myVertices[1].position = {right, top};
 		myVertices[2].position = {right, bottom};
 		myVertices[3].position = {left, bottom};
-
+*/
 		//body.applyAccel({0, 20});
 	}
-	inline void draw() override { window.draw(myVertices); }
+	inline void draw() override
+	{
+		// window.draw(myVertices);
+	}
 };
 
 struct TestGame
@@ -210,8 +224,20 @@ struct TestGame
 		game.addInput({{k::Q}},	[=](FT){ camera.zoomOut(1.1f); });
 		game.addInput({{k::E}},	[=](FT){ camera.zoomIn(1.1f); });
 
+		double acc = 0;
+		int itr = 0;
+
 		game.onUpdate += [&](FT mFT)
 		{
+			++itr;
+			acc += window.getMsUpdate();
+			if(itr == 100)
+			{
+				ssvu::lo("ACC") << acc << std::endl;
+				itr = 0;
+				acc = 0;
+			}
+
 			window.setTitle("up: " + toStr(window.getMsUpdate()) + "\t dw: " + toStr(window.getMsDraw()));
 			//camera.setCenter(Vec2f(c.body.getPosition()) / 100.f);
 
