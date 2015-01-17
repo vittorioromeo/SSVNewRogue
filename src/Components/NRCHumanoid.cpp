@@ -19,9 +19,7 @@ namespace nr
 	using Action = NRCHumanoid::Action;
 
 	NRCHumanoid::NRCHumanoid(sses::Entity& mE, NRCPhysics& mCPhysics) : sses::Component{mE}, cPhysics(mCPhysics), unCrouchSensor{cPhysics, Vec2i{700, 1300}},
-		autoCrouchTopSensor{cPhysics, Vec2i(100, 100)}, autoCrouchBottomSensor{cPhysics, Vec2i(100, 100)}, body(cPhysics.getBody()), standingHeight{body.getHeight()} { }
-
-	void NRCHumanoid::init()
+		autoCrouchTopSensor{cPhysics, Vec2i(100, 100)}, autoCrouchBottomSensor{cPhysics, Vec2i(100, 100)}, body(cPhysics.getBody()), standingHeight{body.getHeight()}
 	{
 		const auto& s(body.getShape());
 		const auto& ucsShape(unCrouchSensor.getSensor().getShape());

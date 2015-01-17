@@ -14,10 +14,7 @@ using namespace ssvu;
 namespace nr
 {
 	NRCPhysics::NRCPhysics(sses::Entity& mE, World& mWorld, bool mIsStatic, const Vec2i& mPosition, const Vec2i& mSize, bool mAffectedByGravity)
-		: sses::Component{mE}, world(mWorld), body(world.create(mPosition, mSize, mIsStatic)), affectedByGravity{mAffectedByGravity} { }
-	NRCPhysics::~NRCPhysics() { body.destroy(); } // BUG: this has to be called before world is destroyed, or else SEGFAULT - find a way to avoid that!
-
-	void NRCPhysics::init()
+		: sses::Component{mE}, world(mWorld), body(world.create(mPosition, mSize, mIsStatic)), affectedByGravity{mAffectedByGravity}
 	{
 		body.setUserData(&getEntity());
 
@@ -46,6 +43,7 @@ namespace nr
 			if(crushedBottom > 0) --crushedBottom;
 		};
 	}
+	NRCPhysics::~NRCPhysics() { body.destroy(); } // BUG: this has to be called before world is destroyed, or else SEGFAULT - find a way to avoid that!
 
 	void NRCPhysics::update(FT)
 	{

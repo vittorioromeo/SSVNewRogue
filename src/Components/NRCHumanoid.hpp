@@ -34,7 +34,6 @@ namespace nr
 
 			NRCHumanoid(sses::Entity& mE, NRCPhysics& mCPhysics);
 
-			void init();
 			void update(FT mFT) override;
 
 			void unCrouch();
