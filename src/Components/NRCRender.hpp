@@ -42,7 +42,7 @@ namespace nr
 			}
 			inline void draw() override { for(const auto& s : sprites) game.render(s); }
 
-			template<typename... TArgs> inline void emplaceSprite(TArgs&&... mArgs) { sprites.emplace_back(ssvu::fwd<TArgs>(mArgs)...); }
+			template<typename... TArgs> inline void emplaceSprite(TArgs&&... mArgs) { sprites.emplace_back(SSVU_FWD(mArgs)...); }
 
 			inline bool isFlippedX() const					{ return flippedY; }
 			inline bool isFlippedY() const					{ return flippedY; }
