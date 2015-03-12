@@ -12,12 +12,12 @@ namespace nr
 	class NRAssets
 	{
 		private:
-			ssvs::AssetManager assetManager;
+			ssvs::AssetManager<> assetManager;
 
 		public:
 			NRAssets() { ssvs::loadAssetsFromJson(assetManager, "Data/", ssvj::fromFile("Data/assets.json")); }
 
-			inline ssvs::AssetManager& operator()() { return assetManager; }
+			inline auto& operator()() { return assetManager; }
 			template<typename T> inline T& get(const std::string& mId) { return assetManager.get<T>(mId); }
 	};
 }

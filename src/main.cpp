@@ -63,7 +63,7 @@ using namespace ssvu::FileSystem;
 using namespace ssvsc::Utils;
 using namespace ssvu;
 
-AssetManager assets;
+AssetManager<> assets;
 void initAssets() { AssetFolder("Data/").loadToManager(assets); }
 
 struct CTest : Component
