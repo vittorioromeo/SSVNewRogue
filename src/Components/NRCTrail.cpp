@@ -21,10 +21,10 @@ namespace nr
 	{
 		life -= mFT;
 		if(life <= 0) getEntity().destroy();
-		color.a = static_cast<sf::Uint8>(life * (255 / 100));
+		color.a = ssvu::toNum<sf::Uint8>(life * (255 / 100));
 		vertices[0].color = vertices[1].color = color;
-		vertices[0].position = toPixels(a + Vec2i{getRnd(-20, 20), getRnd(-20, 20)});
-		vertices[1].position = toPixels(b + Vec2i{getRnd(-20, 20), getRnd(-20, 20)});
+		vertices[0].position = toPixels(a + Vec2i{getRndI(-20, 20), getRndI(-20, 20)});
+		vertices[1].position = toPixels(b + Vec2i{getRndI(-20, 20), getRndI(-20, 20)});
 	}
 	void NRCTrail::draw() { game.render(vertices); }
 }

@@ -71,7 +71,7 @@ namespace nr
 		{
 			auto body(world.getQuery<QueryType::Point>(getMousePosition()).next());
 			if(body == nullptr) return;
-			auto entity(static_cast<Entity*>(body->getUserData()));
+			auto entity(body->getUserData<Entity*>());
 			if(entity != nullptr) entity->destroy();
 		});
 	}
@@ -92,8 +92,8 @@ namespace nr
 				else
 				{
 					#ifdef NRGAME_TEST_BENCH
-						if(getRnd(0, 100) > 90) factory.createWanderer({1600 * iX + 800, 1600 * iY + 800});
-						else if(getRnd(0, 100) > 90) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
+						if(getRndI(0, 100) > 90) factory.createWanderer({1600 * iX + 800, 1600 * iY + 800});
+						else if(getRndI(0, 100) > 90) factory.createWall({1600 * iX + 800, 1600 * iY + 800});
 					#endif
 				}
 

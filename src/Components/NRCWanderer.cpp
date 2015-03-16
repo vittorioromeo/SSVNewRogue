@@ -25,15 +25,15 @@ namespace nr
 		time -= mFT * 2.2f;
 		if(time <= 0)
 		{
-			time = 100 + getRnd(0, 100);
-			dir = getRnd(-1, 2);
-			tired = getRnd(0, 15) > 10;
+			time = 100 + getRndI(0, 100);
+			dir = getRndI(-1, 2);
+			tired = getRndI(0, 15) > 10;
 		}
 
 		cHumanoid.move(dir, false);
 		if(!tired) cHumanoid.unCrouch(); else cHumanoid.crouch();
 
-		if(static_cast<int>(time) % 90 == 0) cHumanoid.jump();
+		if(ssvu::toInt(time) % 90 == 0) cHumanoid.jump();
 		return;
 /*
 		auto& body = getEntity().getComponent<NRCPhysics>().getBody();

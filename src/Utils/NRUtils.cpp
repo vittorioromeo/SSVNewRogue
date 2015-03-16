@@ -30,7 +30,7 @@ namespace nr
 		{
 			if(body == &mSeeker) continue;
 
-			Entity* entity{static_cast<Entity*>(body->getUserData())};
+			auto entity(body->getUserData<Entity*>());
 			if(entity == nullptr) continue;
 
 			result = entity;
@@ -61,7 +61,7 @@ namespace nr
 
 			if((body->hasAnyGroup(ignoreGroups))) continue;
 			if(!body->hasGroup(mTargetGroup)) break;
-			Entity* entity{static_cast<Entity*>(body->getUserData())};
+			auto entity(body->getUserData<Entity*>());
 			if(entity == nullptr) continue;
 
 			result = entity;

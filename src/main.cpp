@@ -106,7 +106,7 @@ struct CTest : Component
 	}
 	void update(FT) override
 	{
-		if(getRnd(0, 190) > 180) body.setVelocity(Vec2f(getRnd(-550, 550), getRnd(-550, 550)));
+		if(getRndI(0, 190) > 180) body.setVelocity(Vec2f(getRndI(-550, 550), getRndI(-550, 550)));
 		//body.applyAccel({0.f, 20.f});
 /*
 		const auto& s(body.getShape());
