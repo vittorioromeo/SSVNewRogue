@@ -9,15 +9,34 @@
 
 namespace nr
 {
-	class NRGame;
+class NRGame;
 
-	template<typename T> inline constexpr float toPixels(T mValue)					{ return mValue / 100.f; }
-	template<typename T> inline constexpr int toCoords(T mValue)					{ return ssvu::toInt(mValue * 100); }
-	template<typename T> inline ssvs::Vec2f toPixels(const ssvs::Vec2<T>& mValue)	{ return {toPixels(mValue.x), toPixels(mValue.y)}; }
-	template<typename T> inline ssvs::Vec2i toCoords(const ssvs::Vec2<T>& mValue)	{ return {toCoords(mValue.x), toCoords(mValue.y)}; }
+template <typename T>
+inline constexpr float toPixels(T mValue)
+{
+    return mValue / 100.f;
+}
+template <typename T>
+inline constexpr int toCoords(T mValue)
+{
+    return ssvu::toInt(mValue * 100);
+}
+template <typename T>
+inline ssvs::Vec2f toPixels(const ssvs::Vec2<T>& mValue)
+{
+    return {toPixels(mValue.x), toPixels(mValue.y)};
+}
+template <typename T>
+inline ssvs::Vec2i toCoords(const ssvs::Vec2<T>& mValue)
+{
+    return {toCoords(mValue.x), toCoords(mValue.y)};
+}
 
-	sses::Entity* seekEntity(NRGame& mGame, Body& mSeeker, const ssvs::Vec2i& mTarget, ssvs::Vec2i& mLastPos);
-	sses::Entity* seekEntity(NRGame& mGame, Body& mSeeker, const ssvs::Vec2i& mTarget, ssvsc::Group mTargetGroup, const std::vector<ssvsc::Group>& mIgnoreGroups, ssvs::Vec2i& mLastPos);
+sses::Entity* seekEntity(NRGame& mGame, Body& mSeeker,
+const ssvs::Vec2i& mTarget, ssvs::Vec2i& mLastPos);
+sses::Entity* seekEntity(NRGame& mGame, Body& mSeeker,
+const ssvs::Vec2i& mTarget, ssvsc::Group mTargetGroup,
+const std::vector<ssvsc::Group>& mIgnoreGroups, ssvs::Vec2i& mLastPos);
 }
 
 #endif

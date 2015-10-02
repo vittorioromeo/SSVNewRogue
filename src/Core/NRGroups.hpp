@@ -9,12 +9,12 @@
 
 namespace nr
 {
-	enum NRGroup : unsigned int
-	{
-		Solid = 0,
-		Humanoid,
-		GSensor
-	};
+enum NRGroup : unsigned int
+{
+    Solid = 0,
+    Humanoid,
+    GSensor
+};
 }
 
 #endif

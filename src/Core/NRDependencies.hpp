@@ -17,12 +17,12 @@
 
 namespace nr
 {
-	using World = ssvsc::World<ssvsc::Grid, ssvsc::Retro>;
-	using Body = World::BodyType;
-	using Sensor = World::SensorType;
-	using DetectionInfo = World::DetectionInfoType;
-	using ResolutionInfo = World::ResolutionInfoType;
-	using FT = ssvu::FT;
+using World = ssvsc::World<ssvsc::Grid, ssvsc::Retro>;
+using Body = World::BodyType;
+using Sensor = World::SensorType;
+using DetectionInfo = World::DetectionInfoType;
+using ResolutionInfo = World::ResolutionInfoType;
+using FT = ssvu::FT;
 }
 
 #endif
