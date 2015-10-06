@@ -14,39 +14,39 @@ using namespace ssvu;
 
 namespace nr
 {
-using Action = NRCHumanoid::Action;
+    using Action = NRCHumanoid::Action;
 
-NRCHumanoidAnimationController::NRCHumanoidAnimationController(
-sses::Entity& mE, NRCRender& mCRender, NRCHumanoid& mCHumanoid)
-    : sses::Component{mE}, cRender(mCRender), cHumanoid(mCHumanoid)
-{
-}
-
-void NRCHumanoidAnimationController::update(FT mFT)
-{
-    cRender.setFlippedX(cHumanoid.isFacingLeft());
-    cRender.setOffset({0, -1});
-
-    switch(cHumanoid.getAction())
+    NRCHumanoidAnimationController::NRCHumanoidAnimationController(
+        sses::Entity& mE, NRCRender& mCRender, NRCHumanoid& mCHumanoid)
+        : sses::Component{mE}, cRender(mCRender), cHumanoid(mCHumanoid)
     {
-        case Action::Walking: currentAnim = &animWalk; break;
-        case Action::Running: currentAnim = &animRun; break;
-        case Action::Standing: currentAnim = &animStand; break;
-        case Action::Jumping: currentAnim = &animJump; break;
-        case Action::Falling: currentAnim = &animFall; break;
-        case Action::Crouching:
-            cRender.setOffset({0, -3});
-            currentAnim = &animCrouch;
-            break;
-        case Action::CrouchWalking:
-            cRender.setOffset({0, -3});
-            currentAnim = &animCrouchWalk;
-            break;
     }
 
-    if(currentAnim == nullptr) return;
-    currentAnim->update(mFT);
-    const auto& rect(tileset(currentAnim->getTileIndex()));
-    for(auto& s : cRender.getSprites()) s.setTextureRect(rect);
-}
+    void NRCHumanoidAnimationController::update(FT mFT)
+    {
+        cRender.setFlippedX(cHumanoid.isFacingLeft());
+        cRender.setOffset({0, -1});
+
+        switch(cHumanoid.getAction())
+        {
+            case Action::Walking: currentAnim = &animWalk; break;
+            case Action::Running: currentAnim = &animRun; break;
+            case Action::Standing: currentAnim = &animStand; break;
+            case Action::Jumping: currentAnim = &animJump; break;
+            case Action::Falling: currentAnim = &animFall; break;
+            case Action::Crouching:
+                cRender.setOffset({0, -3});
+                currentAnim = &animCrouch;
+                break;
+            case Action::CrouchWalking:
+                cRender.setOffset({0, -3});
+                currentAnim = &animCrouchWalk;
+                break;
+        }
+
+        if(currentAnim == nullptr) return;
+        currentAnim->update(mFT);
+        const auto& rect(tileset(currentAnim->getTileIndex()));
+        for(auto& s : cRender.getSprites()) s.setTextureRect(rect);
+    }
 }

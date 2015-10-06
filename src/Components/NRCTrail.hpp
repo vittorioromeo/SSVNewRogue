@@ -9,25 +9,25 @@
 
 namespace nr
 {
-class NRGame;
-class NRCHumanoid;
+    class NRGame;
+    class NRCHumanoid;
 
-class NRCTrail : public sses::Component
-{
-private:
-    NRGame& game;
-    float life{75};
-    ssvs::Vec2i a, b;
-    sf::Color color;
-    ssvs::VertexVector<sf::PrimitiveType::Lines> vertices;
+    class NRCTrail : public sses::Component
+    {
+    private:
+        NRGame& game;
+        float life{75};
+        ssvs::Vec2i a, b;
+        sf::Color color;
+        ssvs::VertexVector<sf::PrimitiveType::Lines> vertices;
 
-public:
-    NRCTrail(sses::Entity& mE, NRGame& mGame, const ssvs::Vec2i& mA,
-    const ssvs::Vec2i& mB, sf::Color mColor);
+    public:
+        NRCTrail(sses::Entity& mE, NRGame& mGame, const ssvs::Vec2i& mA,
+            const ssvs::Vec2i& mB, sf::Color mColor);
 
-    void update(FT mFT) override;
-    void draw() override;
-};
+        void update(FT mFT) override;
+        void draw() override;
+    };
 }
 
 #endif

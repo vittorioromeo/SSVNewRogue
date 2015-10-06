@@ -9,30 +9,30 @@
 
 namespace nr
 {
-class NRGame;
-class NRCPhysics;
+    class NRGame;
+    class NRCPhysics;
 
-class NRSensor
-{
-private:
-    NRCPhysics& parent;
-    ssvs::Vec2i position;
-    Sensor& sensor;
-    bool active{false};
+    class NRSensor
+    {
+    private:
+        NRCPhysics& parent;
+        ssvs::Vec2i position;
+        Sensor& sensor;
+        bool active{false};
 
-public:
-    ssvu::Delegate<void(sses::Entity&)> onDetection;
+    public:
+        ssvu::Delegate<void(sses::Entity&)> onDetection;
 
-    NRSensor(NRCPhysics& mParent, const ssvs::Vec2i& mSize);
-    ~NRSensor();
+        NRSensor(NRCPhysics& mParent, const ssvs::Vec2i& mSize);
+        ~NRSensor();
 
-    // Setters
-    void setPosition(const ssvs::Vec2i& mPosition) { position = mPosition; }
+        // Setters
+        void setPosition(const ssvs::Vec2i& mPosition) { position = mPosition; }
 
-    // Getters
-    inline Sensor& getSensor() { return sensor; }
-    inline bool isActive() const { return active; }
-};
+        // Getters
+        inline Sensor& getSensor() { return sensor; }
+        inline bool isActive() const { return active; }
+    };
 }
 
 #endif

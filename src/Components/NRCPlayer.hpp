@@ -9,20 +9,20 @@
 
 namespace nr
 {
-class NRGame;
-class NRCHumanoid;
+    class NRGame;
+    class NRCHumanoid;
 
-class NRCPlayer : public sses::Component
-{
-private:
-    NRGame& game;
-    NRCHumanoid& cHumanoid;
+    class NRCPlayer : public sses::Component
+    {
+    private:
+        NRGame& game;
+        NRCHumanoid& cHumanoid;
 
-public:
-    NRCPlayer(sses::Entity& mE, NRGame& mGame, NRCHumanoid& mCHumanoid);
+    public:
+        NRCPlayer(sses::Entity& mE, NRGame& mGame, NRCHumanoid& mCHumanoid);
 
-    void update(FT) override;
-};
+        void update(FT) override;
+    };
 }
 
 #endif

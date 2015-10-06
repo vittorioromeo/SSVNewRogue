@@ -9,23 +9,23 @@
 
 namespace nr
 {
-class NRGame;
-class NRCHumanoid;
+    class NRGame;
+    class NRCHumanoid;
 
-class NRCWanderer : public sses::Component
-{
-private:
-    NRGame& game;
-    NRCHumanoid& cHumanoid;
-    float time{200};
-    int dir{0};
-    bool tired{false};
+    class NRCWanderer : public sses::Component
+    {
+    private:
+        NRGame& game;
+        NRCHumanoid& cHumanoid;
+        float time{200};
+        int dir{0};
+        bool tired{false};
 
-public:
-    NRCWanderer(sses::Entity& mE, NRGame& mGame, NRCHumanoid& mCHumanoid);
+    public:
+        NRCWanderer(sses::Entity& mE, NRGame& mGame, NRCHumanoid& mCHumanoid);
 
-    void update(FT mFT) override;
-};
+        void update(FT mFT) override;
+    };
 }
 
 #endif

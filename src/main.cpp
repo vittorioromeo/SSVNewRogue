@@ -22,7 +22,7 @@ using namespace ssvs;
 int main()
 {
     unsigned int width{VideoMode::getDesktopMode().width},
-    height{VideoMode::getDesktopMode().height};
+        height{VideoMode::getDesktopMode().height};
     width = 800;
     height = 600;
 
@@ -76,10 +76,10 @@ struct CTest : Component
     // ssvs::VertexVector<sf::PrimitiveType::Quads> myVertices{4};
 
     CTest(
-    Entity& mE, const Vec2i& mPosition, World& mWorld, GameWindow& mWindow)
+        Entity& mE, const Vec2i& mPosition, World& mWorld, GameWindow& mWindow)
         : Component{mE}, world(mWorld),
-          body(
-          world.create(mPosition, {1500, 1500}, false)) /*, window(mWindow)*/
+          body(world.create(
+              mPosition, {1500, 1500}, false)) /*, window(mWindow)*/
     {
     }
 
@@ -153,7 +153,8 @@ struct TestGame
         auto& e = manager.createEntity();
         auto& c = e.createComponent<CTest>(mPosition, world, window);
 
-        if(mStatic) {
+        if(mStatic)
+        {
             c.body.setStatic(true);
             c.setColor(Color::White);
         }
@@ -176,7 +177,8 @@ struct TestGame
         window.setSize(1280, 720);
         window.setFullscreen(false);
 
-        if(true) {
+        if(true)
+        {
             Benchmark::start("Creation");
             for(int iY{0}; iY < 100; ++iY)
                 for(int iX{0}; iX < 100; ++iX)
@@ -239,29 +241,29 @@ struct TestGame
 
         using k = KKey;
         game.addInput({{k::Left}}, [=](FT)
-        {
-            move({-spd, 0});
-        });
+            {
+                move({-spd, 0});
+            });
         game.addInput({{k::Right}}, [=](FT)
-        {
-            move({spd, 0});
-        });
+            {
+                move({spd, 0});
+            });
         game.addInput({{k::Up}}, [=](FT)
-        {
-            move({0, -spd});
-        });
+            {
+                move({0, -spd});
+            });
         game.addInput({{k::Down}}, [=](FT)
-        {
-            move({0, spd});
-        });
+            {
+                move({0, spd});
+            });
         game.addInput({{k::Q}}, [=](FT)
-        {
-            camera.zoomOut(1.1f);
-        });
+            {
+                camera.zoomOut(1.1f);
+            });
         game.addInput({{k::E}}, [=](FT)
-        {
-            camera.zoomIn(1.1f);
-        });
+            {
+                camera.zoomIn(1.1f);
+            });
 
         double acc = 0;
         int itr = 0;
@@ -270,7 +272,8 @@ struct TestGame
         {
             ++itr;
             acc += window.getMsUpdate();
-            if(itr == 100) {
+            if(itr == 100)
+            {
                 ssvu::lo("ACC") << acc << std::endl;
                 itr = 0;
                 acc = 0;

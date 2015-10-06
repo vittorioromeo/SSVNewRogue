@@ -9,25 +9,25 @@
 
 namespace nr
 {
-class NRAssets
-{
-private:
-    ssvs::AssetManager<> assetManager;
-
-public:
-    NRAssets()
+    class NRAssets
     {
-        ssvs::loadAssetsFromJson(
-        assetManager, "Data/", ssvj::fromFile("Data/assets.json"));
-    }
+    private:
+        ssvs::AssetManager<> assetManager;
 
-    inline auto& operator()() { return assetManager; }
-    template <typename T>
-    inline T& get(const std::string& mId)
-    {
-        return assetManager.get<T>(mId);
-    }
-};
+    public:
+        NRAssets()
+        {
+            ssvs::loadAssetsFromJson(
+                assetManager, "Data/", ssvj::fromFile("Data/assets.json"));
+        }
+
+        inline auto& operator()() { return assetManager; }
+        template <typename T>
+        inline T& get(const std::string& mId)
+        {
+            return assetManager.get<T>(mId);
+        }
+    };
 }
 
 #endif

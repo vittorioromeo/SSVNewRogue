@@ -17,42 +17,44 @@ using namespace ssvu;
 
 namespace nr
 {
-NRCPlayer::NRCPlayer(sses::Entity& mE, NRGame& mGame, NRCHumanoid& mCHumanoid)
-    : sses::Component{mE}, game(mGame), cHumanoid(mCHumanoid)
-{
-}
-
-void NRCPlayer::update(FT)
-{
-    if(game.getInputY() == 0)
-        cHumanoid.unCrouch();
-    else if(game.getInputY() == 1)
-        cHumanoid.crouch();
-
-    if(game.getInputX() == 0)
-        cHumanoid.move(0, false);
-    else if(game.getInputX() == -1)
-        cHumanoid.move(-1, game.getInputWalk());
-    else if(game.getInputX() == 1)
-        cHumanoid.move(1, game.getInputWalk());
-
-    if(game.getInputJump() == 1) cHumanoid.jump();
-    if(game.getInputShoot() == 0) return;
-
-    auto& body = getEntity().getComponent<NRCPhysics>().getBody();
-
-    Vec2i out;
-    Entity* enemy{
-    seekEntity(game, body, game.getMousePosition(), NRGroup::Solid, {}, out)};
-
-    // game.getFactory().createTrail(body.getPosition(), out, Color::Green);
-
-    if(enemy != nullptr) {
-        // NRCPhysics& cPhysics(enemy->getComponent<NRCPhysics>());
-        // log("pew pew!");
-        enemy->destroy();
-        // cPhysics.getBody().setStatic(false);
-        // cPhysics.setAffectedByGravity(true);
+    NRCPlayer::NRCPlayer(
+        sses::Entity& mE, NRGame& mGame, NRCHumanoid& mCHumanoid)
+        : sses::Component{mE}, game(mGame), cHumanoid(mCHumanoid)
+    {
     }
-}
+
+    void NRCPlayer::update(FT)
+    {
+        if(game.getInputY() == 0)
+            cHumanoid.unCrouch();
+        else if(game.getInputY() == 1)
+            cHumanoid.crouch();
+
+        if(game.getInputX() == 0)
+            cHumanoid.move(0, false);
+        else if(game.getInputX() == -1)
+            cHumanoid.move(-1, game.getInputWalk());
+        else if(game.getInputX() == 1)
+            cHumanoid.move(1, game.getInputWalk());
+
+        if(game.getInputJump() == 1) cHumanoid.jump();
+        if(game.getInputShoot() == 0) return;
+
+        auto& body = getEntity().getComponent<NRCPhysics>().getBody();
+
+        Vec2i out;
+        Entity* enemy{seekEntity(
+            game, body, game.getMousePosition(), NRGroup::Solid, {}, out)};
+
+        // game.getFactory().createTrail(body.getPosition(), out, Color::Green);
+
+        if(enemy != nullptr)
+        {
+            // NRCPhysics& cPhysics(enemy->getComponent<NRCPhysics>());
+            // log("pew pew!");
+            enemy->destroy();
+            // cPhysics.getBody().setStatic(false);
+            // cPhysics.setAffectedByGravity(true);
+        }
+    }
 }
