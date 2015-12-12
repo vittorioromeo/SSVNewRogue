@@ -15,14 +15,14 @@ namespace nr
     class NRCWanderer : public sses::Component
     {
     private:
-        NRGame& game;
+        // NRGame& game;
         NRCHumanoid& cHumanoid;
         float time{200};
         int dir{0};
         bool tired{false};
 
     public:
-        NRCWanderer(sses::Entity& mE, NRGame& mGame, NRCHumanoid& mCHumanoid);
+        NRCWanderer(sses::Entity& mE, NRGame&, NRCHumanoid& mCHumanoid);
 
         void update(FT mFT) override;
     };

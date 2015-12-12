@@ -76,7 +76,7 @@ struct CTest : Component
     // ssvs::VertexVector<sf::PrimitiveType::Quads> myVertices{4};
 
     CTest(
-        Entity& mE, const Vec2i& mPosition, World& mWorld, GameWindow& mWindow)
+        Entity& mE, const Vec2i& mPosition, World& mWorld, GameWindow&)
         : Component{mE}, world(mWorld),
           body(world.create(
               mPosition, {1500, 1500}, false)) /*, window(mWindow)*/
@@ -85,7 +85,7 @@ struct CTest : Component
 
     ~CTest() { body.destroy(); }
 
-    void setColor(Color mColor)
+    void setColor(Color)
     {
         // for(int i{0}; i < 4; ++i) myVertices[i].color = mColor;
     }

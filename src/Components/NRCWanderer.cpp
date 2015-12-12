@@ -18,8 +18,8 @@ using namespace ssvu;
 namespace nr
 {
     NRCWanderer::NRCWanderer(
-        sses::Entity& mE, NRGame& mGame, NRCHumanoid& mCHumanoid)
-        : sses::Component{mE}, game(mGame), cHumanoid(mCHumanoid)
+        sses::Entity& mE, NRGame&, NRCHumanoid& mCHumanoid)
+        : sses::Component{mE}, /*game(mGame),*/ cHumanoid(mCHumanoid)
     {
     }
 
